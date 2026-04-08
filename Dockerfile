@@ -1,4 +1,4 @@
-FROM rust:1.76-alpine AS builder
+FROM rust:alpine AS builder
 WORKDIR /usr/src/app
 
 # the musl-dev package is necessary to build Rust projects on Alpine
