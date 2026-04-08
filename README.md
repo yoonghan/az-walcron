@@ -23,9 +23,10 @@ A high-performance Rust web server built with the Axum framework and a Deno fron
 
 ## Getting Started
 
-Assuming you have Rust and Cargo installed, navigate to the directory and run the API:
+Assuming you have Rust and Cargo installed, navigate to the backend directory and run the API:
 
 ```bash
+cd backend
 cargo run
 ```
 
