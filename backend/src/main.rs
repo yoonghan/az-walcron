@@ -3,7 +3,7 @@ use axum::{
     extract::{Path, Request, State},
     http::StatusCode,
     response::IntoResponse,
-    routing::{delete, get, post, put},
+    routing::{get, post, put},
     Json, Router,
 };
 use serde::{Deserialize, Serialize};
@@ -61,7 +61,6 @@ fn app(state: AppState) -> Router {
         .route("/todos", get(list_todos))
         .route("/todos", post(create_todo))
         .route("/todos/:id", put(update_todo))
-        .route("/todos/:id", delete(delete_todo))
         .layer(
             TraceLayer::new_for_http()
                 .make_span_with(|request: &Request<_>| {
@@ -142,27 +141,6 @@ async fn update_todo(
     }
 }
 
-async fn delete_todo(
-    State(state): State<AppState>,
-    Path(id): Path<Uuid>,
-) -> Result<impl IntoResponse, StatusCode> {
-    let mut todos = state
-        .write()
-        .map_err(|_| {
-            tracing::error!("Failed to acquire write lock on the application state.");
-            StatusCode::INTERNAL_SERVER_ERROR
-        })?;
-
-    let initial_len = todos.len();
-    todos.retain(|t| t.id != id);
-
-    if todos.len() < initial_len {
-        tracing::info!(todo_id = %id, "Deleted todo");
-        Ok(StatusCode::NO_CONTENT.into_response())
-    } else {
-        Ok(StatusCode::NOT_FOUND.into_response())
-    }
-}
 
 async fn root() -> &'static str {
     "Hello from Walcron, run /todos to get the todos"
