@@ -165,7 +165,7 @@ async fn delete_todo(
 }
 
 async fn root() -> &'static str {
-    "Hello to Walcron"
+    "Hello from Walcron, run /todos to get the todos"
 }
 
 #[cfg(test)]
@@ -181,7 +181,7 @@ mod tests {
     #[tokio::test]
     async fn test_root_endpoint() {
         let state = Arc::new(RwLock::new(Vec::new()));
-        let app = app(state);
+        let app = app(state.clone());
 
         let response = app
             .oneshot(Request::builder().uri("/").body(Body::empty()).unwrap())
@@ -191,13 +191,13 @@ mod tests {
         assert_eq!(response.status(), StatusCode::OK);
 
         let body = response.into_body().collect().await.unwrap().to_bytes();
-        assert_eq!(&body[..], b"Hello to Walcron");
+        assert_eq!(&body[..], b"Hello from Walcron, run /todos to get the todos");
     }
 
     #[tokio::test]
     async fn test_create_todo_endpoint() {
         let state = Arc::new(RwLock::new(Vec::new()));
-        let app = app(state);
+        let app = app(state.clone());
 
         let response = app
             .oneshot(
