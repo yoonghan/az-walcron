@@ -309,7 +309,7 @@ mod tests {
     use tower::ServiceExt;
 
     #[tokio::test]
-    async fn test_root_endpoint() {
+    async fn test_root_endpoint_ui_elements() {
         let state = Arc::new(RwLock::new(Vec::new()));
         let app = app(state.clone());
 
@@ -322,21 +322,29 @@ mod tests {
 
         let body = response.into_body().collect().await.unwrap().to_bytes();
         let body_str = String::from_utf8(body.to_vec()).unwrap();
-        assert!(body_str.contains("Todo List App"));
+        
+        // Check for key UI elements used by JavaScript
+        assert!(body_str.contains("Todo List App"), "Missing title");
+        assert!(body_str.contains("id=\"new-todo\""), "Missing input field for new todo");
+        assert!(body_str.contains("id=\"todo-list\""), "Missing todo list container");
+        assert!(body_str.contains("id=\"add-form\""), "Missing add form");
+        assert!(body_str.contains("fetchTodos()"), "Missing critical JS function");
     }
 
     #[tokio::test]
-    async fn test_create_todo_endpoint() {
+    async fn test_create_and_list_todos() {
         let state = Arc::new(RwLock::new(Vec::new()));
         let app = app(state.clone());
 
+        // 1. Create a todo
         let response = app
+            .clone()
             .oneshot(
                 Request::builder()
                     .method("POST")
                     .uri("/todos")
                     .header("content-type", "application/json")
-                    .body(Body::from(r#"{"title":"Write Rust tests"}"#))
+                    .body(Body::from(r#"{"title":"Test integration"}"#))
                     .unwrap(),
             )
             .await
@@ -344,10 +352,77 @@ mod tests {
 
         assert_eq!(response.status(), StatusCode::CREATED);
 
-        // Verify the state was mutated correctly
+        // 2. List todos
+        let response = app
+            .oneshot(Request::builder().uri("/todos").body(Body::empty()).unwrap())
+            .await
+            .unwrap();
+
+        assert_eq!(response.status(), StatusCode::OK);
+        let body = response.into_body().collect().await.unwrap().to_bytes();
+        let todos: Vec<Todo> = serde_json::from_slice(&body).unwrap();
+        
+        assert_eq!(todos.len(), 1);
+        assert_eq!(todos[0].title, "Test integration");
+        assert_eq!(todos[0].completed, false);
+    }
+
+    #[tokio::test]
+    async fn test_update_todo_status_and_title() {
+        let state = Arc::new(RwLock::new(Vec::new()));
+        let app = app(state.clone());
+
+        // 1. Setup: Create a todo manually in state
+        let id = Uuid::new_v4();
+        {
+            let mut todos = state.write().unwrap();
+            todos.push(Todo {
+                id,
+                title: "Original Title".to_string(),
+                completed: false,
+            });
+        }
+
+        // 2. Update status and title (simulating JS toggle/edit)
+        let response = app
+            .oneshot(
+                Request::builder()
+                    .method("PUT")
+                    .uri(format!("/todos/{}", id))
+                    .header("content-type", "application/json")
+                    .body(Body::from(r#"{"title":"Updated Title", "completed":true}"#))
+                    .unwrap(),
+            )
+            .await
+            .unwrap();
+
+        assert_eq!(response.status(), StatusCode::OK);
+
+        // 3. Verify state
         let todos = state.read().unwrap();
         assert_eq!(todos.len(), 1);
-        assert_eq!(todos[0].title, "Write Rust tests");
-        assert_eq!(todos[0].completed, false);
+        assert_eq!(todos[0].title, "Updated Title");
+        assert_eq!(todos[0].completed, true);
+    }
+
+    #[tokio::test]
+    async fn test_update_non_existent_todo() {
+        let state = Arc::new(RwLock::new(Vec::new()));
+        let app = app(state.clone());
+        let id = Uuid::new_v4();
+
+        let response = app
+            .oneshot(
+                Request::builder()
+                    .method("PUT")
+                    .uri(format!("/todos/{}", id))
+                    .header("content-type", "application/json")
+                    .body(Body::from(r#"{"title":"Doesnt matter", "completed":true}"#))
+                    .unwrap(),
+            )
+            .await
+            .unwrap();
+
+        assert_eq!(response.status(), StatusCode::NOT_FOUND);
     }
 }

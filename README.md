@@ -18,10 +18,9 @@ A high-performance Rust web server built with the Axum framework, serving both t
 
 ## Getting Started
 
-Assuming you have Rust and Cargo installed, navigate to the backend directory and run the server:
+Assuming you have Rust and Cargo installed, run the server from the root directory:
 
 ```bash
-cd backend
 cargo run
 ```
 
