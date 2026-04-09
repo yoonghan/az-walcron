@@ -18,6 +18,7 @@ azure_identity = "0.22"
 futures = "0.3"
 async-trait = "0.1"
 azure_core = "0.22"
+openssl = { version = "0.10", features = ["vendored"] }
 
 [dev-dependencies]
 tower = { version = "0.4", features = ["util"] }

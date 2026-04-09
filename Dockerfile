@@ -1,8 +1,8 @@
 FROM rust:alpine AS builder
 WORKDIR /usr/src/app
 
-# the musl-dev package is necessary to build Rust projects on Alpine
-RUN apk add --no-cache musl-dev
+# Build dependencies including tools for vendoring OpenSSL
+RUN apk add --no-cache musl-dev pkgconfig perl make gcc g++
 
 # Create dummy project for dependency caching
 COPY Cargo.toml ./
@@ -18,6 +18,7 @@ RUN cargo build --release
 
 # Runner stage
 FROM alpine:3.19
+RUN apk add --no-cache ca-certificates
 WORKDIR /app
 COPY --from=builder /usr/src/app/target/release/todo-server /usr/local/bin/todo-server
 
