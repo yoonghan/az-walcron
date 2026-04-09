@@ -13,6 +13,11 @@ tower-http = { version = "0.5", features = ["trace"] }
 tracing = "0.1"
 tracing-subscriber = { version = "0.3", features = ["env-filter"] }
 uuid = { version = "1.8", features = ["v4", "serde"] }
+azure_data_cosmos = "0.22"
+azure_identity = "0.22"
+futures = "0.3"
+async-trait = "0.1"
+azure_core = "0.22"
 
 [dev-dependencies]
 tower = { version = "0.4", features = ["util"] }

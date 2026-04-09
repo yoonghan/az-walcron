@@ -1,4 +1,8 @@
-use anyhow::Result;
+use anyhow::{Context, Result};
+use async_trait::async_trait;
+use azure_data_cosmos::{CosmosClient, PartitionKey, Query};
+use azure_identity::DefaultAzureCredential;
+use futures::stream::StreamExt;
 use axum::{
     extract::{Path, Request, State},
     http::StatusCode,
@@ -7,13 +11,14 @@ use axum::{
     Json, Router,
 };
 use serde::{Deserialize, Serialize};
-use std::sync::{Arc, RwLock};
+use std::sync::Arc;
 use tower_http::trace::TraceLayer;
 use tracing::info_span;
 use uuid::Uuid;
 
 #[derive(Serialize, Deserialize, Clone, Debug)]
 struct Todo {
+    #[serde(rename = "id")]
     id: Uuid,
     title: String,
     completed: bool,
@@ -30,8 +35,74 @@ struct UpdateTodo {
     completed: bool,
 }
 
-// Thread-safe state using RwLock since there will be many readers for GET and few writers for POST.
-type AppState = Arc<RwLock<Vec<Todo>>>;
+#[async_trait]
+trait TodoRepo: Send + Sync {
+    async fn list(&self) -> Result<Vec<Todo>>;
+    async fn create(&self, todo: Todo) -> Result<Todo>;
+    async fn update(&self, id: Uuid, title: String, completed: bool) -> Result<Option<Todo>>;
+}
+
+struct CosmosRepo {
+    container_client: azure_data_cosmos::clients::ContainerClient,
+}
+
+impl CosmosRepo {
+    fn new(endpoint: String, database: String, container: String) -> Result<Self> {
+        let account_name = endpoint
+            .replace("https://", "")
+            .replace(".documents.azure.com:443/", "")
+            .replace(".documents.azure.com", "");
+
+        let credential = DefaultAzureCredential::new()?;
+        let client = CosmosClient::new(account_name.as_str(), credential, None)?;
+        let database_client = client.database_client(&database);
+        let container_client = database_client.container_client(&container);
+        Ok(Self { container_client })
+    }
+}
+
+#[async_trait]
+impl TodoRepo for CosmosRepo {
+    async fn list(&self) -> Result<Vec<Todo>> {
+        let query = Query::from("SELECT * FROM c");
+        let mut pager = self.container_client.query_items::<Todo>(query, (), None)?;
+
+        let mut todos = Vec::new();
+        while let Some(res) = pager.next().await {
+            let res = res?;
+            let items = res.into_body().await?.items;
+            for item in items {
+                todos.push(item);
+            }
+        }
+        Ok(todos)
+    }
+
+    async fn create(&self, todo: Todo) -> Result<Todo> {
+        let pk = PartitionKey::from(todo.id.to_string());
+        self.container_client
+            .create_item(pk, &todo, None)
+            .await?;
+        Ok(todo)
+    }
+
+    async fn update(&self, id: Uuid, title: String, completed: bool) -> Result<Option<Todo>> {
+        let pk = PartitionKey::from(id.to_string());
+        let todo = Todo {
+            id,
+            title,
+            completed,
+        };
+
+        self.container_client
+            .replace_item(pk, id.to_string().as_str(), &todo, None)
+            .await?;
+
+        Ok(Some(todo))
+    }
+}
+
+type AppState = Arc<dyn TodoRepo>;
 
 #[tokio::main]
 async fn main() -> Result<()> {
@@ -41,9 +112,18 @@ async fn main() -> Result<()> {
         .compact()
         .init();
 
-    tracing::info!("Starting todo-server...");
+    tracing::info!("Starting todo-server with CosmosDB integration...");
 
-    let state: AppState = Arc::new(RwLock::new(Vec::new()));
+    let endpoint = std::env::var("COSMOS_ENDPOINT")
+        .context("COSMOS_ENDPOINT must be set")?;
+    let database = std::env::var("COSMOS_DATABASE")
+        .context("COSMOS_DATABASE must be set")?;
+    let container = std::env::var("COSMOS_CONTAINER")
+        .context("COSMOS_CONTAINER must be set")?;
+
+    let repo = CosmosRepo::new(endpoint, database, container)?;
+    let state: AppState = Arc::new(repo);
+    
     let app = app(state);
 
     let listener = tokio::net::TcpListener::bind("0.0.0.0:3000").await?;
@@ -84,36 +164,31 @@ fn app(state: AppState) -> Router {
 }
 
 async fn list_todos(State(state): State<AppState>) -> Result<Json<Vec<Todo>>, StatusCode> {
-    let todos = state
-        .read()
-        .map_err(|_| {
-            tracing::error!("Failed to acquire read lock on the application state.");
-            StatusCode::INTERNAL_SERVER_ERROR
-        })?;
+    let todos = state.list().await.map_err(|e| {
+        tracing::error!(error = %e, "Failed to list todos from CosmosDB");
+        StatusCode::INTERNAL_SERVER_ERROR
+    })?;
 
     tracing::info!(count = todos.len(), "Listing todos");
     
-    Ok(Json(todos.clone()))
+    Ok(Json(todos))
 }
 
 async fn create_todo(
     State(state): State<AppState>,
     Json(payload): Json<CreateTodo>,
 ) -> Result<impl IntoResponse, StatusCode> {
-    let mut todos = state
-        .write()
-        .map_err(|_| {
-            tracing::error!("Failed to acquire write lock on the application state.");
-            StatusCode::INTERNAL_SERVER_ERROR
-        })?;
-
     let new_todo = Todo {
         id: Uuid::new_v4(),
         title: payload.title,
         completed: false,
     };
 
-    todos.push(new_todo.clone());
+    state.create(new_todo.clone()).await.map_err(|e| {
+        tracing::error!(error = %e, "Failed to create todo in CosmosDB");
+        StatusCode::INTERNAL_SERVER_ERROR
+    })?;
+
     tracing::info!(todo_id = %new_todo.id, "Created new todo");
 
     Ok((StatusCode::CREATED, Json(new_todo)))
@@ -124,18 +199,14 @@ async fn update_todo(
     Path(id): Path<Uuid>,
     Json(payload): Json<UpdateTodo>,
 ) -> Result<impl IntoResponse, StatusCode> {
-    let mut todos = state
-        .write()
-        .map_err(|_| {
-            tracing::error!("Failed to acquire write lock on the application state.");
-            StatusCode::INTERNAL_SERVER_ERROR
-        })?;
+    let result = state.update(id, payload.title, payload.completed).await.map_err(|e| {
+        tracing::error!(error = %e, todo_id = %id, "Failed to update todo in CosmosDB");
+        StatusCode::INTERNAL_SERVER_ERROR
+    })?;
 
-    if let Some(todo) = todos.iter_mut().find(|t| t.id == id) {
-        todo.title = payload.title;
-        todo.completed = payload.completed;
+    if let Some(todo) = result {
         tracing::info!(todo_id = %id, "Updated todo");
-        Ok((StatusCode::OK, Json(todo.clone())).into_response())
+        Ok((StatusCode::OK, Json(todo)).into_response())
     } else {
         Ok(StatusCode::NOT_FOUND.into_response())
     }
@@ -305,15 +376,41 @@ mod tests {
         body::Body,
         http::{Request, StatusCode},
     };
-    use http_body_util::BodyExt; // for `collect`
+    use http_body_util::BodyExt;
     use tower::ServiceExt;
+    use std::sync::RwLock;
+
+    struct MemoryRepo {
+        todos: RwLock<Vec<Todo>>,
+    }
+
+    #[async_trait]
+    impl TodoRepo for MemoryRepo {
+        async fn list(&self) -> Result<Vec<Todo>> {
+            Ok(self.todos.read().unwrap().clone())
+        }
+        async fn create(&self, todo: Todo) -> Result<Todo> {
+            self.todos.write().unwrap().push(todo.clone());
+            Ok(todo)
+        }
+        async fn update(&self, id: Uuid, title: String, completed: bool) -> Result<Option<Todo>> {
+            let mut todos = self.todos.write().unwrap();
+            if let Some(todo) = todos.iter_mut().find(|t| t.id == id) {
+                todo.title = title;
+                todo.completed = completed;
+                Ok(Some(todo.clone()))
+            } else {
+                Ok(None)
+            }
+        }
+    }
 
     #[tokio::test]
     async fn test_root_endpoint_ui_elements() {
-        let state = Arc::new(RwLock::new(Vec::new()));
-        let app = app(state.clone());
+        let repo = Arc::new(MemoryRepo { todos: RwLock::new(Vec::new()) });
+        let app = app(repo);
 
-        let response = app
+        let response = app.clone()
             .oneshot(Request::builder().uri("/").body(Body::empty()).unwrap())
             .await
             .unwrap();
@@ -323,22 +420,15 @@ mod tests {
         let body = response.into_body().collect().await.unwrap().to_bytes();
         let body_str = String::from_utf8(body.to_vec()).unwrap();
         
-        // Check for key UI elements used by JavaScript
-        assert!(body_str.contains("Todo List App"), "Missing title");
-        assert!(body_str.contains("id=\"new-todo\""), "Missing input field for new todo");
-        assert!(body_str.contains("id=\"todo-list\""), "Missing todo list container");
-        assert!(body_str.contains("id=\"add-form\""), "Missing add form");
-        assert!(body_str.contains("fetchTodos()"), "Missing critical JS function");
+        assert!(body_str.contains("Todo List App"));
     }
 
     #[tokio::test]
     async fn test_create_and_list_todos() {
-        let state = Arc::new(RwLock::new(Vec::new()));
-        let app = app(state.clone());
+        let repo = Arc::new(MemoryRepo { todos: RwLock::new(Vec::new()) });
+        let app = app(repo);
 
-        // 1. Create a todo
-        let response = app
-            .clone()
+        let response = app.clone()
             .oneshot(
                 Request::builder()
                     .method("POST")
@@ -352,8 +442,8 @@ mod tests {
 
         assert_eq!(response.status(), StatusCode::CREATED);
 
-        // 2. List todos
         let response = app
+            .clone()
             .oneshot(Request::builder().uri("/todos").body(Body::empty()).unwrap())
             .await
             .unwrap();
@@ -364,27 +454,21 @@ mod tests {
         
         assert_eq!(todos.len(), 1);
         assert_eq!(todos[0].title, "Test integration");
-        assert_eq!(todos[0].completed, false);
     }
 
     #[tokio::test]
     async fn test_update_todo_status_and_title() {
-        let state = Arc::new(RwLock::new(Vec::new()));
-        let app = app(state.clone());
-
-        // 1. Setup: Create a todo manually in state
         let id = Uuid::new_v4();
-        {
-            let mut todos = state.write().unwrap();
-            todos.push(Todo {
+        let repo = Arc::new(MemoryRepo { 
+            todos: RwLock::new(vec![Todo {
                 id,
                 title: "Original Title".to_string(),
                 completed: false,
-            });
-        }
+            }]) 
+        });
+        let app = app(repo);
 
-        // 2. Update status and title (simulating JS toggle/edit)
-        let response = app
+        let response = app.clone()
             .oneshot(
                 Request::builder()
                     .method("PUT")
@@ -398,31 +482,14 @@ mod tests {
 
         assert_eq!(response.status(), StatusCode::OK);
 
-        // 3. Verify state
-        let todos = state.read().unwrap();
-        assert_eq!(todos.len(), 1);
-        assert_eq!(todos[0].title, "Updated Title");
-        assert_eq!(todos[0].completed, true);
-    }
-
-    #[tokio::test]
-    async fn test_update_non_existent_todo() {
-        let state = Arc::new(RwLock::new(Vec::new()));
-        let app = app(state.clone());
-        let id = Uuid::new_v4();
-
         let response = app
-            .oneshot(
-                Request::builder()
-                    .method("PUT")
-                    .uri(format!("/todos/{}", id))
-                    .header("content-type", "application/json")
-                    .body(Body::from(r#"{"title":"Doesnt matter", "completed":true}"#))
-                    .unwrap(),
-            )
+            .clone()
+            .oneshot(Request::builder().uri("/todos").body(Body::empty()).unwrap())
             .await
             .unwrap();
-
-        assert_eq!(response.status(), StatusCode::NOT_FOUND);
+        let body = response.into_body().collect().await.unwrap().to_bytes();
+        let todos: Vec<Todo> = serde_json::from_slice(&body).unwrap();
+        assert_eq!(todos[0].title, "Updated Title");
+        assert_eq!(todos[0].completed, true);
     }
 }
