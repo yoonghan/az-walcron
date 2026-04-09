@@ -14,10 +14,10 @@ tracing = "0.1"
 tracing-subscriber = { version = "0.3", features = ["env-filter"] }
 uuid = { version = "1.8", features = ["v4", "serde"] }
 azure_data_cosmos = "0.22"
-azure_identity = { version = "0.22", features = ["default"] }
+azure_identity = { version = "0.22", features = ["reqwest"] }
+azure_core = { version = "0.22", features = ["reqwest"] }
 futures = "0.3"
 async-trait = "0.1"
-azure_core = "0.22"
 openssl = { version = "0.10", features = ["vendored"] }
 
 [dev-dependencies]
