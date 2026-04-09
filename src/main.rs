@@ -127,16 +127,19 @@ async fn main() -> Result<()> {
         .compact()
         .init();
 
+        
     // Check for identity environment variables
     let ep_check = std::env::var("IDENTITY_ENDPOINT").is_ok();
     let hdr_check = std::env::var("IDENTITY_HEADER").is_ok();
     tracing::info!("Identity context: IDENTITY_ENDPOINT defined: {}, IDENTITY_HEADER defined: {}", ep_check, hdr_check);
 
+    let scope = "https://management.azure.com/.default";
     // Startup Diagnostic: Attempt to fetch a token for CosmosDB
     let diag_cred = DefaultAzureCredential::new()?;
+
     use azure_core::credentials::TokenCredential;
     
-    match diag_cred.get_token(&["https://cosmos.azure.com/.default"]).await {
+    match diag_cred.get_token(&[scope]).await {
         Ok(_) => tracing::info!("DIAGNOSTIC: Managed Identity token fetch: SUCCESS"),
         Err(e) => tracing::error!("DIAGNOSTIC: Managed Identity token fetch: FAILED. Error: {:?}", e),
     }

@@ -29,6 +29,8 @@ properties:
             value: "TodoDatabase"
           - name: COSMOS_CONTAINER
             value: "Todos"
+          - name: AZURE_SDK_LOG_LEVEL
+            value: "debug"
         resources:
           cpu: 0.5
           memory: 1.0Gi

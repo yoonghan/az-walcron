@@ -6,6 +6,7 @@ APP_NAME=walcron
 RESOURCE_GROUP="walcron-rg"
 DATABASE_NAME="TodoDatabase"
 CONTAINER_NAME="Todos"
+SUB_ID="1b7354d6-a407-4b91-a72a-009aa3805317"
 
 echo "Creating Database: $DATABASE_NAME..."
 az cosmosdb sql database create \
@@ -39,6 +40,13 @@ az cosmosdb sql role assignment create \
   --role-definition-id "00000000-0000-0000-0000-000000000002" \
   --principal-id $PRINCIPAL_ID \
   --scope "/"
+
+echo "Assigning 'Cosmos DB Account Reader Role' role to Principal ID: $PRINCIPAL_ID..."
+# Role Definition ID for 'Cosmos DB Built-in Data Contributor' is 00000000-0000-0000-0000-000000000002
+az role assignment create \
+  --assignee $PRINCIPAL_ID \
+  --role "Cosmos DB Account Reader Role" \
+  --scope "/subscriptions/$SUB_ID/resourceGroups/$RESOURCE_GROUP/providers/Microsoft.DocumentDB/databaseAccounts/$ACCOUNT_NAME"
 
 echo "Disabling local (key-based) authentication for $ACCOUNT_NAME..."
 az resource update \
