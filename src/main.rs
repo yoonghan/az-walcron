@@ -128,6 +128,11 @@ async fn main() -> Result<()> {
 
     tracing::info!("Starting todo-server with CosmosDB integration...");
 
+    // Check for identity environment variables
+    let ep_check = std::env::var("IDENTITY_ENDPOINT").is_ok();
+    let hdr_check = std::env::var("IDENTITY_HEADER").is_ok();
+    tracing::info!("Identity context: IDENTITY_ENDPOINT defined: {}, IDENTITY_HEADER defined: {}", ep_check, hdr_check);
+
     let endpoint = std::env::var("COSMOS_ENDPOINT")
         .context("COSMOS_ENDPOINT must be set")?;
     let database = std::env::var("COSMOS_DATABASE")
