@@ -48,13 +48,8 @@ struct CosmosRepo {
 
 impl CosmosRepo {
     fn new(endpoint: String, database: String, container: String) -> Result<Self> {
-        let account_name = endpoint
-            .replace("https://", "")
-            .replace(".documents.azure.com:443/", "")
-            .replace(".documents.azure.com", "");
-
         let credential = DefaultAzureCredential::new()?;
-        let client = CosmosClient::new(account_name.as_str(), credential, None)?;
+        let client = CosmosClient::new(endpoint.as_str(), credential, None)?;
         let database_client = client.database_client(&database);
         let container_client = database_client.container_client(&container);
         Ok(Self { container_client })
