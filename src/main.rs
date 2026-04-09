@@ -2,6 +2,7 @@ use anyhow::{Context, Result};
 use async_trait::async_trait;
 use azure_data_cosmos::{CosmosClient, PartitionKey, Query};
 use azure_identity::DefaultAzureCredential;
+// ManagedIdentityCredential is often used to debug specific identity issues
 use futures::stream::StreamExt;
 use axum::{
     extract::{Path, Request, State},
@@ -126,12 +127,19 @@ async fn main() -> Result<()> {
         .compact()
         .init();
 
-    tracing::info!("Starting todo-server with CosmosDB integration...");
-
     // Check for identity environment variables
     let ep_check = std::env::var("IDENTITY_ENDPOINT").is_ok();
     let hdr_check = std::env::var("IDENTITY_HEADER").is_ok();
     tracing::info!("Identity context: IDENTITY_ENDPOINT defined: {}, IDENTITY_HEADER defined: {}", ep_check, hdr_check);
+
+    // Startup Diagnostic: Attempt to fetch a token for CosmosDB
+    let diag_cred = DefaultAzureCredential::new()?;
+    use azure_core::credentials::TokenCredential;
+    
+    match diag_cred.get_token(&["https://cosmos.azure.com/.default"]).await {
+        Ok(_) => tracing::info!("DIAGNOSTIC: Managed Identity token fetch: SUCCESS"),
+        Err(e) => tracing::error!("DIAGNOSTIC: Managed Identity token fetch: FAILED. Error: {:?}", e),
+    }
 
     let endpoint = std::env::var("COSMOS_ENDPOINT")
         .context("COSMOS_ENDPOINT must be set")?;
