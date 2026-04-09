@@ -1,15 +1,8 @@
 #!/bin/bash
 # setup-cosmos.sh
-# App name should be walcron
-# Usage: ./scripts/setup-cosmos.sh <COSMOS_ACCOUNT_NAME> <APP_NAME>
 
-if [ -z "$1" ] || [ -z "$2" ]; then
-  echo "Usage: ./scripts/setup-cosmos.sh <COSMOS_ACCOUNT_NAME> <APP_NAME>"
-  exit 1
-fi
-
-ACCOUNT_NAME=$1
-APP_NAME=$2
+ACCOUNT_NAME=walcron-db
+APP_NAME=walcron
 RESOURCE_GROUP="walcron-rg"
 DATABASE_NAME="TodoDatabase"
 CONTAINER_NAME="Todos"
