@@ -12,8 +12,8 @@ use axum::{
 };
 use serde::{Deserialize, Serialize};
 use std::sync::Arc;
-use tower_http::trace::TraceLayer;
-use tracing::info_span;
+use tower_http::{cors::{Any, CorsLayer}, trace::TraceLayer};
+use tracing::{error, info_span};
 use uuid::Uuid;
 
 #[derive(Serialize, Deserialize, Clone, Debug)]
@@ -60,12 +60,23 @@ impl CosmosRepo {
 impl TodoRepo for CosmosRepo {
     async fn list(&self) -> Result<Vec<Todo>> {
         let query = Query::from("SELECT * FROM c");
-        let mut pager = self.container_client.query_items::<Todo>(query, (), None)?;
+        let mut pager = self.container_client
+            .query_items::<Todo>(query, (), None)
+            .map_err(|e| {
+                error!("CosmosDB List Error: {:?}", e);
+                e
+            })?;
 
         let mut todos = Vec::new();
         while let Some(res) = pager.next().await {
-            let res = res?;
-            let items = res.into_body().await?.items;
+            let res = res.map_err(|e| {
+                error!("CosmosDB Pager Error: {:?}", e);
+                e
+            })?;
+            let items = res.into_body().await.map_err(|e| {
+                error!("CosmosDB Body Error: {:?}", e);
+                e
+            })?.items;
             for item in items {
                 todos.push(item);
             }
@@ -77,7 +88,11 @@ impl TodoRepo for CosmosRepo {
         let pk = PartitionKey::from(todo.id.to_string());
         self.container_client
             .create_item(pk, &todo, None)
-            .await?;
+            .await
+            .map_err(|e| {
+                error!("CosmosDB Create Error: {:?}", e);
+                e
+            })?;
         Ok(todo)
     }
 
@@ -91,7 +106,11 @@ impl TodoRepo for CosmosRepo {
 
         self.container_client
             .replace_item(pk, id.to_string().as_str(), &todo, None)
-            .await?;
+            .await
+            .map_err(|e| {
+                error!("CosmosDB Update Error: {:?}", e);
+                e
+            })?;
 
         Ok(Some(todo))
     }
@@ -154,6 +173,12 @@ fn app(state: AppState) -> Router {
                         request_id = %request_id,
                     )
                 })
+        )
+        .layer(
+            CorsLayer::new()
+                .allow_origin(Any)
+                .allow_methods(Any)
+                .allow_headers(Any)
         )
         .with_state(state)
 }
