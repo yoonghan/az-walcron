@@ -72,11 +72,15 @@ impl TodoRepo for CosmosRepo {
     async fn list(&self) -> Result<Vec<Todo>> {
         let mut stream = self.collection_client
             .query_documents(Query::from("SELECT * FROM c"))
+            .query_cross_partition(true)
             .into_stream::<Todo>();
 
         let mut todos = Vec::new();
         while let Some(response) = stream.next().await {
-            let response = response.context("CosmosDB Pager Error")?;
+            let response = response.map_err(|e| {
+                tracing::error!("CosmosDB Pager detailed error: {:?}", e);
+                e
+            }).context("CosmosDB Pager Error: Check logs for detailed SDK error")?;
             todos.extend(response.documents().cloned());
         }
         Ok(todos)
