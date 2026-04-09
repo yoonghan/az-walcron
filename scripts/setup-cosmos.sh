@@ -22,7 +22,11 @@ az cosmosdb sql container create \
   --partition-key-path "/id"
 
 echo "Enabling System-Assigned Managed Identity for $APP_NAME..."
-PRINCIPAL_ID=$(az containerapp identity assign \
+az containerapp identity assign \
+  --name $APP_NAME \
+  --resource-group $RESOURCE_GROUP
+
+PRINCIPAL_ID=$(az containerapp show \
   --name $APP_NAME \
   --resource-group $RESOURCE_GROUP \
   --query "identity.principalId" -o tsv)
@@ -30,8 +34,8 @@ PRINCIPAL_ID=$(az containerapp identity assign \
 echo "Assigning 'Cosmos DB Built-in Data Contributor' role to Principal ID: $PRINCIPAL_ID..."
 # Role Definition ID for 'Cosmos DB Built-in Data Contributor' is 00000000-0000-0000-0000-000000000002
 az cosmosdb sql role assignment create \
-  --account-name $ACCOUNT_NAME \
-  --resource-group $RESOURCE_GROUP \
+  --account-name walcron-db \
+  --resource-group walcron-rg \
   --role-definition-id "00000000-0000-0000-0000-000000000002" \
   --principal-id $PRINCIPAL_ID \
   --scope "/"
