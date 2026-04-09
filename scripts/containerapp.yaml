@@ -2,7 +2,7 @@ properties:
   configuration:
     ingress:
       external: true
-      targetPort: 8080
+      targetPort: 3000
       corsPolicy:
         allowedOrigins:
           - "https://www.walcron.com"
@@ -23,11 +23,6 @@ properties:
         resources:
           cpu: 0.5
           memory: 1.0Gi
-      - image: ghcr.io/yoonghan/az-walcron-frontend:latest
-        name: walcron-frontend
-        resources:
-          cpu: 0.25
-          memory: 0.5Gi
     scale:
       minReplicas: 0
       maxReplicas: 1

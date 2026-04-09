@@ -1,63 +1,43 @@
 # Walcron Azure Web Server
 
-A high-performance Rust web server built with the Axum framework and a Deno frontend, optimized for Azure Container Apps multi-container pods.
+A high-performance Rust web server built with the Axum framework, serving both the REST API and a lightweight HTML frontend. Optimized for fast Azure Container Apps cold starts with a single native binary.
 
 ## Features
-- **Backend (Rust API):**
+- **Unified Architecture:**
   - Fast routing and asynchronous execution via **Axum** & **Tokio**.
+  - Serves both API and Frontend from a single native binary for minimal cold start (~1s).
   - In-memory data store with thread-safety (`Arc<RwLock<Vec<Todo>>>`) for high concurrency.
   - Ready for OpenTelemetry (OTEL) distributed tracing via `tower-http` with injected request correlation IDs.
   - Minimal (~30MB) footprint production image via a multi-stage Docker build relying on `alpine`.
-- **Frontend (Deno):**
-  - Lightweight SSR (Server-Side Rendering) HTML integration using **Deno**.
-  - Deploys as a sidecar/second container in the same Azure Container App pod.
-  - Fetches from the backend Rust API locally via `http://localhost:3000`.
 
-## Endpoints (Backend - Port 3000)
-- `GET /` - Returns "Hello to Walcron"
-- `GET /todos` - Lists all todos
+## Endpoints (Port 3000)
+- `GET /` - Serves the HTML UI for the Todo list.
+- `GET /todos` - Lists all todos (JSON)
 - `POST /todos` - Creates a new todo (requires `{"title": "..."}` JSON payload)
-
-## Frontend UI (Port 8080)
-- `GET /` - Serves an HTML page rendering the todo list from the Rust backend. 
+- `PUT /todos/:id` - Updates a todo (requires `{"title": "...", "completed": bool}` JSON payload)
 
 ## Getting Started
 
-Assuming you have Rust and Cargo installed, navigate to the backend directory and run the API:
+Assuming you have Rust and Cargo installed, navigate to the backend directory and run the server:
 
 ```bash
 cd backend
 cargo run
 ```
 
-Then you can verify the API locally:
+Then you can access the UI at `http://localhost:3000/` or verify the API:
 ```bash
-curl http://localhost:3000/
 curl http://localhost:3000/todos
 curl -X POST -H "Content-Type: application/json" -d '{"title": "Buy milk"}' http://localhost:3000/todos
 ```
 
-## Running the Deno Frontend
-If you have Deno installed, you can start the frontend server in a separate terminal:
-```bash
-cd frontend
-deno run --allow-net server.ts
-```
-
-### Running Frontend Tests
-```bash
-cd frontend
-deno test --allow-net server_test.ts
-```
-
 ## Docker Build & Deployment
 
-To package this application for Azure, the CI pipeline automatically builds two container images via `./.github/workflows/docker-build-push.yml`:
-1. `walcron-azure:latest` (Backend)
-2. `walcron-azure-frontend:latest` (Frontend)
+To package this application for Azure, the CI pipeline automatically builds the container image via `./.github/workflows/docker-build-push.yml`:
+1. `walcron-azure:latest` (Unified Backend & Frontend)
 
 **Azure Container Apps Deployment:**
-The application sets up a multi-container pod using `scripts/containerapp.yaml`. Traffic ingress is routed to the Deno frontend on `port 8080`.
+The application is deployed as a single container. Traffic ingress is routed to the Rust application on `port 3000`.
 
 Update standard deployments using:
 ```bash
