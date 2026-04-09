@@ -25,7 +25,7 @@ echo "Enabling System-Assigned Managed Identity for $APP_NAME..."
 PRINCIPAL_ID=$(az containerapp identity assign \
   --name $APP_NAME \
   --resource-group $RESOURCE_GROUP \
-  --query "principalId" -o tsv)
+  --query "identity.principalId" -o tsv)
 
 echo "Assigning 'Cosmos DB Built-in Data Contributor' role to Principal ID: $PRINCIPAL_ID..."
 # Role Definition ID for 'Cosmos DB Built-in Data Contributor' is 00000000-0000-0000-0000-000000000002
@@ -35,6 +35,13 @@ az cosmosdb sql role assignment create \
   --role-definition-id "00000000-0000-0000-0000-000000000002" \
   --principal-id $PRINCIPAL_ID \
   --scope "/"
+
+echo "Disabling local (key-based) authentication for $ACCOUNT_NAME..."
+az resource update \
+  --resource-group $RESOURCE_GROUP \
+  --name $ACCOUNT_NAME \
+  --resource-type "Microsoft.DocumentDB/databaseAccounts" \
+  --set properties.disableLocalAuth=true
 
 echo "CosmosDB setup complete."
 echo "Please set the following environment variables in your Container App:"
