@@ -1,8 +1,9 @@
 use anyhow::{Context, Result};
 use async_trait::async_trait;
-use azure_data_cosmos::{CosmosClient, PartitionKey, Query};
+use azure_data_cosmos::prelude::*;
+use azure_data_cosmos::resources::collection::PartitionKey;
 use azure_identity::DefaultAzureCredential;
-// ManagedIdentityCredential is often used to debug specific identity issues
+use azure_core::auth::TokenCredential;
 use futures::stream::StreamExt;
 use axum::{
     extract::{Path, Request, State},
@@ -25,6 +26,14 @@ struct Todo {
     completed: bool,
 }
 
+impl CosmosEntity for Todo {
+    type Entity = String;
+
+    fn partition_key(&self) -> Self::Entity {
+        self.id.to_string()
+    }
+}
+
 #[derive(Deserialize, Debug)]
 struct CreateTodo {
     title: String,
@@ -44,74 +53,68 @@ trait TodoRepo: Send + Sync {
 }
 
 struct CosmosRepo {
-    container_client: azure_data_cosmos::clients::ContainerClient,
+    collection_client: Arc<CollectionClient>,
 }
 
 impl CosmosRepo {
-    fn new(endpoint: String, database: String, container: String) -> Result<Self> {
-        let credential = DefaultAzureCredential::new()?;
-        let client = CosmosClient::new(endpoint.as_str(), credential, None)?;
-        let database_client = client.database_client(&database);
-        let container_client = database_client.container_client(&container);
-        Ok(Self { container_client })
+    fn new(endpoint: String, database: String, collection: String) -> Result<Self> {
+        let options = azure_identity::TokenCredentialOptions::default();
+        let credential = Arc::new(DefaultAzureCredential::create(options)?);
+        let client = CosmosClient::new(endpoint, AuthorizationToken::TokenCredential(credential));
+        let database_client = client.database_client(database);
+        let collection_client = Arc::new(database_client.collection_client(collection));
+        Ok(Self { collection_client })
     }
 }
 
 #[async_trait]
 impl TodoRepo for CosmosRepo {
     async fn list(&self) -> Result<Vec<Todo>> {
-        let query = Query::from("SELECT * FROM c");
-        let mut pager = self.container_client
-            .query_items::<Todo>(query, (), None)
-            .map_err(|e| {
-                error!("CosmosDB List Error: {:?}", e);
-                e
-            })?;
+        let mut stream = self.collection_client
+            .query_documents(Query::from("SELECT * FROM c"))
+            .into_stream::<Todo>();
 
         let mut todos = Vec::new();
-        while let Some(res) = pager.next().await {
-            let res = res.map_err(|e| {
-                error!("CosmosDB Pager Error: {:?}", e);
-                e
-            })?;
-            let items = res.into_body().await.map_err(|e| {
-                error!("CosmosDB Body Error: {:?}", e);
-                e
-            })?.items;
-            for item in items {
-                todos.push(item);
-            }
+        while let Some(response) = stream.next().await {
+            let response = response.context("CosmosDB Pager Error")?;
+            todos.extend(response.documents().cloned());
         }
         Ok(todos)
     }
 
     async fn create(&self, todo: Todo) -> Result<Todo> {
-        let pk = PartitionKey::from(todo.id.to_string());
-        self.container_client
-            .create_item(pk, &todo, None)
+        self.collection_client
+            .create_document(todo.clone())
+            .into_future()
             .await
-            .map_err(|e| {
-                error!("CosmosDB Create Error: {:?}", e);
-                e
-            })?;
+            .context("CosmosDB Create Error")?;
         Ok(todo)
     }
 
     async fn update(&self, id: Uuid, title: String, completed: bool) -> Result<Option<Todo>> {
         let pk = PartitionKey::from(id.to_string());
-        let todo = Todo {
-            id,
-            title,
-            completed,
-        };
+        let document_client = self.collection_client.document_client(id.to_string(), &pk).context("Failed to create DocumentClient")?;
 
-        self.container_client
-            .replace_item(pk, id.to_string().as_str(), &todo, None)
+        // Fetch current document
+        let response = document_client
+            .get_document::<Todo>()
+            .into_future()
             .await
-            .map_err(|e| {
-                error!("CosmosDB Update Error: {:?}", e);
-                e
-            })?;
+            .context("CosmosDB Get Error")?;
+        
+        let mut todo = match response {
+            GetDocumentResponse::Found(res) => res.document.document,
+            GetDocumentResponse::NotFound(_) => return Ok(None),
+        };
+        
+        todo.title = title;
+        todo.completed = completed;
+
+        document_client
+            .replace_document::<Todo>(todo.clone())
+            .into_future()
+            .await
+            .context("CosmosDB Replace Error")?;
 
         Ok(Some(todo))
     }
@@ -135,10 +138,9 @@ async fn main() -> Result<()> {
 
     let scope = "https://management.azure.com/.default";
     // Startup Diagnostic: Attempt to fetch a token for CosmosDB
-    let diag_cred = DefaultAzureCredential::new()?;
+    let options = azure_identity::TokenCredentialOptions::default();
+    let diag_cred = DefaultAzureCredential::create(options)?;
 
-    use azure_core::credentials::TokenCredential;
-    
     match diag_cred.get_token(&[scope]).await {
         Ok(_) => tracing::info!("DIAGNOSTIC: Managed Identity token fetch: SUCCESS"),
         Err(e) => tracing::error!("DIAGNOSTIC: Managed Identity token fetch: FAILED. Error: {:?}", e),
