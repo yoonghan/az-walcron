@@ -2,7 +2,8 @@ use anyhow::{Context, Result};
 use async_trait::async_trait;
 use azure_data_cosmos::clients::{CloudLocation, CosmosClientBuilder};
 use azure_data_cosmos::prelude::*;
-use azure_data_cosmos::resources::collection::PartitionKey;
+// Removed incorrect PartitionKey import that was causing 400 BadRequest
+
 use azure_identity::DefaultAzureCredential;
 use azure_core::auth::TokenCredential;
 use futures::stream::StreamExt;
@@ -124,13 +125,15 @@ impl TodoRepo for CosmosRepo {
 
     async fn update(&self, id: Uuid, title: String, completed: bool) -> Result<Option<Todo>> {
         let id_str = id.to_string();
-        let pk = PartitionKey::from(&id_str);
         
         tracing::debug!(id = %id_str, "Fetching document for update");
         
+        // In SDK 0.21.0, the partition key value is passed directly (e.g. as a string),
+        // not as a PartitionKey definition struct.
         let document_client = self.collection_client
-            .document_client(id_str.clone(), &pk)
+            .document_client(id_str.clone(), &id_str)
             .context("Failed to create DocumentClient")?;
+
 
         // Fetch current document
         let response = document_client
