@@ -1,5 +1,6 @@
 use anyhow::{Context, Result};
 use async_trait::async_trait;
+use azure_data_cosmos::clients::{CloudLocation, CosmosClientBuilder};
 use azure_data_cosmos::prelude::*;
 use azure_data_cosmos::resources::collection::PartitionKey;
 use azure_identity::DefaultAzureCredential;
@@ -79,7 +80,14 @@ impl CosmosRepo {
         let options = azure_identity::TokenCredentialOptions::default();
         let credential = Arc::new(DefaultAzureCredential::create(options)?);
         let wrapped_credential = Arc::new(CosmosTokenCredential { inner: credential });
-        let client = CosmosClient::new(endpoint, AuthorizationToken::TokenCredential(wrapped_credential));
+        let auth_token = AuthorizationToken::TokenCredential(wrapped_credential);
+        
+        let client = CosmosClientBuilder::with_location(CloudLocation::Custom {
+            uri: endpoint,
+            auth_token,
+        })
+        .build();
+
         let database_client = client.database_client(database);
         let collection_client = Arc::new(database_client.collection_client(collection));
         Ok(Self { collection_client })
