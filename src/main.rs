@@ -123,28 +123,47 @@ impl TodoRepo for CosmosRepo {
     }
 
     async fn update(&self, id: Uuid, title: String, completed: bool) -> Result<Option<Todo>> {
-        let pk = PartitionKey::from(id.to_string());
-        let document_client = self.collection_client.document_client(id.to_string(), &pk).context("Failed to create DocumentClient")?;
+        let id_str = id.to_string();
+        let pk = PartitionKey::from(&id_str);
+        
+        tracing::debug!(id = %id_str, "Fetching document for update");
+        
+        let document_client = self.collection_client
+            .document_client(id_str.clone(), &pk)
+            .context("Failed to create DocumentClient")?;
 
         // Fetch current document
         let response = document_client
             .get_document::<Todo>()
             .into_future()
             .await
-            .context("CosmosDB Get Error")?;
+            .map_err(|e| {
+                tracing::error!("GET failed during update for id {}: {:?}", id_str, e);
+                e
+            })
+            .context("CosmosDB Get Error during update")?;
         
         let mut todo = match response {
             GetDocumentResponse::Found(res) => res.document.document,
-            GetDocumentResponse::NotFound(_) => return Ok(None),
+            GetDocumentResponse::NotFound(_) => {
+                tracing::warn!(id = %id_str, "Document not found during update");
+                return Ok(None);
+            },
         };
         
         todo.title = title;
         todo.completed = completed;
 
+        tracing::debug!(id = %id_str, "Replacing document in CosmosDB");
+
         document_client
             .replace_document::<Todo>(todo.clone())
             .into_future()
             .await
+            .map_err(|e| {
+                tracing::error!("REPLACE failed for id {}: {:?}", id_str, e);
+                e
+            })
             .context("CosmosDB Replace Error")?;
 
         Ok(Some(todo))
