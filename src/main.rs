@@ -52,6 +52,7 @@ trait TodoRepo: Send + Sync {
     async fn list(&self) -> Result<Vec<Todo>>;
     async fn create(&self, todo: Todo) -> Result<Todo>;
     async fn update(&self, id: Uuid, title: String, completed: bool) -> Result<Option<Todo>>;
+    async fn delete(&self, id: Uuid) -> Result<bool>;
 }
 
 #[derive(Debug)]
@@ -171,6 +172,48 @@ impl TodoRepo for CosmosRepo {
 
         Ok(Some(todo))
     }
+
+    async fn delete(&self, id: Uuid) -> Result<bool> {
+        let id_str = id.to_string();
+
+        tracing::debug!(id = %id_str, "Deleting document from CosmosDB");
+
+        let document_client = self.collection_client
+            .document_client(id_str.clone(), &id_str)
+            .context("Failed to create DocumentClient for delete")?;
+
+        // Check the document exists first to return 404 if not found.
+        let get_response = document_client
+            .get_document::<Todo>()
+            .into_future()
+            .await
+            .map_err(|e| {
+                tracing::error!("GET failed during delete for id {}: {:?}", id_str, e);
+                e
+            })
+            .context("CosmosDB Get Error during delete")?;
+
+        match get_response {
+            GetDocumentResponse::NotFound(_) => {
+                tracing::warn!(id = %id_str, "Document not found during delete");
+                return Ok(false);
+            }
+            GetDocumentResponse::Found(_) => {}
+        }
+
+        document_client
+            .delete_document()
+            .into_future()
+            .await
+            .map_err(|e| {
+                tracing::error!("DELETE failed for id {}: {:?}", id_str, e);
+                e
+            })
+            .context("CosmosDB Delete Error")?;
+
+        tracing::info!(id = %id_str, "Deleted todo from CosmosDB");
+        Ok(true)
+    }
 }
 
 type AppState = Arc<dyn TodoRepo>;
@@ -236,7 +279,7 @@ fn app(state: AppState) -> Router {
         .route("/", get(root))
         .route("/todos", get(list_todos))
         .route("/todos", post(create_todo))
-        .route("/todos/:id", put(update_todo))
+        .route("/todos/:id", put(update_todo).delete(delete_todo))
         .layer(
             TraceLayer::new_for_http()
                 .make_span_with(|request: &Request<_>| {
@@ -314,6 +357,22 @@ async fn update_todo(
     }
 }
 
+async fn delete_todo(
+    State(state): State<AppState>,
+    Path(id): Path<Uuid>,
+) -> Result<impl IntoResponse, StatusCode> {
+    let found = state.delete(id).await.map_err(|e| {
+        tracing::error!(error = %e, todo_id = %id, "Failed to delete todo from CosmosDB");
+        StatusCode::INTERNAL_SERVER_ERROR
+    })?;
+
+    if found {
+        tracing::info!(todo_id = %id, "Deleted todo");
+        Ok(StatusCode::NO_CONTENT.into_response())
+    } else {
+        Ok(StatusCode::NOT_FOUND.into_response())
+    }
+}
 
 async fn root() -> Html<&'static str> {
     Html(r#"<!DOCTYPE html>
@@ -338,6 +397,8 @@ async fn root() -> Html<&'static str> {
       button.secondary:hover { background: #cbd5e1; }
       button.success { background: #22c55e; color: white; }
       button.success:hover { background: #16a34a; }
+      button.danger { background: #ef4444; color: white; }
+      button.danger:hover { background: #dc2626; }
       input[type="text"] { padding: 8px 12px; border: 1px solid #cbd5e1; border-radius: 4px; flex-grow: 1; font-size: 1rem; }
       .form-group { display: flex; gap: 8px; margin-bottom: 24px; }
       .completed { text-decoration: line-through; color: #64748b; }
@@ -412,9 +473,15 @@ async fn root() -> Html<&'static str> {
           doneBtn.className = todo.completed ? 'secondary' : 'success';
           doneBtn.onclick = () => toggleTodo(todo);
           
+          const deleteBtn = document.createElement('button');
+          deleteBtn.textContent = '🗑 Delete';
+          deleteBtn.className = 'danger';
+          deleteBtn.onclick = () => deleteTodo(todo);
+
           actions.appendChild(editBtn);
           actions.appendChild(doneBtn);
-          
+          actions.appendChild(deleteBtn);
+
           li.appendChild(content);
           li.appendChild(actions);
           list.appendChild(li);
@@ -464,6 +531,13 @@ async fn root() -> Html<&'static str> {
         }
       }
 
+      async function deleteTodo(todo) {
+        if (!confirm('Delete "' + todo.title + '"? This cannot be undone.')) return;
+        const res = await fetch('/todos/' + todo.id, { method: 'DELETE' });
+        if (res.ok) fetchTodos();
+        else alert('Failed to delete todo');
+      }
+
       document.getElementById('add-form').addEventListener('submit', addTodo);
       fetchTodos();
     </script>
@@ -504,6 +578,12 @@ mod tests {
             } else {
                 Ok(None)
             }
+        }
+        async fn delete(&self, id: Uuid) -> Result<bool> {
+            let mut todos = self.todos.write().unwrap();
+            let before = todos.len();
+            todos.retain(|t| t.id != id);
+            Ok(todos.len() < before)
         }
     }
 
@@ -593,5 +673,53 @@ mod tests {
         let todos: Vec<Todo> = serde_json::from_slice(&body).unwrap();
         assert_eq!(todos[0].title, "Updated Title");
         assert_eq!(todos[0].completed, true);
+    }
+
+    #[tokio::test]
+    async fn test_delete_todo() {
+        let id = Uuid::new_v4();
+        let repo = Arc::new(MemoryRepo {
+            todos: RwLock::new(vec![Todo {
+                id,
+                title: "To be deleted".to_string(),
+                completed: false,
+            }])
+        });
+        let app = app(repo);
+
+        // Delete the existing todo — expect 204 No Content
+        let response = app.clone()
+            .oneshot(
+                Request::builder()
+                    .method("DELETE")
+                    .uri(format!("/todos/{}", id))
+                    .body(Body::empty())
+                    .unwrap(),
+            )
+            .await
+            .unwrap();
+        assert_eq!(response.status(), StatusCode::NO_CONTENT);
+
+        // Verify the list is now empty
+        let response = app.clone()
+            .oneshot(Request::builder().uri("/todos").body(Body::empty()).unwrap())
+            .await
+            .unwrap();
+        let body = response.into_body().collect().await.unwrap().to_bytes();
+        let todos: Vec<Todo> = serde_json::from_slice(&body).unwrap();
+        assert!(todos.is_empty());
+
+        // Deleting it again should return 404
+        let response = app
+            .oneshot(
+                Request::builder()
+                    .method("DELETE")
+                    .uri(format!("/todos/{}", id))
+                    .body(Body::empty())
+                    .unwrap(),
+            )
+            .await
+            .unwrap();
+        assert_eq!(response.status(), StatusCode::NOT_FOUND);
     }
 }
