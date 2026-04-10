@@ -55,6 +55,12 @@ az resource update \
   --resource-type "Microsoft.DocumentDB/databaseAccounts" \
   --set properties.disableLocalAuth=true
 
+echo "Updating Firewall to allow Azure services (required for ACA)..."
+az cosmosdb update \
+  --name $ACCOUNT_NAME \
+  --resource-group $RESOURCE_GROUP \
+  --ip-range-filter "0.0.0.0"
+
 echo "CosmosDB setup complete."
 echo "Please set the following environment variables in your Container App:"
 echo "COSMOS_ENDPOINT=https://$ACCOUNT_NAME.documents.azure.com:443/"
