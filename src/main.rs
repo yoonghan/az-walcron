@@ -15,7 +15,7 @@ use axum::{
 use serde::{Deserialize, Serialize};
 use std::sync::Arc;
 use tower_http::{cors::{Any, CorsLayer}, trace::TraceLayer};
-use tracing::{error, info_span};
+use tracing::{info_span};
 use uuid::Uuid;
 
 #[derive(Serialize, Deserialize, Clone, Debug)]
@@ -52,7 +52,25 @@ trait TodoRepo: Send + Sync {
     async fn update(&self, id: Uuid, title: String, completed: bool) -> Result<Option<Todo>>;
 }
 
-struct CosmosRepo {
+#[derive(Debug)]
+struct CosmosTokenCredential {
+    inner: Arc<DefaultAzureCredential>,
+}
+
+#[async_trait]
+impl azure_core::auth::TokenCredential for CosmosTokenCredential {
+    async fn get_token(&self, _scopes: &[&str]) -> azure_core::Result<azure_core::auth::AccessToken> {
+        // Force the scope to the official Cosmos DB data plane scope.
+        // SDK 0.21.0 sometimes generates host-based scopes that fail with Managed Identity.
+        self.inner.get_token(&["https://cosmos.azure.com/.default"]).await
+    }
+
+    async fn clear_cache(&self) -> azure_core::Result<()> {
+        self.inner.clear_cache().await
+    }
+}
+
+pub struct CosmosRepo {
     collection_client: Arc<CollectionClient>,
 }
 
@@ -60,7 +78,8 @@ impl CosmosRepo {
     fn new(endpoint: String, database: String, collection: String) -> Result<Self> {
         let options = azure_identity::TokenCredentialOptions::default();
         let credential = Arc::new(DefaultAzureCredential::create(options)?);
-        let client = CosmosClient::new(endpoint, AuthorizationToken::TokenCredential(credential));
+        let wrapped_credential = Arc::new(CosmosTokenCredential { inner: credential });
+        let client = CosmosClient::new(endpoint, AuthorizationToken::TokenCredential(wrapped_credential));
         let database_client = client.database_client(database);
         let collection_client = Arc::new(database_client.collection_client(collection));
         Ok(Self { collection_client })
@@ -140,22 +159,33 @@ async fn main() -> Result<()> {
     let hdr_check = std::env::var("IDENTITY_HEADER").is_ok();
     tracing::info!("Identity context: IDENTITY_ENDPOINT defined: {}, IDENTITY_HEADER defined: {}", ep_check, hdr_check);
 
-    let scope = "https://management.azure.com/.default";
-    // Startup Diagnostic: Attempt to fetch a token for CosmosDB
-    let options = azure_identity::TokenCredentialOptions::default();
-    let diag_cred = DefaultAzureCredential::create(options)?;
-
-    match diag_cred.get_token(&[scope]).await {
-        Ok(_) => tracing::info!("DIAGNOSTIC: Managed Identity token fetch: SUCCESS"),
-        Err(e) => tracing::error!("DIAGNOSTIC: Managed Identity token fetch: FAILED. Error: {:?}", e),
-    }
-
-    let endpoint = std::env::var("COSMOS_ENDPOINT")
+    let mut endpoint = std::env::var("COSMOS_ENDPOINT")
         .context("COSMOS_ENDPOINT must be set")?;
+    
+    // Sanitize endpoint: handle accidental double prefixes or missing scheme
+    if endpoint.starts_with("https://https://") {
+        endpoint = endpoint.replacen("https://https://", "https://", 1);
+    }
+    if !endpoint.contains("://") {
+        endpoint = format!("https://{}", endpoint);
+    }
+    
+    tracing::info!("Using Cosmos Endpoint: {}", endpoint);
+
     let database = std::env::var("COSMOS_DATABASE")
         .context("COSMOS_DATABASE must be set")?;
     let container = std::env::var("COSMOS_CONTAINER")
         .context("COSMOS_CONTAINER must be set")?;
+
+    // Updated Startup Diagnostic: Attempt to fetch a token for the DATA PLANE scope
+    let options = azure_identity::TokenCredentialOptions::default();
+    let diag_cred = DefaultAzureCredential::create(options)?;
+    let data_plane_scope = "https://cosmos.azure.com/.default";
+    
+    match diag_cred.get_token(&[data_plane_scope]).await {
+        Ok(_) => tracing::info!("DIAGNOSTIC: Managed Identity Data Plane token fetch: SUCCESS"),
+        Err(e) => tracing::error!("DIAGNOSTIC: Managed Identity Data Plane token fetch: FAILED. Error: {:?}", e),
+    }
 
     let repo = CosmosRepo::new(endpoint, database, container)?;
     let state: AppState = Arc::new(repo);
