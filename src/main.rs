@@ -5,7 +5,6 @@ use azure_data_cosmos::prelude::*;
 // Removed incorrect PartitionKey import that was causing 400 BadRequest
 
 use azure_identity::DefaultAzureCredential;
-use azure_core::auth::TokenCredential;
 use futures::stream::StreamExt;
 use axum::{
     extract::{Path, Request, State},
