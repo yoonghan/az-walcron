@@ -42,3 +42,39 @@ Update standard deployments using:
 ```bash
 ./scripts/az-update-container.sh
 ```
+
+## Flow diagram
+
+```mermaid
+graph TD
+    subgraph "Client (Browser)"
+        UI["HTML/CSS/JS UI"]
+        JS["JavaScript (Fetch API)"]
+    end
+
+    subgraph "Azure Container App (Rust Service)"
+        Axum["Axum Web Server (Port 3000)"]
+        Repo["CosmosRepo Implementation"]
+        Auth["Memory/MSI Credential"]
+        Warmup["Background Warmup Task"]
+    end
+
+    subgraph "Azure Resources"
+        Cosmos["Azure Cosmos DB"]
+        IMDS["MSI Token Service (IMDS)"]
+    end
+
+    %% Initialization Flow
+    Axum -- "1. Binds Port (Immediate)" --> UI
+    Warmup -- "2. Async Background Call" --> Auth
+    Auth -- "3. Fetch Token (Slow on Cold Start)" --> IMDS
+
+    %% Request Flow
+    UI -- "Get Page" --> Axum
+    JS -- "GET /todos" --> Axum
+    Axum -- "Execute Logic" --> Repo
+    Repo -- "Use Cached Token" --> Cosmos
+    Cosmos -- "Data JSON" --> Repo
+    Repo -- "JSON Response" --> JS
+    JS -- "renderTodos()" --> UI
+```
