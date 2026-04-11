@@ -29,11 +29,24 @@ properties:
             value: "TodoDatabase"
           - name: COSMOS_CONTAINER
             value: "Todos"
-          - name: AZURE_SDK_LOG_LEVEL
-            value: "debug"
         resources:
           cpu: 0.5
           memory: 1.0Gi
+        probes:
+          - type: Liveness
+            httpGet:
+              path: "/healthz"
+              port: 3000
+            initialDelaySeconds: 5  # Increased for Rust warm-up
+            periodSeconds: 10
+            failureThreshold: 3
+          - type: Readiness
+            httpGet:
+              path: "/healthz"
+              port: 3000
+            initialDelaySeconds: 5
+            periodSeconds: 5
+            successThreshold: 1
     scale:
       minReplicas: 0
       maxReplicas: 1
