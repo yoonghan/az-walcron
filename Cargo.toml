@@ -13,12 +13,12 @@ tower-http = { version = "0.5", features = ["trace", "cors"] }
 tracing = "0.1"
 tracing-subscriber = { version = "0.3", features = ["env-filter"] }
 uuid = { version = "1.8", features = ["v4", "serde"] }
-azure_data_cosmos = { version = "0.21", default-features = false, features = ["rustls"] }
-azure_identity = { version = "0.21", default-features = false, features = ["rustls"] }
-azure_core = { version = "0.21", default-features = false, features = ["rustls"] }
+azure_data_cosmos = "0.21"
+azure_identity = "0.21"
+azure_core = { version = "0.21", default-features = false, features = ["enable_reqwest_rustls"] }
 futures = "0.3"
 async-trait = "0.1"
-# openssl removed — azure SDK crates now use rustls (pure Rust, musl-friendly)
+# openssl removed — azure_core now uses rustls (pure Rust, musl-friendly)
 
 [dev-dependencies]
 tower = { version = "0.4", features = ["util"] }
