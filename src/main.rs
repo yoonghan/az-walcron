@@ -10,13 +10,17 @@ use axum::{
     extract::{Path, Request, State},
     http::StatusCode,
     response::{Html, IntoResponse},
-    routing::{get, post, put},
-    Json, Router,
+    routing::get,
+    routing::{post, put},
+    Extension, Json, Router,
 };
 use serde::{Deserialize, Serialize};
-use std::sync::Arc;
+use std::sync::{
+    atomic::{AtomicBool, Ordering},
+    Arc,
+};
 use tower_http::{cors::{Any, CorsLayer}, trace::TraceLayer};
-use tracing::{info_span};
+use tracing::info_span;
 use uuid::Uuid;
 
 #[derive(Serialize, Deserialize, Clone, Debug)]
@@ -256,34 +260,54 @@ async fn main() -> Result<()> {
     let repo = CosmosRepo::new(endpoint, database, container)?;
     let state: AppState = Arc::new(repo);
 
-    // Bind the port FIRST so Azure's health probe gets an immediate response.
-    // This is the key fix: the old code fetched a Managed Identity token
-    // (~20–25 s of IMDS retries) before opening the port, causing the full
-    // startup delay. Now the container is marked healthy in ~1 second.
+    // Bind the port FIRST so Azure's liveness probe gets an immediate response.
+    // The /healthz readiness probe will only return 200 once the Managed Identity
+    // token is warmed up, preventing ACA from routing real traffic too early.
     let listener = tokio::net::TcpListener::bind("0.0.0.0:3000").await?;
     tracing::info!("Server listening on {}", listener.local_addr()?);
 
-    // Warm up the Managed Identity token in the background so the first real
-    // request isn't slow. Failure here is non-fatal — the request handler will
-    // retry transparently via the Azure SDK.
+    // Shared flag: flips to true once the MSI token is successfully cached.
+    // The /healthz endpoint exposes this to ACA's readiness probe.
+    let is_ready = Arc::new(AtomicBool::new(false));
+
+    // Background task: warm up the Managed Identity token with retries.
+    // ACA buffers the first incoming request until the readiness probe passes,
+    // so setting this flag is what gates real traffic to the pod.
     let warmup_state = Arc::clone(&state);
+    let warmup_ready = Arc::clone(&is_ready);
     tokio::spawn(async move {
         tracing::info!("Background: warming up Managed Identity token...");
-        match warmup_state.list().await {
-            Ok(_)  => tracing::info!("Background: Managed Identity token warm-up OK"),
-            Err(e) => tracing::warn!("Background: warm-up failed (non-fatal, will retry on first request): {}", e),
+        let mut attempt = 0u32;
+        loop {
+            attempt += 1;
+            match warmup_state.list().await {
+                Ok(_) => {
+                    warmup_ready.store(true, Ordering::Relaxed);
+                    tracing::info!(attempt = %attempt, "Background: warm-up OK — service is ready");
+                    break;
+                }
+                Err(e) => {
+                    tracing::warn!(attempt = %attempt, "Background: warm-up attempt failed: {}", e);
+                    if attempt >= 10 {
+                        tracing::error!("Background: warm-up gave up after {} attempts — readiness probe will remain failing", attempt);
+                        break;
+                    }
+                    tokio::time::sleep(tokio::time::Duration::from_secs(3)).await;
+                }
+            }
         }
     });
 
-    axum::serve(listener, app(state)).await?;
+    axum::serve(listener, app(state, is_ready)).await?;
 
     Ok(())
 }
 
-fn app(state: AppState) -> Router {
+fn app(state: AppState, is_ready: Arc<AtomicBool>) -> Router {
     // Define the router with TraceLayer to support OTEL correlation (request_id)
     Router::new()
         .route("/", get(root))
+        .route("/healthz", get(health_check))
         .route("/todos", get(list_todos))
         .route("/todos", post(create_todo))
         .route("/todos/:id", put(update_todo).delete(delete_todo))
@@ -297,7 +321,7 @@ fn app(state: AppState) -> Router {
                         .and_then(|v| v.to_str().ok())
                         .map(|s| s.to_owned())
                         .unwrap_or_else(|| Uuid::new_v4().to_string());
-                    
+
                     info_span!(
                         "request",
                         method = %request.method(),
@@ -312,7 +336,26 @@ fn app(state: AppState) -> Router {
                 .allow_methods(Any)
                 .allow_headers(Any)
         )
+        // Attach the readiness flag so the /healthz handler can read it
+        .layer(Extension(is_ready))
         .with_state(state)
+}
+
+/// GET /healthz
+/// - Returns 200 once the Managed Identity token warm-up has succeeded.
+/// - Returns 503 while the warm-up is still in progress.
+///
+/// Configure this as the **readiness probe** in Azure Container Apps so that
+/// ACA buffers incoming traffic until the pod is genuinely ready to serve
+/// CosmosDB requests without delay.
+async fn health_check(
+    Extension(is_ready): Extension<Arc<AtomicBool>>,
+) -> impl IntoResponse {
+    if is_ready.load(Ordering::Relaxed) {
+        (StatusCode::OK, "ready")
+    } else {
+        (StatusCode::SERVICE_UNAVAILABLE, "warming up")
+    }
 }
 
 async fn list_todos(State(state): State<AppState>) -> Result<Json<Vec<Todo>>, StatusCode> {
@@ -597,7 +640,7 @@ mod tests {
     #[tokio::test]
     async fn test_root_endpoint_ui_elements() {
         let repo = Arc::new(MemoryRepo { todos: RwLock::new(Vec::new()) });
-        let app = app(repo);
+        let app = app(repo, Arc::new(AtomicBool::new(true)));
 
         let response = app.clone()
             .oneshot(Request::builder().uri("/").body(Body::empty()).unwrap())
@@ -615,7 +658,7 @@ mod tests {
     #[tokio::test]
     async fn test_create_and_list_todos() {
         let repo = Arc::new(MemoryRepo { todos: RwLock::new(Vec::new()) });
-        let app = app(repo);
+        let app = app(repo, Arc::new(AtomicBool::new(true)));
 
         let response = app.clone()
             .oneshot(
@@ -648,14 +691,14 @@ mod tests {
     #[tokio::test]
     async fn test_update_todo_status_and_title() {
         let id = Uuid::new_v4();
-        let repo = Arc::new(MemoryRepo { 
+        let repo = Arc::new(MemoryRepo {
             todos: RwLock::new(vec![Todo {
                 id,
                 title: "Original Title".to_string(),
                 completed: false,
-            }]) 
+            }])
         });
-        let app = app(repo);
+        let app = app(repo, Arc::new(AtomicBool::new(true)));
 
         let response = app.clone()
             .oneshot(
@@ -692,7 +735,7 @@ mod tests {
                 completed: false,
             }])
         });
-        let app = app(repo);
+        let app = app(repo, Arc::new(AtomicBool::new(true)));
 
         // Delete the existing todo — expect 204 No Content
         let response = app.clone()
