@@ -226,15 +226,18 @@ async fn main() -> Result<()> {
         .compact()
         .init();
 
-        
-    // Check for identity environment variables
+    // Log identity context for observability (no network call)
     let ep_check = std::env::var("IDENTITY_ENDPOINT").is_ok();
     let hdr_check = std::env::var("IDENTITY_HEADER").is_ok();
-    tracing::info!("Identity context: IDENTITY_ENDPOINT defined: {}, IDENTITY_HEADER defined: {}", ep_check, hdr_check);
+    tracing::info!(
+        "Identity context: IDENTITY_ENDPOINT defined: {}, IDENTITY_HEADER defined: {}",
+        ep_check, hdr_check
+    );
 
+    // Read config — fast, no network I/O
     let mut endpoint = std::env::var("COSMOS_ENDPOINT")
         .context("COSMOS_ENDPOINT must be set")?;
-    
+
     // Sanitize endpoint: handle accidental double prefixes or missing scheme
     if endpoint.starts_with("https://https://") {
         endpoint = endpoint.replacen("https://https://", "https://", 1);
@@ -242,7 +245,7 @@ async fn main() -> Result<()> {
     if !endpoint.contains("://") {
         endpoint = format!("https://{}", endpoint);
     }
-    
+
     tracing::info!("Using Cosmos Endpoint: {}", endpoint);
 
     let database = std::env::var("COSMOS_DATABASE")
@@ -250,25 +253,30 @@ async fn main() -> Result<()> {
     let container = std::env::var("COSMOS_CONTAINER")
         .context("COSMOS_CONTAINER must be set")?;
 
-    // Updated Startup Diagnostic: Attempt to fetch a token for the DATA PLANE scope
-    let options = azure_identity::TokenCredentialOptions::default();
-    let diag_cred = DefaultAzureCredential::create(options)?;
-    let data_plane_scope = "https://cosmos.azure.com/.default";
-    
-    match diag_cred.get_token(&[data_plane_scope]).await {
-        Ok(_) => tracing::info!("DIAGNOSTIC: Managed Identity Data Plane token fetch: SUCCESS"),
-        Err(e) => tracing::error!("DIAGNOSTIC: Managed Identity Data Plane token fetch: FAILED. Error: {:?}", e),
-    }
-
+    // Build the repo — the Azure credential is lazy; no network call happens here
     let repo = CosmosRepo::new(endpoint, database, container)?;
     let state: AppState = Arc::new(repo);
-    
-    let app = app(state);
 
+    // Bind the port FIRST so Azure's health probe gets an immediate response.
+    // This is the key fix: the old code fetched a Managed Identity token
+    // (~20–25 s of IMDS retries) before opening the port, causing the full
+    // startup delay. Now the container is marked healthy in ~1 second.
     let listener = tokio::net::TcpListener::bind("0.0.0.0:3000").await?;
     tracing::info!("Server listening on {}", listener.local_addr()?);
-    
-    axum::serve(listener, app).await?;
+
+    // Warm up the Managed Identity token in the background so the first real
+    // request isn't slow. Failure here is non-fatal — the request handler will
+    // retry transparently via the Azure SDK.
+    let warmup_state = Arc::clone(&state);
+    tokio::spawn(async move {
+        tracing::info!("Background: warming up Managed Identity token...");
+        match warmup_state.list().await {
+            Ok(_)  => tracing::info!("Background: Managed Identity token warm-up OK"),
+            Err(e) => tracing::warn!("Background: warm-up failed (non-fatal, will retry on first request): {}", e),
+        }
+    });
+
+    axum::serve(listener, app(state)).await?;
 
     Ok(())
 }
