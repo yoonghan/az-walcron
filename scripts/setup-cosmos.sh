@@ -59,6 +59,7 @@ echo "Updating Firewall to allow Azure services (required for ACA)..."
 az cosmosdb update \
   --name $ACCOUNT_NAME \
   --resource-group $RESOURCE_GROUP \
+  --public-network-access Enabled \
   --ip-range-filter "0.0.0.0"
 
 echo "CosmosDB setup complete."
