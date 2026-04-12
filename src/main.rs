@@ -27,6 +27,7 @@ use uuid::Uuid;
 struct Todo {
     #[serde(rename = "id")]
     id: Uuid,
+    group: String,
     title: String,
     completed: bool,
 }
@@ -35,27 +36,35 @@ impl CosmosEntity for Todo {
     type Entity = String;
 
     fn partition_key(&self) -> Self::Entity {
-        self.id.to_string()
+        self.group.clone()
     }
 }
 
 #[derive(Deserialize, Debug)]
 struct CreateTodo {
+    group: String,
     title: String,
 }
 
 #[derive(Deserialize, Debug)]
 struct UpdateTodo {
+    group: String,
     title: String,
     completed: bool,
 }
 
+#[derive(Deserialize, Debug)]
+struct DeleteQuery {
+    group: String,
+}
+
 #[async_trait]
 trait TodoRepo: Send + Sync {
+    async fn list_groups(&self) -> Result<Vec<String>>;
     async fn list(&self) -> Result<Vec<Todo>>;
     async fn create(&self, todo: Todo) -> Result<Todo>;
-    async fn update(&self, id: Uuid, title: String, completed: bool) -> Result<Option<Todo>>;
-    async fn delete(&self, id: Uuid) -> Result<bool>;
+    async fn update(&self, id: Uuid, group: String, title: String, completed: bool) -> Result<Option<Todo>>;
+    async fn delete(&self, id: Uuid, group: String) -> Result<bool>;
 }
 
 #[derive(Debug)]
@@ -101,6 +110,28 @@ impl CosmosRepo {
 
 #[async_trait]
 impl TodoRepo for CosmosRepo {
+    async fn list_groups(&self) -> Result<Vec<String>> {
+        let mut stream = self.collection_client
+            .query_documents(Query::from("SELECT DISTINCT VALUE c.group FROM c"))
+            .query_cross_partition(true)
+            .into_stream::<serde_json::Value>();
+
+        let mut groups = Vec::new();
+        while let Some(response) = stream.next().await {
+            let response = response.map_err(|e| {
+                tracing::error!("CosmosDB Pager detailed error: {:?}", e);
+                e
+            }).context("CosmosDB Pager Error: Check logs for detailed SDK error")?;
+            
+            for doc in response.documents() {
+                if let Some(s) = doc.as_str() {
+                    groups.push(s.to_string());
+                }
+            }
+        }
+        Ok(groups)
+    }
+
     async fn list(&self) -> Result<Vec<Todo>> {
         let mut stream = self.collection_client
             .query_documents(Query::from("SELECT * FROM c"))
@@ -127,15 +158,15 @@ impl TodoRepo for CosmosRepo {
         Ok(todo)
     }
 
-    async fn update(&self, id: Uuid, title: String, completed: bool) -> Result<Option<Todo>> {
+    async fn update(&self, id: Uuid, group: String, title: String, completed: bool) -> Result<Option<Todo>> {
         let id_str = id.to_string();
         
-        tracing::debug!(id = %id_str, "Fetching document for update");
+        tracing::debug!(id = %id_str, group = %group, "Fetching document for update");
         
         // In SDK 0.21.0, the partition key value is passed directly (e.g. as a string),
         // not as a PartitionKey definition struct.
         let document_client = self.collection_client
-            .document_client(id_str.clone(), &id_str)
+            .document_client(id_str.clone(), &group)
             .context("Failed to create DocumentClient")?;
 
 
@@ -176,13 +207,13 @@ impl TodoRepo for CosmosRepo {
         Ok(Some(todo))
     }
 
-    async fn delete(&self, id: Uuid) -> Result<bool> {
+    async fn delete(&self, id: Uuid, group: String) -> Result<bool> {
         let id_str = id.to_string();
 
-        tracing::debug!(id = %id_str, "Deleting document from CosmosDB");
+        tracing::debug!(id = %id_str, group = %group, "Deleting document from CosmosDB");
 
         let document_client = self.collection_client
-            .document_client(id_str.clone(), &id_str)
+            .document_client(id_str.clone(), &group)
             .context("Failed to create DocumentClient for delete")?;
 
         // Check the document exists first to return 404 if not found.
@@ -311,6 +342,7 @@ fn app(state: AppState, is_ready: Arc<AtomicBool>) -> Router {
         .route("/todos", get(list_todos))
         .route("/todos", post(create_todo))
         .route("/todos/:id", put(update_todo).delete(delete_todo))
+        .route("/groups", get(list_groups))
         .layer(
             TraceLayer::new_for_http()
                 .make_span_with(|request: &Request<_>| {
@@ -369,12 +401,23 @@ async fn list_todos(State(state): State<AppState>) -> Result<Json<Vec<Todo>>, St
     Ok(Json(todos))
 }
 
+async fn list_groups(State(state): State<AppState>) -> Result<Json<Vec<String>>, StatusCode> {
+    let groups = state.list_groups().await.map_err(|e| {
+        tracing::error!(error = %e, "Failed to list groups from CosmosDB");
+        StatusCode::INTERNAL_SERVER_ERROR
+    })?;
+    
+    tracing::info!(count = groups.len(), "Listing groups");
+    Ok(Json(groups))
+}
+
 async fn create_todo(
     State(state): State<AppState>,
     Json(payload): Json<CreateTodo>,
 ) -> Result<impl IntoResponse, StatusCode> {
     let new_todo = Todo {
         id: Uuid::new_v4(),
+        group: payload.group,
         title: payload.title,
         completed: false,
     };
@@ -394,7 +437,7 @@ async fn update_todo(
     Path(id): Path<Uuid>,
     Json(payload): Json<UpdateTodo>,
 ) -> Result<impl IntoResponse, StatusCode> {
-    let result = state.update(id, payload.title, payload.completed).await.map_err(|e| {
+    let result = state.update(id, payload.group, payload.title, payload.completed).await.map_err(|e| {
         tracing::error!(error = %e, todo_id = %id, "Failed to update todo in CosmosDB");
         StatusCode::INTERNAL_SERVER_ERROR
     })?;
@@ -410,8 +453,9 @@ async fn update_todo(
 async fn delete_todo(
     State(state): State<AppState>,
     Path(id): Path<Uuid>,
+    axum::extract::Query(query): axum::extract::Query<DeleteQuery>,
 ) -> Result<impl IntoResponse, StatusCode> {
-    let found = state.delete(id).await.map_err(|e| {
+    let found = state.delete(id, query.group).await.map_err(|e| {
         tracing::error!(error = %e, todo_id = %id, "Failed to delete todo from CosmosDB");
         StatusCode::INTERNAL_SERVER_ERROR
     })?;
@@ -461,6 +505,8 @@ async fn root() -> Html<&'static str> {
       <p>Served by <strong>Rust API</strong>.</p>
       
       <form id="add-form" class="form-group">
+        <input type="text" id="new-todo-group" list="group-options" placeholder="Group (e.g. Disney Trip)" required>
+        <datalist id="group-options"></datalist>
         <input type="text" id="new-todo" placeholder="What needs to be done?" required>
         <button type="submit" class="primary">Add Todo</button>
       </form>
@@ -471,12 +517,29 @@ async fn root() -> Html<&'static str> {
     </div>
 
     <script>
+      async function fetchGroups() {
+        try {
+          const res = await fetch('/groups');
+          if (!res.ok) throw new Error('Failed to fetch groups');
+          const groups = await res.json();
+          const datalist = document.getElementById('group-options');
+          datalist.innerHTML = groups.map(g => {
+            const opt = document.createElement('option');
+            opt.value = g;
+            return opt.outerHTML;
+          }).join('');
+        } catch (e) {
+          console.error(e);
+        }
+      }
+
       async function fetchTodos() {
         try {
           const res = await fetch('/todos');
           if (!res.ok) throw new Error('Failed to fetch');
           const todos = await res.json();
           renderTodos(todos);
+          fetchGroups();
         } catch (e) {
           document.getElementById('todo-list').innerHTML = '<li><em>Error loading todos: ' + e.message + '</em></li>';
         }
@@ -489,69 +552,83 @@ async fn root() -> Html<&'static str> {
           list.innerHTML = '<li><em>No todos found.</em></li>';
           return;
         }
-        
-        todos.forEach(todo => {
-          const li = document.createElement('li');
-          
-          const content = document.createElement('div');
-          content.className = 'todo-content';
-          
-          const status = document.createElement('span');
-          status.textContent = todo.completed ? '✓' : '○';
-          status.className = 'status-icon';
-          status.style.color = todo.completed ? '#22c55e' : '#64748b';
-          status.title = 'Toggle status';
-          status.onclick = () => toggleTodo(todo);
-          
-          const title = document.createElement('span');
-          title.textContent = todo.title;
-          if (todo.completed) title.className = 'completed';
-          
-          content.appendChild(status);
-          content.appendChild(title);
-          
-          const actions = document.createElement('div');
-          actions.className = 'todo-actions';
-          
-          const editBtn = document.createElement('button');
-          editBtn.textContent = 'Edit';
-          editBtn.className = 'secondary';
-          editBtn.onclick = () => editTodo(todo);
-          
-          const doneBtn = document.createElement('button');
-          doneBtn.textContent = todo.completed ? 'Pending' : 'Done';
-          doneBtn.className = todo.completed ? 'secondary' : 'success';
-          doneBtn.onclick = () => toggleTodo(todo);
-          
-          const deleteBtn = document.createElement('button');
-          deleteBtn.textContent = '🗑 Delete';
-          deleteBtn.className = 'danger';
-          deleteBtn.onclick = () => deleteTodo(todo);
 
-          actions.appendChild(editBtn);
-          actions.appendChild(doneBtn);
-          actions.appendChild(deleteBtn);
-
-          li.appendChild(content);
-          li.appendChild(actions);
-          list.appendChild(li);
+        const groups = {};
+        todos.forEach(t => {
+          if (!groups[t.group]) groups[t.group] = [];
+          groups[t.group].push(t);
         });
+
+        for (const [groupName, groupTodos] of Object.entries(groups)) {
+          const groupHeader = document.createElement('h3');
+          groupHeader.textContent = groupName;
+          list.appendChild(groupHeader);
+          
+          groupTodos.forEach(todo => {
+            const li = document.createElement('li');
+            
+            const content = document.createElement('div');
+            content.className = 'todo-content';
+            
+            const status = document.createElement('span');
+            status.textContent = todo.completed ? '✓' : '○';
+            status.className = 'status-icon';
+            status.style.color = todo.completed ? '#22c55e' : '#64748b';
+            status.title = 'Toggle status';
+            status.onclick = () => toggleTodo(todo);
+            
+            const title = document.createElement('span');
+            title.textContent = todo.title;
+            if (todo.completed) title.className = 'completed';
+            
+            content.appendChild(status);
+            content.appendChild(title);
+            
+            const actions = document.createElement('div');
+            actions.className = 'todo-actions';
+            
+            const editBtn = document.createElement('button');
+            editBtn.textContent = 'Edit';
+            editBtn.className = 'secondary';
+            editBtn.onclick = () => editTodo(todo);
+            
+            const doneBtn = document.createElement('button');
+            doneBtn.textContent = todo.completed ? 'Pending' : 'Done';
+            doneBtn.className = todo.completed ? 'secondary' : 'success';
+            doneBtn.onclick = () => toggleTodo(todo);
+            
+            const deleteBtn = document.createElement('button');
+            deleteBtn.textContent = '🗑 Delete';
+            deleteBtn.className = 'danger';
+            deleteBtn.onclick = () => deleteTodo(todo);
+
+            actions.appendChild(editBtn);
+            actions.appendChild(doneBtn);
+            actions.appendChild(deleteBtn);
+
+            li.appendChild(content);
+            li.appendChild(actions);
+            list.appendChild(li);
+          });
+        }
       }
 
       async function addTodo(e) {
         e.preventDefault();
-        const input = document.getElementById('new-todo');
-        const title = input.value.trim();
-        if (!title) return;
+        const groupInput = document.getElementById('new-todo-group');
+        const titleInput = document.getElementById('new-todo');
+        const group = groupInput.value.trim();
+        const title = titleInput.value.trim();
+        if (!title || !group) return;
 
         const res = await fetch('/todos', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ title })
+          body: JSON.stringify({ group, title })
         });
         
         if (res.ok) {
-          input.value = '';
+          titleInput.value = '';
           fetchTodos();
         } else {
           alert('Failed to add todo');
@@ -562,7 +639,7 @@ async fn root() -> Html<&'static str> {
         const res = await fetch('/todos/' + todo.id, {
           method: 'PUT',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ title: todo.title, completed: !todo.completed })
+          body: JSON.stringify({ group: todo.group, title: todo.title, completed: !todo.completed })
         });
         if (res.ok) fetchTodos();
         else alert('Failed to update todo status');
@@ -574,7 +651,7 @@ async fn root() -> Html<&'static str> {
           const res = await fetch('/todos/' + todo.id, {
             method: 'PUT',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ title: newTitle.trim(), completed: todo.completed })
+            body: JSON.stringify({ group: todo.group, title: newTitle.trim(), completed: todo.completed })
           });
           if (res.ok) fetchTodos();
           else alert('Failed to update todo');
@@ -583,7 +660,7 @@ async fn root() -> Html<&'static str> {
 
       async function deleteTodo(todo) {
         if (!confirm('Delete "' + todo.title + '"? This cannot be undone.')) return;
-        const res = await fetch('/todos/' + todo.id, { method: 'DELETE' });
+        const res = await fetch('/todos/' + todo.id + '?group=' + encodeURIComponent(todo.group), { method: 'DELETE' });
         if (res.ok) fetchTodos();
         else alert('Failed to delete todo');
       }
@@ -612,6 +689,14 @@ mod tests {
 
     #[async_trait]
     impl TodoRepo for MemoryRepo {
+        async fn list_groups(&self) -> Result<Vec<String>> {
+            let todos = self.todos.read().unwrap();
+            let mut groups: Vec<String> = todos.iter().map(|t| t.group.clone()).collect();
+            groups.sort();
+            groups.dedup();
+            Ok(groups)
+        }
+
         async fn list(&self) -> Result<Vec<Todo>> {
             Ok(self.todos.read().unwrap().clone())
         }
@@ -619,9 +704,9 @@ mod tests {
             self.todos.write().unwrap().push(todo.clone());
             Ok(todo)
         }
-        async fn update(&self, id: Uuid, title: String, completed: bool) -> Result<Option<Todo>> {
+        async fn update(&self, id: Uuid, group: String, title: String, completed: bool) -> Result<Option<Todo>> {
             let mut todos = self.todos.write().unwrap();
-            if let Some(todo) = todos.iter_mut().find(|t| t.id == id) {
+            if let Some(todo) = todos.iter_mut().find(|t| t.id == id && t.group == group) {
                 todo.title = title;
                 todo.completed = completed;
                 Ok(Some(todo.clone()))
@@ -629,10 +714,10 @@ mod tests {
                 Ok(None)
             }
         }
-        async fn delete(&self, id: Uuid) -> Result<bool> {
+        async fn delete(&self, id: Uuid, group: String) -> Result<bool> {
             let mut todos = self.todos.write().unwrap();
             let before = todos.len();
-            todos.retain(|t| t.id != id);
+            todos.retain(|t| !(t.id == id && t.group == group));
             Ok(todos.len() < before)
         }
     }
@@ -666,7 +751,7 @@ mod tests {
                     .method("POST")
                     .uri("/todos")
                     .header("content-type", "application/json")
-                    .body(Body::from(r#"{"title":"Test integration"}"#))
+                    .body(Body::from(r#"{"group":"Disney Trip","title":"Test integration"}"#))
                     .unwrap(),
             )
             .await
@@ -694,6 +779,7 @@ mod tests {
         let repo = Arc::new(MemoryRepo {
             todos: RwLock::new(vec![Todo {
                 id,
+                group: "Disney Trip".to_string(),
                 title: "Original Title".to_string(),
                 completed: false,
             }])
@@ -706,7 +792,7 @@ mod tests {
                     .method("PUT")
                     .uri(format!("/todos/{}", id))
                     .header("content-type", "application/json")
-                    .body(Body::from(r#"{"title":"Updated Title", "completed":true}"#))
+                    .body(Body::from(r#"{"group":"Disney Trip","title":"Updated Title", "completed":true}"#))
                     .unwrap(),
             )
             .await
@@ -731,6 +817,7 @@ mod tests {
         let repo = Arc::new(MemoryRepo {
             todos: RwLock::new(vec![Todo {
                 id,
+                group: "Disney Trip".to_string(),
                 title: "To be deleted".to_string(),
                 completed: false,
             }])
@@ -742,7 +829,7 @@ mod tests {
             .oneshot(
                 Request::builder()
                     .method("DELETE")
-                    .uri(format!("/todos/{}", id))
+                    .uri(format!("/todos/{}?group=Disney%20Trip", id))
                     .body(Body::empty())
                     .unwrap(),
             )
@@ -764,7 +851,7 @@ mod tests {
             .oneshot(
                 Request::builder()
                     .method("DELETE")
-                    .uri(format!("/todos/{}", id))
+                    .uri(format!("/todos/{}?group=Disney%20Trip", id))
                     .body(Body::empty())
                     .unwrap(),
             )
