@@ -112,7 +112,7 @@ impl CosmosRepo {
 impl TodoRepo for CosmosRepo {
     async fn list_objectives(&self) -> Result<Vec<String>> {
         let mut stream = self.collection_client
-            .query_documents(Query::from("SELECT DISTINCT VALUE c[\"objective\"] FROM c"))
+            .query_documents(Query::from("SELECT VALUE c.objective FROM c"))
             .query_cross_partition(true)
             .into_stream::<serde_json::Value>();
 
@@ -129,6 +129,9 @@ impl TodoRepo for CosmosRepo {
                 }
             }
         }
+        
+        objectives.sort();
+        objectives.dedup();
         Ok(objectives)
     }
 
@@ -494,7 +497,6 @@ async fn root() -> Html<&'static str> {
       button.danger { background: #ef4444; color: white; }
       button.danger:hover { background: #dc2626; }
       input[type="text"] { padding: 8px 12px; border: 1px solid #cbd5e1; border-radius: 4px; flex-grow: 1; font-size: 1rem; }
-      select { padding: 8px 12px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 1rem; background-color: white; }
       .form-group { display: flex; gap: 8px; margin-bottom: 24px; }
       .completed { text-decoration: line-through; color: #64748b; }
       .status-icon { cursor: pointer; width: 24px; text-align: center; font-weight: bold; }
@@ -506,11 +508,8 @@ async fn root() -> Html<&'static str> {
       <p>Served by <strong>Rust API</strong>.</p>
       
       <form id="add-form" class="form-group">
-        <select id="new-todo-objective-select">
-          <option value="">-- Existing Objective --</option>
-        </select>
-        <span style="align-self: center;">or</span>
-        <input type="text" id="new-todo-objective-text" placeholder="New Objective">
+        <input type="text" id="new-todo-objective" list="objective-options" placeholder="Objective (e.g. Disney Trip)" required>
+        <datalist id="objective-options"></datalist>
         <input type="text" id="new-todo" placeholder="What needs to be done?" required>
         <button type="submit" class="primary">Add Todo</button>
       </form>
@@ -526,8 +525,8 @@ async fn root() -> Html<&'static str> {
           const res = await fetch('/objectives');
           if (!res.ok) throw new Error('Failed to fetch objectives');
           const objectives = await res.json();
-          const select = document.getElementById('new-todo-objective-select');
-          select.innerHTML = '<option value="">-- Existing Objective --</option>' + objectives.map(g => {
+          const datalist = document.getElementById('objective-options');
+          datalist.innerHTML = objectives.map(g => {
             const opt = document.createElement('option');
             opt.value = g;
             opt.textContent = g;
@@ -620,20 +619,14 @@ async fn root() -> Html<&'static str> {
 
       async function addTodo(e) {
         e.preventDefault();
-        const objectiveSelect = document.getElementById('new-todo-objective-select');
-        const objectiveInput = document.getElementById('new-todo-objective-text');
+        
+        const objectiveInput = document.getElementById('new-todo-objective');
         const titleInput = document.getElementById('new-todo');
         
-        let objective = objectiveInput.value.trim();
-        if (!objective) {
-            objective = objectiveSelect.value.trim();
-        }
-        
+        const objective = objectiveInput.value.trim();
+
         const title = titleInput.value.trim();
-        if (!title || !objective) {
-            alert('Please select or enter an objective');
-            return;
-        }
+        if (!title || !objective) return;
 
         const res = await fetch('/todos', {
           method: 'POST',
