@@ -494,6 +494,7 @@ async fn root() -> Html<&'static str> {
       button.danger { background: #ef4444; color: white; }
       button.danger:hover { background: #dc2626; }
       input[type="text"] { padding: 8px 12px; border: 1px solid #cbd5e1; border-radius: 4px; flex-grow: 1; font-size: 1rem; }
+      select { padding: 8px 12px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 1rem; background-color: white; }
       .form-group { display: flex; gap: 8px; margin-bottom: 24px; }
       .completed { text-decoration: line-through; color: #64748b; }
       .status-icon { cursor: pointer; width: 24px; text-align: center; font-weight: bold; }
@@ -505,8 +506,11 @@ async fn root() -> Html<&'static str> {
       <p>Served by <strong>Rust API</strong>.</p>
       
       <form id="add-form" class="form-group">
-        <input type="text" id="new-todo-group" list="group-options" placeholder="Group (e.g. Disney Trip)" required>
-        <datalist id="group-options"></datalist>
+        <select id="new-todo-group-select">
+          <option value="">-- Existing Group --</option>
+        </select>
+        <span style="align-self: center;">or</span>
+        <input type="text" id="new-todo-group-text" placeholder="New Group">
         <input type="text" id="new-todo" placeholder="What needs to be done?" required>
         <button type="submit" class="primary">Add Todo</button>
       </form>
@@ -522,10 +526,11 @@ async fn root() -> Html<&'static str> {
           const res = await fetch('/groups');
           if (!res.ok) throw new Error('Failed to fetch groups');
           const groups = await res.json();
-          const datalist = document.getElementById('group-options');
-          datalist.innerHTML = groups.map(g => {
+          const select = document.getElementById('new-todo-group-select');
+          select.innerHTML = '<option value="">-- Existing Group --</option>' + groups.map(g => {
             const opt = document.createElement('option');
             opt.value = g;
+            opt.textContent = g;
             return opt.outerHTML;
           }).join('');
         } catch (e) {
@@ -615,11 +620,20 @@ async fn root() -> Html<&'static str> {
 
       async function addTodo(e) {
         e.preventDefault();
-        const groupInput = document.getElementById('new-todo-group');
+        const groupSelect = document.getElementById('new-todo-group-select');
+        const groupInput = document.getElementById('new-todo-group-text');
         const titleInput = document.getElementById('new-todo');
-        const group = groupInput.value.trim();
+        
+        let group = groupInput.value.trim();
+        if (!group) {
+            group = groupSelect.value.trim();
+        }
+        
         const title = titleInput.value.trim();
-        if (!title || !group) return;
+        if (!title || !group) {
+            alert('Please select or enter a group');
+            return;
+        }
 
         const res = await fetch('/todos', {
           method: 'POST',

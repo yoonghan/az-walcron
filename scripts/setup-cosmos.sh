@@ -20,7 +20,7 @@ az cosmosdb sql container create \
   --resource-group $RESOURCE_GROUP \
   --database-name $DATABASE_NAME \
   --name $CONTAINER_NAME \
-  --partition-key-path "/id"
+  --partition-key-path "/group"
 
 echo "Enabling System-Assigned Managed Identity for $APP_NAME..."
 az containerapp identity assign \
