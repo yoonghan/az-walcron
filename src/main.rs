@@ -27,7 +27,7 @@ use uuid::Uuid;
 struct Todo {
     #[serde(rename = "id")]
     id: Uuid,
-    group: String,
+    objective: String,
     title: String,
     completed: bool,
 }
@@ -36,35 +36,35 @@ impl CosmosEntity for Todo {
     type Entity = String;
 
     fn partition_key(&self) -> Self::Entity {
-        self.group.clone()
+        self.objective.clone()
     }
 }
 
 #[derive(Deserialize, Debug)]
 struct CreateTodo {
-    group: String,
+    objective: String,
     title: String,
 }
 
 #[derive(Deserialize, Debug)]
 struct UpdateTodo {
-    group: String,
+    objective: String,
     title: String,
     completed: bool,
 }
 
 #[derive(Deserialize, Debug)]
 struct DeleteQuery {
-    group: String,
+    objective: String,
 }
 
 #[async_trait]
 trait TodoRepo: Send + Sync {
-    async fn list_groups(&self) -> Result<Vec<String>>;
+    async fn list_objectives(&self) -> Result<Vec<String>>;
     async fn list(&self) -> Result<Vec<Todo>>;
     async fn create(&self, todo: Todo) -> Result<Todo>;
-    async fn update(&self, id: Uuid, group: String, title: String, completed: bool) -> Result<Option<Todo>>;
-    async fn delete(&self, id: Uuid, group: String) -> Result<bool>;
+    async fn update(&self, id: Uuid, objective: String, title: String, completed: bool) -> Result<Option<Todo>>;
+    async fn delete(&self, id: Uuid, objective: String) -> Result<bool>;
 }
 
 #[derive(Debug)]
@@ -110,13 +110,13 @@ impl CosmosRepo {
 
 #[async_trait]
 impl TodoRepo for CosmosRepo {
-    async fn list_groups(&self) -> Result<Vec<String>> {
+    async fn list_objectives(&self) -> Result<Vec<String>> {
         let mut stream = self.collection_client
-            .query_documents(Query::from("SELECT DISTINCT VALUE c.group FROM c"))
+            .query_documents(Query::from("SELECT DISTINCT VALUE c[\"objective\"] FROM c"))
             .query_cross_partition(true)
             .into_stream::<serde_json::Value>();
 
-        let mut groups = Vec::new();
+        let mut objectives = Vec::new();
         while let Some(response) = stream.next().await {
             let response = response.map_err(|e| {
                 tracing::error!("CosmosDB Pager detailed error: {:?}", e);
@@ -125,11 +125,11 @@ impl TodoRepo for CosmosRepo {
             
             for doc in response.documents() {
                 if let Some(s) = doc.as_str() {
-                    groups.push(s.to_string());
+                    objectives.push(s.to_string());
                 }
             }
         }
-        Ok(groups)
+        Ok(objectives)
     }
 
     async fn list(&self) -> Result<Vec<Todo>> {
@@ -158,15 +158,15 @@ impl TodoRepo for CosmosRepo {
         Ok(todo)
     }
 
-    async fn update(&self, id: Uuid, group: String, title: String, completed: bool) -> Result<Option<Todo>> {
+    async fn update(&self, id: Uuid, objective: String, title: String, completed: bool) -> Result<Option<Todo>> {
         let id_str = id.to_string();
         
-        tracing::debug!(id = %id_str, group = %group, "Fetching document for update");
+        tracing::debug!(id = %id_str, objective = %objective, "Fetching document for update");
         
         // In SDK 0.21.0, the partition key value is passed directly (e.g. as a string),
         // not as a PartitionKey definition struct.
         let document_client = self.collection_client
-            .document_client(id_str.clone(), &group)
+            .document_client(id_str.clone(), &objective)
             .context("Failed to create DocumentClient")?;
 
 
@@ -207,13 +207,13 @@ impl TodoRepo for CosmosRepo {
         Ok(Some(todo))
     }
 
-    async fn delete(&self, id: Uuid, group: String) -> Result<bool> {
+    async fn delete(&self, id: Uuid, objective: String) -> Result<bool> {
         let id_str = id.to_string();
 
-        tracing::debug!(id = %id_str, group = %group, "Deleting document from CosmosDB");
+        tracing::debug!(id = %id_str, objective = %objective, "Deleting document from CosmosDB");
 
         let document_client = self.collection_client
-            .document_client(id_str.clone(), &group)
+            .document_client(id_str.clone(), &objective)
             .context("Failed to create DocumentClient for delete")?;
 
         // Check the document exists first to return 404 if not found.
@@ -342,7 +342,7 @@ fn app(state: AppState, is_ready: Arc<AtomicBool>) -> Router {
         .route("/todos", get(list_todos))
         .route("/todos", post(create_todo))
         .route("/todos/:id", put(update_todo).delete(delete_todo))
-        .route("/groups", get(list_groups))
+        .route("/objectives", get(list_objectives))
         .layer(
             TraceLayer::new_for_http()
                 .make_span_with(|request: &Request<_>| {
@@ -401,14 +401,14 @@ async fn list_todos(State(state): State<AppState>) -> Result<Json<Vec<Todo>>, St
     Ok(Json(todos))
 }
 
-async fn list_groups(State(state): State<AppState>) -> Result<Json<Vec<String>>, StatusCode> {
-    let groups = state.list_groups().await.map_err(|e| {
-        tracing::error!(error = %e, "Failed to list groups from CosmosDB");
+async fn list_objectives(State(state): State<AppState>) -> Result<Json<Vec<String>>, StatusCode> {
+    let objectives = state.list_objectives().await.map_err(|e| {
+        tracing::error!(error = %e, "Failed to list objectives from CosmosDB");
         StatusCode::INTERNAL_SERVER_ERROR
     })?;
     
-    tracing::info!(count = groups.len(), "Listing groups");
-    Ok(Json(groups))
+    tracing::info!(count = objectives.len(), "Listing objectives");
+    Ok(Json(objectives))
 }
 
 async fn create_todo(
@@ -417,7 +417,7 @@ async fn create_todo(
 ) -> Result<impl IntoResponse, StatusCode> {
     let new_todo = Todo {
         id: Uuid::new_v4(),
-        group: payload.group,
+        objective: payload.objective,
         title: payload.title,
         completed: false,
     };
@@ -437,7 +437,7 @@ async fn update_todo(
     Path(id): Path<Uuid>,
     Json(payload): Json<UpdateTodo>,
 ) -> Result<impl IntoResponse, StatusCode> {
-    let result = state.update(id, payload.group, payload.title, payload.completed).await.map_err(|e| {
+    let result = state.update(id, payload.objective, payload.title, payload.completed).await.map_err(|e| {
         tracing::error!(error = %e, todo_id = %id, "Failed to update todo in CosmosDB");
         StatusCode::INTERNAL_SERVER_ERROR
     })?;
@@ -455,7 +455,7 @@ async fn delete_todo(
     Path(id): Path<Uuid>,
     axum::extract::Query(query): axum::extract::Query<DeleteQuery>,
 ) -> Result<impl IntoResponse, StatusCode> {
-    let found = state.delete(id, query.group).await.map_err(|e| {
+    let found = state.delete(id, query.objective).await.map_err(|e| {
         tracing::error!(error = %e, todo_id = %id, "Failed to delete todo from CosmosDB");
         StatusCode::INTERNAL_SERVER_ERROR
     })?;
@@ -506,11 +506,11 @@ async fn root() -> Html<&'static str> {
       <p>Served by <strong>Rust API</strong>.</p>
       
       <form id="add-form" class="form-group">
-        <select id="new-todo-group-select">
-          <option value="">-- Existing Group --</option>
+        <select id="new-todo-objective-select">
+          <option value="">-- Existing Objective --</option>
         </select>
         <span style="align-self: center;">or</span>
-        <input type="text" id="new-todo-group-text" placeholder="New Group">
+        <input type="text" id="new-todo-objective-text" placeholder="New Objective">
         <input type="text" id="new-todo" placeholder="What needs to be done?" required>
         <button type="submit" class="primary">Add Todo</button>
       </form>
@@ -521,13 +521,13 @@ async fn root() -> Html<&'static str> {
     </div>
 
     <script>
-      async function fetchGroups() {
+      async function fetchObjectives() {
         try {
-          const res = await fetch('/groups');
-          if (!res.ok) throw new Error('Failed to fetch groups');
-          const groups = await res.json();
-          const select = document.getElementById('new-todo-group-select');
-          select.innerHTML = '<option value="">-- Existing Group --</option>' + groups.map(g => {
+          const res = await fetch('/objectives');
+          if (!res.ok) throw new Error('Failed to fetch objectives');
+          const objectives = await res.json();
+          const select = document.getElementById('new-todo-objective-select');
+          select.innerHTML = '<option value="">-- Existing Objective --</option>' + objectives.map(g => {
             const opt = document.createElement('option');
             opt.value = g;
             opt.textContent = g;
@@ -544,7 +544,7 @@ async fn root() -> Html<&'static str> {
           if (!res.ok) throw new Error('Failed to fetch');
           const todos = await res.json();
           renderTodos(todos);
-          fetchGroups();
+          fetchObjectives();
         } catch (e) {
           document.getElementById('todo-list').innerHTML = '<li><em>Error loading todos: ' + e.message + '</em></li>';
         }
@@ -558,18 +558,18 @@ async fn root() -> Html<&'static str> {
           return;
         }
 
-        const groups = {};
+        const objectives = {};
         todos.forEach(t => {
-          if (!groups[t.group]) groups[t.group] = [];
-          groups[t.group].push(t);
+          if (!objectives[t.objective]) objectives[t.objective] = [];
+          objectives[t.objective].push(t);
         });
 
-        for (const [groupName, groupTodos] of Object.entries(groups)) {
-          const groupHeader = document.createElement('h3');
-          groupHeader.textContent = groupName;
-          list.appendChild(groupHeader);
+        for (const [objectiveName, objectiveTodos] of Object.entries(objectives)) {
+          const objectiveHeader = document.createElement('h3');
+          objectiveHeader.textContent = objectiveName;
+          list.appendChild(objectiveHeader);
           
-          groupTodos.forEach(todo => {
+          objectiveTodos.forEach(todo => {
             const li = document.createElement('li');
             
             const content = document.createElement('div');
@@ -620,25 +620,25 @@ async fn root() -> Html<&'static str> {
 
       async function addTodo(e) {
         e.preventDefault();
-        const groupSelect = document.getElementById('new-todo-group-select');
-        const groupInput = document.getElementById('new-todo-group-text');
+        const objectiveSelect = document.getElementById('new-todo-objective-select');
+        const objectiveInput = document.getElementById('new-todo-objective-text');
         const titleInput = document.getElementById('new-todo');
         
-        let group = groupInput.value.trim();
-        if (!group) {
-            group = groupSelect.value.trim();
+        let objective = objectiveInput.value.trim();
+        if (!objective) {
+            objective = objectiveSelect.value.trim();
         }
         
         const title = titleInput.value.trim();
-        if (!title || !group) {
-            alert('Please select or enter a group');
+        if (!title || !objective) {
+            alert('Please select or enter an objective');
             return;
         }
 
         const res = await fetch('/todos', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ group, title })
+          body: JSON.stringify({ objective, title })
         });
         
         if (res.ok) {
@@ -653,7 +653,7 @@ async fn root() -> Html<&'static str> {
         const res = await fetch('/todos/' + todo.id, {
           method: 'PUT',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ group: todo.group, title: todo.title, completed: !todo.completed })
+          body: JSON.stringify({ objective: todo.objective, title: todo.title, completed: !todo.completed })
         });
         if (res.ok) fetchTodos();
         else alert('Failed to update todo status');
@@ -665,7 +665,7 @@ async fn root() -> Html<&'static str> {
           const res = await fetch('/todos/' + todo.id, {
             method: 'PUT',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ group: todo.group, title: newTitle.trim(), completed: todo.completed })
+            body: JSON.stringify({ objective: todo.objective, title: newTitle.trim(), completed: todo.completed })
           });
           if (res.ok) fetchTodos();
           else alert('Failed to update todo');
@@ -674,7 +674,7 @@ async fn root() -> Html<&'static str> {
 
       async function deleteTodo(todo) {
         if (!confirm('Delete "' + todo.title + '"? This cannot be undone.')) return;
-        const res = await fetch('/todos/' + todo.id + '?group=' + encodeURIComponent(todo.group), { method: 'DELETE' });
+        const res = await fetch('/todos/' + todo.id + '?objective=' + encodeURIComponent(todo.objective), { method: 'DELETE' });
         if (res.ok) fetchTodos();
         else alert('Failed to delete todo');
       }
@@ -703,12 +703,12 @@ mod tests {
 
     #[async_trait]
     impl TodoRepo for MemoryRepo {
-        async fn list_groups(&self) -> Result<Vec<String>> {
+        async fn list_objectives(&self) -> Result<Vec<String>> {
             let todos = self.todos.read().unwrap();
-            let mut groups: Vec<String> = todos.iter().map(|t| t.group.clone()).collect();
-            groups.sort();
-            groups.dedup();
-            Ok(groups)
+            let mut objectives: Vec<String> = todos.iter().map(|t| t.objective.clone()).collect();
+            objectives.sort();
+            objectives.dedup();
+            Ok(objectives)
         }
 
         async fn list(&self) -> Result<Vec<Todo>> {
@@ -718,9 +718,9 @@ mod tests {
             self.todos.write().unwrap().push(todo.clone());
             Ok(todo)
         }
-        async fn update(&self, id: Uuid, group: String, title: String, completed: bool) -> Result<Option<Todo>> {
+        async fn update(&self, id: Uuid, objective: String, title: String, completed: bool) -> Result<Option<Todo>> {
             let mut todos = self.todos.write().unwrap();
-            if let Some(todo) = todos.iter_mut().find(|t| t.id == id && t.group == group) {
+            if let Some(todo) = todos.iter_mut().find(|t| t.id == id && t.objective == objective) {
                 todo.title = title;
                 todo.completed = completed;
                 Ok(Some(todo.clone()))
@@ -728,10 +728,10 @@ mod tests {
                 Ok(None)
             }
         }
-        async fn delete(&self, id: Uuid, group: String) -> Result<bool> {
+        async fn delete(&self, id: Uuid, objective: String) -> Result<bool> {
             let mut todos = self.todos.write().unwrap();
             let before = todos.len();
-            todos.retain(|t| !(t.id == id && t.group == group));
+            todos.retain(|t| !(t.id == id && t.objective == objective));
             Ok(todos.len() < before)
         }
     }
@@ -765,7 +765,7 @@ mod tests {
                     .method("POST")
                     .uri("/todos")
                     .header("content-type", "application/json")
-                    .body(Body::from(r#"{"group":"Disney Trip","title":"Test integration"}"#))
+                    .body(Body::from(r#"{"objective":"Disney Trip","title":"Test integration"}"#))
                     .unwrap(),
             )
             .await
@@ -793,7 +793,7 @@ mod tests {
         let repo = Arc::new(MemoryRepo {
             todos: RwLock::new(vec![Todo {
                 id,
-                group: "Disney Trip".to_string(),
+                objective: "Disney Trip".to_string(),
                 title: "Original Title".to_string(),
                 completed: false,
             }])
@@ -806,7 +806,7 @@ mod tests {
                     .method("PUT")
                     .uri(format!("/todos/{}", id))
                     .header("content-type", "application/json")
-                    .body(Body::from(r#"{"group":"Disney Trip","title":"Updated Title", "completed":true}"#))
+                    .body(Body::from(r#"{"objective":"Disney Trip","title":"Updated Title", "completed":true}"#))
                     .unwrap(),
             )
             .await
@@ -831,7 +831,7 @@ mod tests {
         let repo = Arc::new(MemoryRepo {
             todos: RwLock::new(vec![Todo {
                 id,
-                group: "Disney Trip".to_string(),
+                objective: "Disney Trip".to_string(),
                 title: "To be deleted".to_string(),
                 completed: false,
             }])
@@ -843,7 +843,7 @@ mod tests {
             .oneshot(
                 Request::builder()
                     .method("DELETE")
-                    .uri(format!("/todos/{}?group=Disney%20Trip", id))
+                    .uri(format!("/todos/{}?objective=Disney%20Trip", id))
                     .body(Body::empty())
                     .unwrap(),
             )
@@ -865,7 +865,7 @@ mod tests {
             .oneshot(
                 Request::builder()
                     .method("DELETE")
-                    .uri(format!("/todos/{}?group=Disney%20Trip", id))
+                    .uri(format!("/todos/{}?objective=Disney%20Trip", id))
                     .body(Body::empty())
                     .unwrap(),
             )

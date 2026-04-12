@@ -14,13 +14,13 @@ az cosmosdb sql database create \
   --resource-group $RESOURCE_GROUP \
   --name $DATABASE_NAME
 
-echo "Creating Container: $CONTAINER_NAME with partition key /id..."
+echo "Creating Container: $CONTAINER_NAME with partition key /objective..."
 az cosmosdb sql container create \
   --account-name $ACCOUNT_NAME \
   --resource-group $RESOURCE_GROUP \
   --database-name $DATABASE_NAME \
   --name $CONTAINER_NAME \
-  --partition-key-path "/group"
+  --partition-key-path "/objective"
 
 echo "Enabling System-Assigned Managed Identity for $APP_NAME..."
 az containerapp identity assign \
