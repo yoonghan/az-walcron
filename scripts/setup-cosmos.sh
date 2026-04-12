@@ -55,12 +55,12 @@ az resource update \
   --resource-type "Microsoft.DocumentDB/databaseAccounts" \
   --set properties.disableLocalAuth=true
 
-echo "Updating Firewall to allow Azure services (required for ACA)..."
+echo "Updating Firewall to allow all internet services and ACA..."
 az cosmosdb update \
   --name $ACCOUNT_NAME \
   --resource-group $RESOURCE_GROUP \
   --public-network-access Enabled \
-  --ip-range-filter "0.0.0.0"
+  --ip-range-filter ""
 
 echo "CosmosDB setup complete."
 echo "Please set the following environment variables in your Container App:"
