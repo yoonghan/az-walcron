@@ -279,7 +279,7 @@ fn init_tracer() -> Result<()> {
     let telemetry = tracing_opentelemetry::layer().with_tracer(tracer);
 
     let env_filter = tracing_subscriber::EnvFilter::try_from_default_env()
-        .unwrap_or_else(|_| tracing_subscriber::EnvFilter::new("info"));
+        .unwrap_or_else(|_| tracing_subscriber::EnvFilter::new("info,azure_data_cosmos=error,azure_core=error"));
 
     let fmt = tracing_subscriber::fmt::layer().with_target(false).compact();
 
