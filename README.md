@@ -1,6 +1,7 @@
 # Walcron Azure Web Server
 
-A high-performance Rust web server built with the Axum framework, serving both the REST API and a lightweight HTML frontend. Optimized for fast Azure Container Apps cold starts with a single native binary.
+A high-performance Rust web server built with the Axum framework, serving both the REST API and a lightweight HTML frontend. Optimized for fast Azure Container Apps cold starts with a single native binary. 
+Integrated with OTEL
 
 ## Features
 - **Unified Architecture:**
