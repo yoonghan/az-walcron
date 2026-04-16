@@ -23,6 +23,10 @@ use tower_http::{cors::{Any, CorsLayer}, trace::TraceLayer};
 use tracing::info_span;
 use uuid::Uuid;
 
+use opentelemetry::KeyValue;
+use opentelemetry_sdk::{trace as sdktrace, Resource};
+use tracing_subscriber::{layer::SubscriberExt, util::SubscriberInitExt, Registry};
+
 #[derive(Serialize, Deserialize, Clone, Debug)]
 struct Todo {
     #[serde(rename = "id")]
@@ -110,6 +114,7 @@ impl CosmosRepo {
 
 #[async_trait]
 impl TodoRepo for CosmosRepo {
+    #[tracing::instrument(skip(self), err)]
     async fn list_objectives(&self) -> Result<Vec<String>> {
         let mut stream = self.collection_client
             .query_documents(Query::from("SELECT VALUE c.objective FROM c"))
@@ -135,6 +140,7 @@ impl TodoRepo for CosmosRepo {
         Ok(objectives)
     }
 
+    #[tracing::instrument(skip(self), err)]
     async fn list(&self) -> Result<Vec<Todo>> {
         let mut stream = self.collection_client
             .query_documents(Query::from("SELECT * FROM c"))
@@ -152,6 +158,7 @@ impl TodoRepo for CosmosRepo {
         Ok(todos)
     }
 
+    #[tracing::instrument(skip(self), err)]
     async fn create(&self, todo: Todo) -> Result<Todo> {
         self.collection_client
             .create_document(todo.clone())
@@ -161,6 +168,7 @@ impl TodoRepo for CosmosRepo {
         Ok(todo)
     }
 
+    #[tracing::instrument(skip(self), err)]
     async fn update(&self, id: Uuid, objective: String, title: String, completed: bool) -> Result<Option<Todo>> {
         let id_str = id.to_string();
         
@@ -210,6 +218,7 @@ impl TodoRepo for CosmosRepo {
         Ok(Some(todo))
     }
 
+    #[tracing::instrument(skip(self), err)]
     async fn delete(&self, id: Uuid, objective: String) -> Result<bool> {
         let id_str = id.to_string();
 
@@ -255,13 +264,39 @@ impl TodoRepo for CosmosRepo {
 
 type AppState = Arc<dyn TodoRepo>;
 
+fn init_tracer() -> Result<()> {
+    let service_name = std::env::var("OTEL_SERVICE_NAME").unwrap_or_else(|_| "todo-rust-api".to_string());
+
+    let tracer = opentelemetry_otlp::new_pipeline()
+        .tracing()
+        .with_exporter(opentelemetry_otlp::new_exporter().tonic())
+        .with_trace_config(
+            sdktrace::config().with_resource(Resource::new(vec![KeyValue::new("service.name", service_name)])),
+        )
+        .install_batch(opentelemetry_sdk::runtime::Tokio)
+        .context("Failed to install OpenTelemetry tracer")?;
+
+    let telemetry = tracing_opentelemetry::layer().with_tracer(tracer);
+
+    let env_filter = tracing_subscriber::EnvFilter::try_from_default_env()
+        .unwrap_or_else(|_| tracing_subscriber::EnvFilter::new("info"));
+
+    let fmt = tracing_subscriber::fmt::layer().with_target(false).compact();
+
+    Registry::default()
+        .with(env_filter)
+        .with(fmt)
+        .with(telemetry)
+        .try_init()
+        .ok();
+
+    Ok(())
+}
+
 #[tokio::main]
 async fn main() -> Result<()> {
-    // Initialize structured logging
-    tracing_subscriber::fmt()
-        .with_target(false)
-        .compact()
-        .init();
+    // Initialize OpenTelemetry structured logging
+    init_tracer().context("Failed to init tracer")?;
 
     // Log identity context for observability (no network call)
     let ep_check = std::env::var("IDENTITY_ENDPOINT").is_ok();

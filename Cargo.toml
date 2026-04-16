@@ -20,6 +20,13 @@ futures = "0.3"
 async-trait = "0.1"
 # openssl removed — azure_core now uses rustls (pure Rust, musl-friendly)
 
+# OpenTelemetry
+opentelemetry = "0.22"
+opentelemetry_sdk = { version = "0.22", features = ["rt-tokio"] }
+opentelemetry-otlp = { version = "0.15", features = ["grpc-tonic", "trace"] }
+tracing-opentelemetry = "0.23"
+tonic = "0.11"
+
 [dev-dependencies]
 tower = { version = "0.4", features = ["util"] }
 http-body-util = "0.1"
