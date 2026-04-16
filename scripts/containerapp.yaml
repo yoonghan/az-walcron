@@ -29,8 +29,6 @@ properties:
             value: "TodoDatabase"
           - name: COSMOS_CONTAINER
             value: "Todos"
-          - name: OTEL_EXPORTER_OTLP_ENDPOINT
-            value: "http://localhost:4317"
           - name: OTEL_SERVICE_NAME
             value: "walcron-backend"
         resources:
