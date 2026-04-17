@@ -2,6 +2,7 @@ use anyhow::{Context, Result};
 use async_trait::async_trait;
 use azure_data_cosmos::clients::{CloudLocation, CosmosClientBuilder};
 use azure_data_cosmos::prelude::*;
+use opentelemetry_otlp::WithExportConfig;
 // Removed incorrect PartitionKey import that was causing 400 BadRequest
 
 use azure_identity::DefaultAzureCredential;
@@ -276,15 +277,14 @@ fn init_tracer() -> Result<()> {
     ]);
 
     let endpoint = std::env::var("OTEL_EXPORTER_OTLP_ENDPOINT")
-        .unwrap_or_else(|_| "http://127.0.0.1:4318".to_string());
+        .unwrap_or_else(|_| "http://127.0.0.1:4317".to_string());
 
     let tracer = opentelemetry_otlp::new_pipeline()
         .tracing()
         .with_exporter(
             opentelemetry_otlp::new_exporter()
-                .http()
+                .tonic()
                 .with_endpoint(endpoint)
-                .with_protocol(opentelemetry_otlp::Protocol::HttpBinary)
         )
         .with_trace_config(
             sdktrace::config().with_resource(resource),

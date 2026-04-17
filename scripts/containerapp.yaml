@@ -32,11 +32,11 @@ properties:
           - name: OTEL_SERVICE_NAME
             value: "walcron-backend"
           - name: OTEL_EXPORTER_OTLP_PROTOCOL
-            value: "http/protobuf"
+            value: "grpc"
           - name: OTEL_RESOURCE_ATTRIBUTES
             value: "service.name=walcron-backend,cloud.role_name=walcron-backend"
           - name: OTEL_EXPORTER_OTLP_ENDPOINT
-            value: "http://127.0.0.1:4318"
+            value: "http://127.0.0.1:4317"
           - name: APPLICATIONINSIGHTS_CONNECTION_STRING
             value: "InstrumentationKey=2645c3a9-abeb-41c9-ba5e-5053b15aaf6c;IngestionEndpoint=https://southeastasia-1.in.applicationinsights.azure.com/;LiveEndpoint=https://southeastasia.livediagnostics.monitor.azure.com/;ApplicationId=8ef415fa-e1ae-429e-8e1c-d8b8f90ae66d"
         resources:
