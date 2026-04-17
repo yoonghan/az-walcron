@@ -287,12 +287,6 @@ fn init_tracer() -> Result<()> {
 
     // Diagnostic logging to verify platform-injected variables
     // Use println! because tracing is not yet initialized
-    tracing::info!("--- OpenTelemetry Startup Diagnostics ---");
-    for (key, value) in std::env::vars() {
-        if key.starts_with("OTEL_") || key.contains("COSMOS") || key.contains("IDENTITY") {
-            tracing::info!("  {} = {}", key, value);
-        }
-    }
 
     let telemetry = tracing_opentelemetry::layer().with_tracer(tracer);
 
@@ -308,10 +302,17 @@ fn init_tracer() -> Result<()> {
         .try_init()
         .ok();
 
+    tracing::info!("--- OpenTelemetry Startup Diagnostics ---");
+    for (key, value) in std::env::vars() {
+        if key.starts_with("OTEL_") || key.contains("COSMOS") || key.contains("IDENTITY") {
+            tracing::info!("  {} = {}", key, value);
+        }
+    }
+
     // Emit a test span immediately to verify flush
     use opentelemetry::trace::Tracer;
     opentelemetry::global::tracer("diagnostic").in_span("startup_diagnostic", |_cx| {
-        tracing::info!("Sent startup diagnostic span");
+        tracing::info!("Sent a startup diagnostic span");
     });
 
     Ok(())
