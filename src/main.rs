@@ -114,7 +114,7 @@ impl CosmosRepo {
 
 #[async_trait]
 impl TodoRepo for CosmosRepo {
-    #[tracing::instrument(skip(self), err)]
+    #[tracing::instrument(skip(self), err, fields(db.system = "cosmosdb", db.name = "TodoDatabase"))]
     async fn list_objectives(&self) -> Result<Vec<String>> {
         let mut stream = self.collection_client
             .query_documents(Query::from("SELECT VALUE c.objective FROM c"))
@@ -140,7 +140,7 @@ impl TodoRepo for CosmosRepo {
         Ok(objectives)
     }
 
-    #[tracing::instrument(skip(self), err)]
+    #[tracing::instrument(skip(self), err, fields(db.system = "cosmosdb", db.name = "TodoDatabase"))]
     async fn list(&self) -> Result<Vec<Todo>> {
         let mut stream = self.collection_client
             .query_documents(Query::from("SELECT * FROM c"))
@@ -158,7 +158,7 @@ impl TodoRepo for CosmosRepo {
         Ok(todos)
     }
 
-    #[tracing::instrument(skip(self), err)]
+    #[tracing::instrument(skip(self), err, fields(db.system = "cosmosdb", db.name = "TodoDatabase"))]
     async fn create(&self, todo: Todo) -> Result<Todo> {
         self.collection_client
             .create_document(todo.clone())
@@ -168,7 +168,7 @@ impl TodoRepo for CosmosRepo {
         Ok(todo)
     }
 
-    #[tracing::instrument(skip(self), err)]
+    #[tracing::instrument(skip(self), err, fields(db.system = "cosmosdb", db.name = "TodoDatabase", db.operation = "update"))]
     async fn update(&self, id: Uuid, objective: String, title: String, completed: bool) -> Result<Option<Todo>> {
         let id_str = id.to_string();
         
@@ -218,7 +218,7 @@ impl TodoRepo for CosmosRepo {
         Ok(Some(todo))
     }
 
-    #[tracing::instrument(skip(self), err)]
+    #[tracing::instrument(skip(self), err, fields(db.system = "cosmosdb", db.name = "TodoDatabase", db.operation = "delete"))]
     async fn delete(&self, id: Uuid, objective: String) -> Result<bool> {
         let id_str = id.to_string();
 
@@ -265,21 +265,36 @@ impl TodoRepo for CosmosRepo {
 type AppState = Arc<dyn TodoRepo>;
 
 fn init_tracer() -> Result<()> {
-    let service_name = std::env::var("OTEL_SERVICE_NAME").unwrap_or_else(|_| "todo-rust-api".to_string());
+    // Diagnostic logging to verify platform-injected variables
+    tracing::info!("--- OpenTelemetry Startup Diagnostics ---");
+    for (key, value) in std::env::vars() {
+        if key.starts_with("OTEL_") || key.contains("COSMOS") || key.contains("IDENTITY") {
+            tracing::info!("  {} = {}", key, value);
+        }
+    }
+
+    let service_name = std::env::var("OTEL_SERVICE_NAME").unwrap_or_else(|_| "walcron-backend".to_string());
+
+    // App Insights Map relies on cloud.role_name (mapped from service.name)
+    let resource = Resource::new(vec![
+        KeyValue::new("service.name", service_name.clone()),
+        KeyValue::new("cloud.role_name", service_name),
+        KeyValue::new("service.namespace", "walcron"),
+    ]);
 
     let tracer = opentelemetry_otlp::new_pipeline()
         .tracing()
         .with_exporter(opentelemetry_otlp::new_exporter().tonic())
         .with_trace_config(
-            sdktrace::config().with_resource(Resource::new(vec![KeyValue::new("service.name", service_name)])),
+            sdktrace::config().with_resource(resource),
         )
         .install_batch(opentelemetry_sdk::runtime::Tokio)
         .context("Failed to install OpenTelemetry tracer")?;
 
-    let telemetry = tracing_opentelemetry::layer().with_tracer(tracer);
+    let telemetry = tracing_opentelemetry::layer().with_tracer(tracer.clone());
 
     let env_filter = tracing_subscriber::EnvFilter::try_from_default_env()
-        .unwrap_or_else(|_| tracing_subscriber::EnvFilter::new("info,azure_data_cosmos=error,azure_core=error"));
+        .unwrap_or_else(|_| tracing_subscriber::EnvFilter::new("info,azure_data_cosmos=error,azure_core=error,opentelemetry=debug"));
 
     let fmt = tracing_subscriber::fmt::layer().with_target(false).compact();
 
@@ -289,6 +304,12 @@ fn init_tracer() -> Result<()> {
         .with(telemetry)
         .try_init()
         .ok();
+
+    // Emit a test span immediately to verify flush
+    use opentelemetry::trace::Tracer;
+    tracer.in_span("startup_diagnostic", |_cx| {
+        tracing::info!("Sent startup diagnostic span");
+    });
 
     Ok(())
 }
