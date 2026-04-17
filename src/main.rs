@@ -266,10 +266,11 @@ type AppState = Arc<dyn TodoRepo>;
 
 fn init_tracer() -> Result<()> {
     // Diagnostic logging to verify platform-injected variables
-    tracing::info!("--- OpenTelemetry Startup Diagnostics ---");
+    // Use println! because tracing is not yet initialized
+    println!("--- OpenTelemetry Startup Diagnostics ---");
     for (key, value) in std::env::vars() {
         if key.starts_with("OTEL_") || key.contains("COSMOS") || key.contains("IDENTITY") {
-            tracing::info!("  {} = {}", key, value);
+            println!("  {} = {}", key, value);
         }
     }
 
@@ -284,7 +285,7 @@ fn init_tracer() -> Result<()> {
 
     let tracer = opentelemetry_otlp::new_pipeline()
         .tracing()
-        .with_exporter(opentelemetry_otlp::new_exporter().tonic())
+        .with_exporter(opentelemetry_otlp::new_exporter().http())
         .with_trace_config(
             sdktrace::config().with_resource(resource),
         )
