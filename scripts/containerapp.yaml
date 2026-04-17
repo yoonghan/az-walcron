@@ -31,6 +31,10 @@ properties:
             value: "Todos"
           - name: OTEL_SERVICE_NAME
             value: "walcron-backend"
+          - name: OTEL_EXPORTER_OTLP_PROTOCOL
+            value: "grpc"
+          - name: OTEL_RESOURCE_ATTRIBUTES
+            value: "service.name=walcron-backend,cloud.role_name=walcron-backend"
         resources:
           cpu: 0.5
           memory: 1.0Gi
