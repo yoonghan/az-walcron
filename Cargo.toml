@@ -23,7 +23,7 @@ async-trait = "0.1"
 # OpenTelemetry
 opentelemetry = "0.22"
 opentelemetry_sdk = { version = "0.22", features = ["rt-tokio"] }
-opentelemetry-otlp = { version = "0.15", features = ["grpc-tonic", "trace"] }
+opentelemetry-otlp = { version = "0.15", features = ["http-proto", "reqwest-client", "trace"] }
 tracing-opentelemetry = "0.23"
 tonic = "0.11"
 

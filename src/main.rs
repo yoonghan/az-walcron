@@ -277,14 +277,28 @@ fn init_tracer() -> Result<()> {
     ]);
 
     let endpoint = std::env::var("OTEL_EXPORTER_OTLP_ENDPOINT")
-        .unwrap_or_else(|_| "http://127.0.0.1:4317".to_string());
+        .unwrap_or_else(|_| "https://southeastasia-1.in.applicationinsights.azure.com/v1/traces".to_string());
+
+    let mut headers = std::collections::HashMap::new();
+    if let Ok(conn_string) = std::env::var("APPLICATIONINSIGHTS_CONNECTION_STRING") {
+        // Extract InstrumentationKey from Connection String if present
+        if let Some(key_part) = conn_string.split(';').find(|s| s.starts_with("InstrumentationKey=")) {
+            let key = key_part.replace("InstrumentationKey=", "");
+            headers.insert("x-ai-instrumentation-key".to_string(), key);
+        }
+    } else {
+        // Fallback for local testing if needed
+        headers.insert("x-ai-instrumentation-key".to_string(), "2645c3a9-abeb-41c9-ba5e-5053b15aaf6c".to_string());
+    }
 
     let tracer = opentelemetry_otlp::new_pipeline()
         .tracing()
         .with_exporter(
             opentelemetry_otlp::new_exporter()
-                .tonic()
+                .http()
                 .with_endpoint(endpoint)
+                .with_protocol(opentelemetry_otlp::Protocol::HttpBinary)
+                .with_headers(headers)
         )
         .with_trace_config(
             sdktrace::config().with_resource(resource),
