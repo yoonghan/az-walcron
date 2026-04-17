@@ -275,9 +275,17 @@ fn init_tracer() -> Result<()> {
         KeyValue::new("service.namespace", "walcron"),
     ]);
 
+    let endpoint = std::env::var("OTEL_EXPORTER_OTLP_ENDPOINT")
+        .unwrap_or_else(|_| "http://127.0.0.1:4318".to_string());
+
     let tracer = opentelemetry_otlp::new_pipeline()
         .tracing()
-        .with_exporter(opentelemetry_otlp::new_exporter().http())
+        .with_exporter(
+            opentelemetry_otlp::new_exporter()
+                .http()
+                .with_endpoint(endpoint)
+                .with_protocol(opentelemetry_otlp::Protocol::HttpBinary)
+        )
         .with_trace_config(
             sdktrace::config().with_resource(resource),
         )
@@ -304,7 +312,7 @@ fn init_tracer() -> Result<()> {
 
     tracing::info!("--- OpenTelemetry Startup Diagnostics ---");
     for (key, value) in std::env::vars() {
-        if key.starts_with("OTEL_") || key.contains("COSMOS") || key.contains("IDENTITY") {
+        if key.starts_with("OTEL_") || key.contains("COSMOS") || key.contains("IDENTITY") || key.contains("APPLICATION") || key.contains("CONNECTION") {
             tracing::info!("  {} = {}", key, value);
         }
     }
