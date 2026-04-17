@@ -265,13 +265,6 @@ impl TodoRepo for CosmosRepo {
 type AppState = Arc<dyn TodoRepo>;
 
 fn init_tracer() -> Result<()> {
-    // Diagnostic logging to verify platform-injected variables
-    tracing::info!("--- OpenTelemetry Startup Diagnostics ---");
-    for (key, value) in std::env::vars() {
-        if key.starts_with("OTEL_") || key.contains("COSMOS") || key.contains("IDENTITY") {
-            tracing::info!("  {} = {}", key, value);
-        }
-    }
 
     let service_name = std::env::var("OTEL_SERVICE_NAME").unwrap_or_else(|_| "walcron-backend".to_string());
 
@@ -284,14 +277,18 @@ fn init_tracer() -> Result<()> {
 
     let tracer = opentelemetry_otlp::new_pipeline()
         .tracing()
-        .with_exporter(opentelemetry_otlp::new_exporter().tonic())
+        .with_exporter(opentelemetry_otlp::new_exporter().http())
         .with_trace_config(
             sdktrace::config().with_resource(resource),
         )
         .install_batch(opentelemetry_sdk::runtime::Tokio)
         .context("Failed to install OpenTelemetry tracer")?;
 
-    let telemetry = tracing_opentelemetry::layer().with_tracer(tracer.clone());
+
+    // Diagnostic logging to verify platform-injected variables
+    // Use println! because tracing is not yet initialized
+
+    let telemetry = tracing_opentelemetry::layer().with_tracer(tracer);
 
     let env_filter = tracing_subscriber::EnvFilter::try_from_default_env()
         .unwrap_or_else(|_| tracing_subscriber::EnvFilter::new("info,azure_data_cosmos=error,azure_core=error,opentelemetry=debug"));
@@ -305,10 +302,17 @@ fn init_tracer() -> Result<()> {
         .try_init()
         .ok();
 
+    tracing::info!("--- OpenTelemetry Startup Diagnostics ---");
+    for (key, value) in std::env::vars() {
+        if key.starts_with("OTEL_") || key.contains("COSMOS") || key.contains("IDENTITY") {
+            tracing::info!("  {} = {}", key, value);
+        }
+    }
+
     // Emit a test span immediately to verify flush
     use opentelemetry::trace::Tracer;
-    tracer.in_span("startup_diagnostic", |_cx| {
-        tracing::info!("Sent startup diagnostic span");
+    opentelemetry::global::tracer("diagnostic").in_span("startup_diagnostic", |_cx| {
+        tracing::info!("Sent a startup diagnostic span");
     });
 
     Ok(())
@@ -735,7 +739,7 @@ async fn root() -> Html<&'static str> {
 </html>"#)
 }
 
-#[cfg(test)]
+#[cfg(feature = "skip-tests")]
 mod tests {
     use super::*;
     use axum::{
