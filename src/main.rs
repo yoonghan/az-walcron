@@ -265,14 +265,6 @@ impl TodoRepo for CosmosRepo {
 type AppState = Arc<dyn TodoRepo>;
 
 fn init_tracer() -> Result<()> {
-    // Diagnostic logging to verify platform-injected variables
-    // Use println! because tracing is not yet initialized
-    println!("--- OpenTelemetry Startup Diagnostics ---");
-    for (key, value) in std::env::vars() {
-        if key.starts_with("OTEL_") || key.contains("COSMOS") || key.contains("IDENTITY") {
-            println!("  {} = {}", key, value);
-        }
-    }
 
     let service_name = std::env::var("OTEL_SERVICE_NAME").unwrap_or_else(|_| "walcron-backend".to_string());
 
@@ -291,6 +283,16 @@ fn init_tracer() -> Result<()> {
         )
         .install_batch(opentelemetry_sdk::runtime::Tokio)
         .context("Failed to install OpenTelemetry tracer")?;
+
+
+    // Diagnostic logging to verify platform-injected variables
+    // Use println! because tracing is not yet initialized
+    tracing::info!("--- OpenTelemetry Startup Diagnostics ---");
+    for (key, value) in std::env::vars() {
+        if key.starts_with("OTEL_") || key.contains("COSMOS") || key.contains("IDENTITY") {
+            tracing::info!("  {} = {}", key, value);
+        }
+    }
 
     let telemetry = tracing_opentelemetry::layer().with_tracer(tracer);
 
