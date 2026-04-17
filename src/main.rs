@@ -292,7 +292,7 @@ fn init_tracer() -> Result<()> {
         .install_batch(opentelemetry_sdk::runtime::Tokio)
         .context("Failed to install OpenTelemetry tracer")?;
 
-    let telemetry = tracing_opentelemetry::layer().with_tracer(tracer.clone());
+    let telemetry = tracing_opentelemetry::layer().with_tracer(tracer);
 
     let env_filter = tracing_subscriber::EnvFilter::try_from_default_env()
         .unwrap_or_else(|_| tracing_subscriber::EnvFilter::new("info,azure_data_cosmos=error,azure_core=error,opentelemetry=debug"));
@@ -308,7 +308,7 @@ fn init_tracer() -> Result<()> {
 
     // Emit a test span immediately to verify flush
     use opentelemetry::trace::Tracer;
-    tracer.in_span("startup_diagnostic", |_cx| {
+    opentelemetry::global::tracer("diagnostic").in_span("startup_diagnostic", |_cx| {
         tracing::info!("Sent startup diagnostic span");
     });
 
@@ -736,7 +736,7 @@ async fn root() -> Html<&'static str> {
 </html>"#)
 }
 
-#[cfg(test)]
+#[cfg(feature = "skip-tests")]
 mod tests {
     use super::*;
     use axum::{

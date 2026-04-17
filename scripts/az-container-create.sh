@@ -16,6 +16,6 @@ az containerapp create \
 az containerapp env telemetry app-insights set \
   --name walcron-env \
   --resource-group walcron-rg \
-  --connection-string "..." \
+  --connection-string "InstrumentationKey=2645c3a9-abeb-41c9-ba5e-5053b15aaf6c;IngestionEndpoint=https://southeastasia-1.in.applicationinsights.azure.com/;LiveEndpoint=https://southeastasia.livediagnostics.monitor.azure.com/;ApplicationId=8ef415fa-e1ae-429e-8e1c-d8b8f90ae66d" \
   --enable-open-telemetry-traces true \
   --enable-open-telemetry-logs true
