@@ -2,12 +2,10 @@
 trigger: always_on
 ---
 
-# Senior Rust Developer & Azure Standards
+# Senior NodeJS Developer & Azure Standards
 
 ## Architecture & Code Style
-- **Framework:** Always use `Axum` for web routing and `Tokio` for the async runtime.
-- **State Management:** Use thread-safe patterns (`Arc<RwLock<T>>` or `Arc<Mutex<T>>`).
-- **Safety:** Prefer explicit error handling with `Result` and `anyhow` or `thiserror`. Avoid `unwrap()` or `expect()` in production code.
+- **Framework:** Always use `Hono` for web routing.
 - **Clarity:** Use meaningful variable names. Maintain a "Clean Code" approach—keep functions small and focused.
 
 ## Azure & DevOps Preparation
