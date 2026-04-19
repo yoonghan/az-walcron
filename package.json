@@ -1,0 +1,41 @@
+{
+  "name": "az-walcron",
+  "version": "1.0.0",
+  "description": "A high-performance Rust web server built with the Axum framework, serving both the REST API and a lightweight HTML frontend. Optimized for fast Azure Container Apps cold starts with a single native binary.  Integrated with OTEL",
+  "main": "dist/index.js",
+  "scripts": {
+    "dev": "tsx watch src/index.ts",
+    "build": "esbuild src/index.ts --bundle --platform=node --target=node20 --outdir=dist",
+    "start": "node dist/index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yoonghan/az-walcron.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/yoonghan/az-walcron/issues"
+  },
+  "homepage": "https://github.com/yoonghan/az-walcron#readme",
+  "dependencies": {
+    "@azure/cosmos": "^4.9.2",
+    "@azure/identity": "^4.13.1",
+    "@hono/node-server": "^1.19.14",
+    "dotenv": "^17.4.2",
+    "hono": "^4.12.14",
+    "pino": "^10.3.1",
+    "uuid": "^14.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^25.6.0",
+    "@types/pino": "^7.0.4",
+    "@types/uuid": "^10.0.0",
+    "esbuild": "^0.28.0",
+    "tsx": "^4.21.0",
+    "typescript": "^6.0.3"
+  }
+}
