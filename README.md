@@ -3,6 +3,8 @@
 A high-performance NodeJS web server built with the Hono framework, serving both the REST API and a lightweight HTML frontend. Optimized for fast Azure Container Apps cold starts using a bundled single JS file and minimal container images.
 Integrated with Azure Managed Identities and structured OpenTelemetry (OTEL) logging via Pino.
 
+Modified to have no CodeQL checks.
+
 ## Features
 - **Unified Architecture:**
   - Fast routing and asynchronous execution via **Hono**.
