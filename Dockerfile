@@ -1,32 +1,22 @@
-# ─── Stage 1: Compute the dependency recipe ──────────────────────────────────
-# cargo-chef "plans" which dependencies to cache, based on Cargo.toml/lock only.
-FROM rust:alpine AS planner
+# ─── Stage 1: Build & Bundle ─────────────────────────────────────────────
+FROM node:20-alpine AS builder
 WORKDIR /app
-RUN apk add --no-cache musl-dev
-RUN cargo install cargo-chef --locked
-COPY Cargo.toml Cargo.lock ./
+COPY package*.json ./
+RUN npm ci
+COPY tsconfig.json ./
 COPY src ./src
-RUN cargo chef prepare --recipe-path recipe.json
+RUN npm run build
 
-# ─── Stage 2: Cache dependencies ─────────────────────────────────────────────
-# This layer is only invalidated when Cargo.toml/Cargo.lock changes.
-# rustls replaces vendored OpenSSL, so no perl/make/gcc needed here.
-FROM rust:alpine AS builder
+# ─── Stage 2: Minimal runtime image ──────────────────────────────────────
+FROM node:20-alpine
 WORKDIR /app
-RUN apk add --no-cache musl-dev
-RUN cargo install cargo-chef --locked
-COPY --from=planner /app/recipe.json recipe.json
-RUN cargo chef cook --release --recipe-path recipe.json
 
-# ─── Stage 3: Build the application binary ───────────────────────────────────
-COPY Cargo.toml Cargo.lock ./
-COPY src ./src
-RUN cargo build --release
+# Run as a non-root user
+USER node
 
-# ─── Stage 4: Minimal runtime image (<15 MB) ──────────────────────────────────
-FROM alpine:3.19
-RUN apk add --no-cache ca-certificates
-WORKDIR /app
-COPY --from=builder /app/target/release/todo-server /usr/local/bin/todo-server
+# We only need the bundled output to minimize image size
+COPY --from=builder /app/dist/index.js ./index.js
+
 EXPOSE 3000
-ENTRYPOINT ["todo-server"]
+ENV NODE_ENV=production
+CMD ["node", "index.js"]
