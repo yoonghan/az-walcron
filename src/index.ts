@@ -1,3 +1,4 @@
+import './tracing'; // Initialize OpenTelemetry before all other imports
 import { serve } from '@hono/node-server';
 import { Hono } from 'hono';
 import { cors } from 'hono/cors';
@@ -18,8 +19,11 @@ const logger = pino({
     },
   },
 });
+type Variables = {
+  requestId: string;
+};
 
-const app = new Hono();
+const app = new Hono<{ Variables: Variables }>();
 
 app.use('*', cors());
 
