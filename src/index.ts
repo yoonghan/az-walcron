@@ -3,6 +3,7 @@ import { serve } from '@hono/node-server';
 import { Hono } from 'hono';
 import { cors } from 'hono/cors';
 import { v4 as uuidv4 } from 'uuid';
+import { trace } from '@opentelemetry/api';
 import pino from 'pino';
 import { dbRepo } from './db';
 import { renderHtml } from './html';
@@ -27,23 +28,42 @@ const app = new Hono<{ Variables: Variables }>();
 
 app.use('*', cors());
 
-// Observability Middleware: Injection of request_id and structured logging
+// Observability Middleware: Injection of request_id, OTEL Context, and logging
 app.use('*', async (c, next) => {
   const reqIdHeader = c.req.header('x-request-id');
   const requestId = reqIdHeader || uuidv4();
   c.set('requestId', requestId);
 
-  const start = Date.now();
-  await next();
-  const ms = Date.now() - start;
+  const tracer = trace.getTracer('hono-server');
 
-  logger.info({
-    event: 'request',
-    method: c.req.method,
-    url: c.req.url,
-    status: c.res.status,
-    responseTimeMs: ms,
-    request_id: requestId,
+  // Start explicit root span for this request
+  return tracer.startActiveSpan(`HTTP ${c.req.method} ${new URL(c.req.url).pathname}`, async (span) => {
+    const start = Date.now();
+    try {
+      await next();
+    } finally {
+      const ms = Date.now() - start;
+      const status = c.res.status;
+      
+      // Inject standard HTTP attributes and correlate IDs
+      span.setAttributes({
+        'http.method': c.req.method,
+        'http.url': c.req.url,
+        'http.status_code': status,
+        'request_id': requestId,
+      });
+      span.end();
+
+      logger.info({
+        event: 'request',
+        method: c.req.method,
+        url: c.req.url,
+        status: status,
+        responseTimeMs: ms,
+        request_id: requestId,
+        trace_id: span.spanContext().traceId,
+      });
+    }
   });
 });
 

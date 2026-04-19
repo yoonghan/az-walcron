@@ -12,10 +12,11 @@ az containerapp create \
   --registry-username $1 \
   --registry-password $2
 
-# 3. Create OTEL connection
-az containerapp env telemetry app-insights set \
-  --name walcron-env \
+# 3. Create Application connection
+az containerapp connection create app-insights \
   --resource-group walcron-rg \
-  --connection-string "InstrumentationKey=2645c3a9-abeb-41c9-ba5e-5053b15aaf6c;IngestionEndpoint=https://southeastasia-1.in.applicationinsights.azure.com/;LiveEndpoint=https://southeastasia.livediagnostics.monitor.azure.com/;ApplicationId=8ef415fa-e1ae-429e-8e1c-d8b8f90ae66d" \
-  --enable-open-telemetry-traces true \
-  --enable-open-telemetry-logs true
+  --name walcron \
+  --target-resource-group walcron-rg \
+  --app-insights walcron-application-insight \
+  --client-type nodejs \
+  --container walcron
