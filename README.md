@@ -1,48 +1,55 @@
-# Walcron Azure Web Server
+# Walcron Azure Web Server (NodeJS)
 
-A high-performance Rust web server built with the Axum framework, serving both the REST API and a lightweight HTML frontend. Optimized for fast Azure Container Apps cold starts with a single native binary. 
-Integrated with OTEL
+A high-performance NodeJS web server built with the Hono framework, serving both the REST API and a lightweight HTML frontend. Optimized for fast Azure Container Apps cold starts using a bundled single JS file and minimal container images.
+Integrated with Azure Managed Identities and structured OpenTelemetry (OTEL) logging via Pino.
+
+Modified to have no CodeQL checks.
 
 ## Features
 - **Unified Architecture:**
-  - Fast routing and asynchronous execution via **Axum** & **Tokio**.
-  - Serves both API and Frontend from a single native binary for minimal cold start (~1s).
-  - In-memory data store with thread-safety (`Arc<RwLock<Vec<Todo>>>`) for high concurrency.
-  - Ready for OpenTelemetry (OTEL) distributed tracing via `tower-http` with injected request correlation IDs.
-  - Minimal (~30MB) footprint production image via a multi-stage Docker build relying on `alpine`.
+  - Fast routing and asynchronous execution via **Hono**.
+  - Serves both API and Frontend.
+  - CosmosDB data store accessed securely via `@azure/cosmos` with `@azure/identity`.
+  - Ready for OpenTelemetry (OTEL) distributed tracing with injected request correlation IDs.
+  - Minimal footprint production image via a multi-stage Docker build utilizing `node:20-alpine`.
 
 ## Endpoints (Port 3000)
 - `GET /` - Serves the HTML UI for the Todo list.
-- `GET /todos` - Lists all todos (JSON)
-- `POST /todos` - Creates a new todo (requires `{"title": "..."}` JSON payload)
-- `PUT /todos/:id` - Updates a todo (requires `{"title": "...", "completed": bool}` JSON payload)
+- `GET /healthz` - Health readiness check.
+- `GET /todos` - Lists all todos.
+- `GET /objectives` - Lists all unique objectives.
+- `POST /todos` - Creates a new todo.
+- `PUT /todos/:id` - Updates a todo.
+- `DELETE /todos/:id?objective=...` - Deletes a todo.
 
 ## Getting Started
 
-Assuming you have Rust and Cargo installed, run the server from the root directory:
+Assuming you have `Node` installed, run the server from the root directory:
 
 ```bash
-cargo run
+npm install
+npm run dev
 ```
 
-Then you can access the UI at `http://localhost:3000/` or verify the API:
+Then you can access the UI at `http://localhost:3000/`.
+
+**Environment Variables Required:**
 ```bash
-curl http://localhost:3000/todos
-curl -X POST -H "Content-Type: application/json" -d '{"title": "Buy milk"}' http://localhost:3000/todos
+COSMOS_ENDPOINT="https://..."
+COSMOS_DATABASE="TodoDatabase"
+COSMOS_CONTAINER="Todos"
 ```
 
 ## Docker Build & Deployment
 
-To package this application for Azure, the CI pipeline automatically builds the container image via `./.github/workflows/docker-build-push.yml`:
-1. `walcron-azure:latest` (Unified Backend & Frontend)
+To package this application for Azure, use the included `Dockerfile` which bundles the TypeScript application into a single JavaScript file.
+
+```bash
+docker build -t walcron-azure:latest .
+```
 
 **Azure Container Apps Deployment:**
-The application is deployed as a single container. Traffic ingress is routed to the Rust application on `port 3000`.
-
-Update standard deployments using:
-```bash
-./scripts/az-update-container.sh
-```
+The application is deployed as a single container. Traffic ingress is routed to the NodeJS application on `port 3000`.
 
 ## Flow diagram
 
@@ -53,28 +60,25 @@ graph TD
         JS["JavaScript (Fetch API)"]
     end
 
-    subgraph "Azure Container App (Rust Service)"
-        Axum["Axum Web Server (Port 3000)"]
+    subgraph "Azure Container App (NodeJS Service)"
+        Hono["Hono Web Server (Port 3000)"]
         Repo["CosmosRepo Implementation"]
-        Auth["Memory/MSI Credential"]
-        Warmup["Background Warmup Task"]
+        Auth["Managed Identity Credential"]
     end
 
     subgraph "Azure Resources"
         Cosmos["Azure Cosmos DB"]
-        IMDS["MSI Token Service (IMDS)"]
     end
 
     %% Initialization Flow
-    Axum -- "1. Binds Port (Immediate)" --> UI
-    Warmup -- "2. Async Background Call" --> Auth
-    Auth -- "3. Fetch Token (Slow on Cold Start)" --> IMDS
+    Hono -- "1. Binds Port" --> UI
 
     %% Request Flow
-    UI -- "Get Page" --> Axum
-    JS -- "GET /todos" --> Axum
-    Axum -- "Execute Logic" --> Repo
-    Repo -- "Use Cached Token" --> Cosmos
+    UI -- "Get Page" --> Hono
+    JS -- "GET /todos" --> Hono
+    Hono -- "Execute Logic" --> Repo
+    Repo -- "Use Cached Token (MSI)" --> Auth
+    Auth -- "Access" --> Cosmos
     Cosmos -- "Data JSON" --> Repo
     Repo -- "JSON Response" --> JS
     JS -- "renderTodos()" --> UI
