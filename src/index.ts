@@ -152,7 +152,11 @@ const port = process.env.PORT ? parseInt(process.env.PORT) : 3000;
 
 logger.info({ event: 'startup', message: `Server is starting on port ${port}` });
 
-serve({
-  fetch: app.fetch,
-  port
-});
+if (process.env.NODE_ENV !== 'test') {
+  serve({
+    fetch: app.fetch,
+    port
+  });
+}
+
+export default app;
