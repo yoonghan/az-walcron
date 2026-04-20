@@ -1,8 +1,35 @@
 # az-container-create.sh yoonghan 
-# 1. Create the Container App Environment (The 'Sandbox')
-az containerapp env create --name walcron-env --resource-group walcron-rg --location southeastasia
+# 1. Create Log Analytics Workspace explicitly to link to Application Insights
+echo "Creating Log Analytics Workspace..."
+az monitor log-analytics workspace create \
+  --resource-group walcron-rg \
+  --workspace-name walcron-log-workspace \
+  --location southeastasia
 
-# 2. Deploy the App with Scale-to-Zero using YAML configuration
+LOG_WORKSPACE_ID=$(az monitor log-analytics workspace show --resource-group walcron-rg --workspace-name walcron-log-workspace --query id -o tsv)
+LOG_WORKSPACE_CLIENT_ID=$(az monitor log-analytics workspace show --resource-group walcron-rg --workspace-name walcron-log-workspace --query customerId -o tsv)
+LOG_WORKSPACE_SECRET=$(az monitor log-analytics workspace get-shared-keys --resource-group walcron-rg --workspace-name walcron-log-workspace --query primarySharedKey -o tsv)
+
+# 2. Create the Container App Environment (The 'Sandbox')
+echo "Creating Container App Environment..."
+az containerapp env create \
+  --name walcron-env \
+  --resource-group walcron-rg \
+  --location southeastasia \
+  --logs-workspace-id $LOG_WORKSPACE_CLIENT_ID \
+  --logs-workspace-key $LOG_WORKSPACE_SECRET
+
+# 3. Create Application Insights linked to the Log Analytics Workspace
+echo "Creating Application Insights component..."
+az monitor app-insights component create \
+  --app walcron-application-insight \
+  --location southeastasia \
+  --kind web \
+  --resource-group walcron-rg \
+  --workspace $LOG_WORKSPACE_ID
+
+# 4. Deploy the App with Scale-to-Zero using YAML configuration
+echo "Deploying Container App..."
 az containerapp create \
   --name walcron \
   --resource-group walcron-rg \
@@ -12,7 +39,8 @@ az containerapp create \
   --registry-username $1 \
   --registry-password $2
 
-# 3. Create Application connection
+# 5. Create Application connection
+echo "Linking Application Insights to Container App..."
 az containerapp connection create app-insights \
   --resource-group walcron-rg \
   --name walcron \
