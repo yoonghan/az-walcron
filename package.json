@@ -7,7 +7,8 @@
     "dev": "tsx watch src/index.ts",
     "build": "esbuild src/index.ts --bundle --platform=node --target=node20 --outdir=dist",
     "start": "node dist/index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "vitest",
+    "test:ci": "vitest run --coverage"
   },
   "repository": {
     "type": "git",
@@ -40,8 +41,10 @@
     "@types/node": "^25.6.0",
     "@types/pino": "^7.0.4",
     "@types/uuid": "^10.0.0",
+    "@vitest/coverage-v8": "^4.1.4",
     "esbuild": "^0.28.0",
     "tsx": "^4.21.0",
-    "typescript": "^6.0.3"
+    "typescript": "^6.0.3",
+    "vitest": "^4.1.4"
   }
 }
