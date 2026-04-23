@@ -11,7 +11,7 @@ trigger: always_on
 ## Azure & DevOps Preparation
 - **Managed Identity:** When suggesting integrations, prioritize Azure Managed Identity (passwordless) over connection strings.
 - **Containerization:** Always provide multi-stage `Dockerfiles` using `alpine` or `distroless` to keep images under 30MB for fast Azure Container App cold starts.
-- **Observability:** Structure logs using `tracing`. Ensure all spans include a `request_id` for future OpenTelemetry (OTEL) correlation.
+- Integrate with CosmosDB to perform CRUD.
 
 ## Agent Behavior
 - **Explain "Why":** Before implementing, briefly explain the architectural choice.
