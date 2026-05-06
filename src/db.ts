@@ -10,7 +10,6 @@ export interface Todo {
 export class DaprRepo {
 	private client: DaprClient;
 	private stateStoreName = "todostore";
-	private bindingName = "todoquery";
 
 	constructor() {
 		const daprHost = process.env.DAPR_HOST || "127.0.0.1";
@@ -21,23 +20,19 @@ export class DaprRepo {
 	}
 
 	async listObjectives(): Promise<string[]> {
-		const response = await this.client.binding.send(
-			this.bindingName,
-			"query",
-			undefined,
-			{ query: "SELECT DISTINCT VALUE c.objective FROM c" },
-		);
-		return response as string[];
+		const response = await this.client.state.query(this.stateStoreName, {
+			filter: {},
+		});
+		const todos = response.results.map((r: { data: Todo }) => r.data as Todo);
+		const objectives = new Set(todos.map((t) => t.objective));
+		return Array.from(objectives);
 	}
 
 	async listTodos(): Promise<Todo[]> {
-		const response = await this.client.binding.send(
-			this.bindingName,
-			"query",
-			undefined,
-			{ query: "SELECT * FROM c" },
-		);
-		return response as Todo[];
+		const response = await this.client.state.query(this.stateStoreName, {
+			filter: {},
+		});
+		return response.results.map((r: { data: Todo }) => r.data as Todo);
 	}
 
 	async createTodo(todo: Todo): Promise<Todo> {
