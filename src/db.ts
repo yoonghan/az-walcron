@@ -1,63 +1,49 @@
-import { CosmosClient } from "@azure/cosmos";
-import { DefaultAzureCredential } from "@azure/identity";
+import { DaprClient } from "@dapr/dapr";
 
 export interface Todo {
-	id: string; // The @azure/cosmos SDK uses 'id' string explicitly
+	id: string;
 	objective: string;
 	title: string;
 	completed: boolean;
 }
 
-export class CosmosRepo {
-	private client: CosmosClient;
+export class DaprRepo {
+	private client: DaprClient;
+	private stateStoreName = "todostore";
+	private bindingName = "todoquery";
 
 	constructor() {
-		const endpoint = process.env.COSMOS_ENDPOINT;
-		if (!endpoint) throw new Error("COSMOS_ENDPOINT must be set");
-
-		// Use Managed Identity locally and in ACA
-		const credential = new DefaultAzureCredential();
-		this.client = new CosmosClient({ endpoint, aadCredentials: credential });
-	}
-
-	private getContainer() {
-		const databaseName = process.env.COSMOS_DATABASE;
-		const containerName = process.env.COSMOS_CONTAINER;
-		if (!databaseName || !containerName)
-			throw new Error("COSMOS_DATABASE and COSMOS_CONTAINER must be set");
-
-		return this.client.database(databaseName).container(containerName);
+		const daprHost = process.env.DAPR_HOST || "127.0.0.1";
+		const daprPort = process.env.DAPR_HTTP_PORT || process.env.DAPR_GRPC_PORT || "3500";
+		
+		this.client = new DaprClient({ daprHost, daprPort });
 	}
 
 	async listObjectives(): Promise<string[]> {
-		const container = this.getContainer();
-		const querySpec = {
-			query: "SELECT DISTINCT VALUE c.objective FROM c",
-		};
-
-		const { resources: objectives } = await container.items
-			.query(querySpec)
-			.fetchAll();
-		return objectives as string[];
+		const response = await this.client.binding.send(
+			this.bindingName,
+			"query",
+			undefined,
+			{ query: "SELECT DISTINCT VALUE c.objective FROM c" },
+		);
+		return response as string[];
 	}
 
 	async listTodos(): Promise<Todo[]> {
-		const container = this.getContainer();
-		const querySpec = {
-			query: "SELECT * FROM c",
-		};
-
-		const { resources: todos } = await container.items
-			.query(querySpec)
-			.fetchAll();
-		return todos as Todo[];
+		const response = await this.client.binding.send(
+			this.bindingName,
+			"query",
+			undefined,
+			{ query: "SELECT * FROM c" },
+		);
+		return response as Todo[];
 	}
 
 	async createTodo(todo: Todo): Promise<Todo> {
-		const container = this.getContainer();
-		const { resource } = await container.items.create(todo);
-		if (!resource) throw new Error("Failed to create todo resource");
-		return resource as unknown as Todo;
+		await this.client.state.save(this.stateStoreName, [
+			{ key: todo.id, value: todo },
+		]);
+		return todo;
 	}
 
 	async updateTodo(
@@ -66,51 +52,28 @@ export class CosmosRepo {
 		title: string,
 		completed: boolean,
 	): Promise<Todo | null> {
-		const container = this.getContainer();
-		const item = container.item(id, objective);
+		const existing = await this.client.state.get(this.stateStoreName, id);
+		if (!existing || Object.keys(existing).length === 0) return null;
 
-		try {
-			const { resource } = await item.read<Todo>();
-			if (!resource) return null;
+		const updatedTodo = {
+			...(existing as Todo),
+			title,
+			completed,
+		};
 
-			const updatedItem = {
-				...resource,
-				title,
-				completed,
-			};
-
-			const { resource: updatedResource } = await item.replace(updatedItem);
-			return updatedResource || null;
-		} catch (e: unknown) {
-			if (
-				e &&
-				typeof e === "object" &&
-				"code" in e &&
-				(e as { code?: number }).code === 404
-			)
-				return null;
-			throw e;
-		}
+		await this.client.state.save(this.stateStoreName, [
+			{ key: id, value: updatedTodo },
+		]);
+		return updatedTodo;
 	}
 
 	async deleteTodo(id: string, objective: string): Promise<boolean> {
-		const container = this.getContainer();
-		const item = container.item(id, objective);
+		const existing = await this.client.state.get(this.stateStoreName, id);
+		if (!existing || Object.keys(existing).length === 0) return false;
 
-		try {
-			await item.delete();
-			return true;
-		} catch (e: unknown) {
-			if (
-				e &&
-				typeof e === "object" &&
-				"code" in e &&
-				(e as { code?: number }).code === 404
-			)
-				return false;
-			throw e;
-		}
+		await this.client.state.delete(this.stateStoreName, id);
+		return true;
 	}
 }
 
-export const dbRepo = new CosmosRepo();
+export const dbRepo = new DaprRepo();
