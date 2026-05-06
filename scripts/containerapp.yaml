@@ -1,5 +1,9 @@
 properties:
   configuration:
+    dapr:
+      enabled: true
+      appId: "az-walcron"
+      appPort: 3000
     ingress:
       external: true
       targetPort: 3000

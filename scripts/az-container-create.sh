@@ -19,6 +19,21 @@ az containerapp env create \
   --logs-workspace-id $LOG_WORKSPACE_CLIENT_ID \
   --logs-workspace-key $LOG_WORKSPACE_SECRET
 
+# 2.5. Add Dapr Components to the Environment
+echo "Deploying Dapr Components to Environment..."
+az containerapp env dapr-component set \
+  --name walcron-env \
+  --resource-group walcron-rg \
+  --dapr-component-name todostore \
+  --yaml dapr-statestore.yaml
+
+az containerapp env dapr-component set \
+  --name walcron-env \
+  --resource-group walcron-rg \
+  --dapr-component-name todoquery \
+  --yaml dapr-cosmosquery.yaml
+
+
 # 3. Create Application Insights linked to the Log Analytics Workspace
 echo "Creating Application Insights component..."
 az monitor app-insights component create \
