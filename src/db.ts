@@ -47,6 +47,11 @@ export class DaprRepo {
 	async listObjectives(): Promise<string[]> {
 		const response = await this.client.state.query(this.stateStoreName, {
 			filter: {},
+			sort: [],
+			page: {
+				limit: 0,
+				token: undefined
+			}
 		});
 		const todos = response.results.map((r: any) => this.parseQueryItem(r));
 		const objectives = new Set(todos.map((t) => t.objective));
@@ -56,7 +61,15 @@ export class DaprRepo {
 	async listTodos(): Promise<Todo[]> {
 		const response = await this.client.state.query(this.stateStoreName, {
 			filter: {},
+			sort: [],
+			page: {
+				limit: 0,
+				token: undefined
+			}
 		});
+		console.log("response", response);
+		console.log("results", response.results);
+
 		return response.results.map((r: any) => this.parseQueryItem(r));
 	}
 
