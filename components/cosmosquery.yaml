@@ -7,10 +7,10 @@ spec:
   version: v1
   metadata:
   - name: url
-    value: ${COSMOS_ENDPOINT}
-  - name: masterKey
-    value: ${COSMOS_KEY}
+    value: "https://walcron-db.documents.azure.com:443/"
   - name: database
-    value: ${COSMOS_DATABASE}
+    value: "TodoDatabase"
   - name: collection
-    value: ${COSMOS_CONTAINER}
+    value: "Todos"
+  - name: authMode
+    value: "managed"
