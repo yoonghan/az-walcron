@@ -14,8 +14,9 @@ export class DaprRepo {
 
 	constructor() {
 		const daprHost = process.env.DAPR_HOST || "127.0.0.1";
-		const daprPort = process.env.DAPR_HTTP_PORT || process.env.DAPR_GRPC_PORT || "3500";
-		
+		const daprPort =
+			process.env.DAPR_HTTP_PORT || process.env.DAPR_GRPC_PORT || "3500";
+
 		this.client = new DaprClient({ daprHost, daprPort });
 	}
 

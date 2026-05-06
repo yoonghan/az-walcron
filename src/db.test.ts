@@ -1,13 +1,14 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
-const { mockStateSave, mockStateGet, mockStateDelete, mockBindingSend } = vi.hoisted(() => {
-	return {
-		mockStateSave: vi.fn(),
-		mockStateGet: vi.fn(),
-		mockStateDelete: vi.fn(),
-		mockBindingSend: vi.fn(),
-	};
-});
+const { mockStateSave, mockStateGet, mockStateDelete, mockBindingSend } =
+	vi.hoisted(() => {
+		return {
+			mockStateSave: vi.fn(),
+			mockStateGet: vi.fn(),
+			mockStateDelete: vi.fn(),
+			mockBindingSend: vi.fn(),
+		};
+	});
 
 vi.mock("@dapr/dapr", () => {
 	return {

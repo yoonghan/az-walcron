@@ -26,13 +26,6 @@ properties:
     containers:
       - image: ghcr.io/yoonghan/az-walcron:latest
         name: walcron
-        env:
-          - name: COSMOS_ENDPOINT
-            value: "https://walcron-db.documents.azure.com:443/"
-          - name: COSMOS_DATABASE
-            value: "TodoDatabase"
-          - name: COSMOS_CONTAINER
-            value: "Todos"
         resources:
           cpu: 0.5
           memory: 1.0Gi
