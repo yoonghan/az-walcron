@@ -71,7 +71,14 @@ describe("DaprRepo", () => {
 			const repo = new DaprRepo();
 			const res = await repo.listObjectives();
 			expect(res).toEqual(["Work", "Personal"]);
-			expect(mockStateQuery).toHaveBeenCalledWith("todostore", { filter: {} });
+			expect(mockStateQuery).toHaveBeenCalledWith("todostore", {
+				filter: {},
+				sort: [],
+				page: {
+					limit: 0,
+					token: undefined
+				}
+			});
 		});
 	});
 
@@ -86,7 +93,14 @@ describe("DaprRepo", () => {
 			const repo = new DaprRepo();
 			const res = await repo.listTodos();
 			expect(res).toEqual(mockTodos);
-			expect(mockStateQuery).toHaveBeenCalledWith("todostore", { filter: {} });
+			expect(mockStateQuery).toHaveBeenCalledWith("todostore", {
+				filter: {},
+				sort: [],
+				page: {
+					limit: 0,
+					token: undefined
+				}
+			});
 		});
 	});
 
