@@ -1,57 +1,56 @@
-# Walcron Azure Web Server (NodeJS)
+# Walcron Azure Web Server (NodeJS + Dapr)
 
-A high-performance NodeJS web server built with the Hono framework, serving both the REST API and a lightweight HTML frontend. Optimized for fast Azure Container Apps cold starts using a bundled single JS file and minimal container images.
-Integrated with Azure Managed Identities and structured OpenTelemetry (OTEL) logging via Pino.
-
-Modified to have no CodeQL checks.
+A high-performance NodeJS web server built with the Hono framework, optimized for Azure Container Apps. The application leverages **Dapr** for state management and **OpenTelemetry** for full-stack observability.
 
 ## Features
 - **Unified Architecture:**
   - Fast routing and asynchronous execution via **Hono**.
-  - Serves both API and Frontend.
-  - CosmosDB data store accessed securely via `@azure/cosmos` with `@azure/identity`.
-  - Ready for OpenTelemetry (OTEL) distributed tracing with injected request correlation IDs.
-  - Minimal footprint production image via a multi-stage Docker build utilizing `node:20-alpine`.
+  - **Dapr Sidecar Integration:** Data access to Cosmos DB is abstracted via Dapr State Store and Output Bindings, eliminating direct SDK dependencies.
+  - **Partitioning Strategy:** Optimized Cosmos DB partitioning using the `/partitionKey` path, mapped explicitly to business objectives.
+- **Observability:**
+  - **OpenTelemetry (OTEL):** Full distributed tracing and metrics integration.
+  - **Structured Logging:** High-performance logging via **Pino**, correlated with OTEL Trace IDs and exported to Azure Application Insights.
+- **Azure Native:**
+  - **Managed Identities:** Passwordless authentication for all Azure resources via Dapr.
+  - **Fast Cold Starts:** Bundled single-file deployment for rapid scaling in Azure Container Apps.
 
 ## Endpoints (Port 3000)
 - `GET /` - Serves the HTML UI for the Todo list.
 - `GET /healthz` - Health readiness check.
-- `GET /todos` - Lists all todos.
+- `GET /todos` - Lists all todos (via Dapr State Query API).
 - `GET /objectives` - Lists all unique objectives.
-- `POST /todos` - Creates a new todo.
+- `POST /todos` - Creates a new todo (via Dapr State Store).
 - `PUT /todos/:id` - Updates a todo.
 - `DELETE /todos/:id?objective=...` - Deletes a todo.
 
 ## Getting Started
 
-Assuming you have `Node` installed, run the server from the root directory:
+### Local Development with Dapr
+Ensure you have the [Dapr CLI](https://docs.dapr.io/getting-started/install-dapr-cli/) installed.
 
-```bash
-npm install
-npm run dev
-```
+1. **Install dependencies:**
+   ```bash
+   npm install
+   ```
 
-Then you can access the UI at `http://localhost:3000/`.
+2. **Run with Dapr Sidecar:**
+   ```bash
+   npm run dev
+   ```
+   This command starts the Hono server and a Dapr sidecar locally, using the components defined in `./components`.
 
-**Environment Variables Required:**
-```bash
-COSMOS_ENDPOINT="https://..."
-COSMOS_DATABASE="TodoDatabase"
-COSMOS_CONTAINER="Todos"
-```
+3. **Access the UI:**
+   Open `http://localhost:3000/`.
 
-## Docker Build & Deployment
+## Deployment
 
-To package this application for Azure, use the included `Dockerfile` which bundles the TypeScript application into a single JavaScript file.
+The application is containerized using a multi-stage Docker build and deployed to **Azure Container Apps** with Dapr enabled.
 
 ```bash
 docker build -t walcron-azure:latest .
 ```
 
-**Azure Container Apps Deployment:**
-The application is deployed as a single container. Traffic ingress is routed to the NodeJS application on `port 3000`.
-
-## Flow diagram
+## Architecture & Flow
 
 ```mermaid
 graph TD
@@ -60,26 +59,33 @@ graph TD
         JS["JavaScript (Fetch API)"]
     end
 
-    subgraph "Azure Container App (NodeJS Service)"
-        Hono["Hono Web Server (Port 3000)"]
-        Repo["CosmosRepo Implementation"]
-        Auth["Managed Identity Credential"]
+    subgraph "Azure Container App"
+        subgraph "NodeJS Service"
+            Hono["Hono Web Server"]
+            Repo["DaprRepo (Node SDK)"]
+            OTEL["OpenTelemetry SDK"]
+        end
+        
+        subgraph "Dapr Sidecar"
+            State["State Management"]
+            Binding["Output Bindings"]
+        end
     end
 
     subgraph "Azure Resources"
         Cosmos["Azure Cosmos DB"]
+        AppInsights["Application Insights / OTEL Collector"]
     end
 
-    %% Initialization Flow
-    Hono -- "1. Binds Port" --> UI
-
     %% Request Flow
-    UI -- "Get Page" --> Hono
-    JS -- "GET /todos" --> Hono
-    Hono -- "Execute Logic" --> Repo
-    Repo -- "Use Cached Token (MSI)" --> Auth
-    Auth -- "Access" --> Cosmos
-    Cosmos -- "Data JSON" --> Repo
-    Repo -- "JSON Response" --> JS
-    JS -- "renderTodos()" --> UI
+    UI -- "User Interaction" --> JS
+    JS -- "REST API" --> Hono
+    Hono -- "Business Logic" --> Repo
+    Repo -- "gRPC / HTTP" --> State
+    State -- "Managed Identity" --> Cosmos
+    
+    %% Telemetry Flow
+    Hono -- "Spans/Logs" --> OTEL
+    OTEL -- "Otlp/Http" --> AppInsights
+    State -- "Distributed Tracing" --> AppInsights
 ```
