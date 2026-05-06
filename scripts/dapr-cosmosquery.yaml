@@ -1,0 +1,12 @@
+# dapr-cosmosquery.yaml for Azure Container Apps
+componentType: bindings.azure.cosmosdb
+version: v1
+metadata:
+  - name: url
+    value: "https://walcron-db.documents.azure.com:443/"
+  - name: database
+    value: "TodoDatabase"
+  - name: collection
+    value: "Todos"
+  - name: authMode
+    value: "managed"
