@@ -14,5 +14,3 @@ spec:
     value: "Todos"
   - name: authMode
     value: "managed"
-  - name: partitionKey
-    value: "objective"
