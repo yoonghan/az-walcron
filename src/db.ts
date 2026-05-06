@@ -20,8 +20,12 @@ export class DaprRepo {
 	}
 
 	private parseQueryItem(r: any): Todo {
-		let content =
-			r.data !== undefined ? r.data : r.value !== undefined ? r.value : r;
+		console.log("Parsing item:", JSON.stringify(r));
+		// If r.data is null or undefined, try r.value, then fallback to r itself
+		let content = r.data;
+		if (content === undefined || content === null) {
+			content = r.value !== undefined ? r.value : r;
+		}
 
 		if (content instanceof Uint8Array || Buffer.isBuffer(content)) {
 			try {
@@ -37,6 +41,7 @@ export class DaprRepo {
 			}
 		}
 
+		// Handle CosmosDB wrapping if it exists (Dapr saves as { "id": "...", "value": { ... } })
 		if (content && typeof content === "object" && "value" in content) {
 			content = content.value;
 		}
@@ -49,7 +54,7 @@ export class DaprRepo {
 			filter: {},
 			sort: [],
 			page: {
-				limit: 0,
+				limit: 100,
 				token: undefined
 			}
 		});
@@ -63,7 +68,7 @@ export class DaprRepo {
 			filter: {},
 			sort: [],
 			page: {
-				limit: 0,
+				limit: 100,
 				token: undefined
 			}
 		});
@@ -75,7 +80,11 @@ export class DaprRepo {
 
 	async createTodo(todo: Todo): Promise<Todo> {
 		await this.client.state.save(this.stateStoreName, [
-			{ key: todo.id, value: todo },
+			{
+				key: todo.id,
+				value: todo,
+				metadata: { partitionKey: todo.objective },
+			},
 		]);
 		return todo;
 	}
@@ -86,7 +95,9 @@ export class DaprRepo {
 		title: string,
 		completed: boolean,
 	): Promise<Todo | null> {
-		const existing = await this.client.state.get(this.stateStoreName, id);
+		const existing = await this.client.state.get(this.stateStoreName, id, {
+			metadata: { partitionKey: objective },
+		});
 		if (!existing || Object.keys(existing).length === 0) return null;
 
 		const updatedTodo = {
@@ -96,16 +107,24 @@ export class DaprRepo {
 		};
 
 		await this.client.state.save(this.stateStoreName, [
-			{ key: id, value: updatedTodo },
+			{
+				key: id,
+				value: updatedTodo,
+				metadata: { partitionKey: objective },
+			},
 		]);
 		return updatedTodo;
 	}
 
 	async deleteTodo(id: string, objective: string): Promise<boolean> {
-		const existing = await this.client.state.get(this.stateStoreName, id);
+		const existing = await this.client.state.get(this.stateStoreName, id, {
+			metadata: { partitionKey: objective },
+		});
 		if (!existing || Object.keys(existing).length === 0) return false;
 
-		await this.client.state.delete(this.stateStoreName, id);
+		await this.client.state.delete(this.stateStoreName, id, {
+			metadata: { partitionKey: objective },
+		});
 		return true;
 	}
 }
