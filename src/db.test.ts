@@ -75,7 +75,7 @@ describe("DaprRepo", () => {
 				filter: {},
 				sort: [],
 				page: {
-					limit: 0,
+					limit: 100,
 					token: undefined
 				}
 			});
@@ -97,7 +97,7 @@ describe("DaprRepo", () => {
 				filter: {},
 				sort: [],
 				page: {
-					limit: 0,
+					limit: 100,
 					token: undefined
 				}
 			});
@@ -118,7 +118,11 @@ describe("DaprRepo", () => {
 			const res = await repo.createTodo(newTodo);
 			expect(res).toEqual(newTodo);
 			expect(mockStateSave).toHaveBeenCalledWith("todostore", [
-				{ key: "1", value: newTodo },
+				{
+					key: "1",
+					value: newTodo,
+					metadata: { partitionKey: "Work" },
+				},
 			]);
 		});
 	});
@@ -145,9 +149,15 @@ describe("DaprRepo", () => {
 			const res = await repo.updateTodo("1", "Work", "New", true);
 
 			expect(res).toEqual(newTodo);
-			expect(mockStateGet).toHaveBeenCalledWith("todostore", "1");
+			expect(mockStateGet).toHaveBeenCalledWith("todostore", "1", {
+				metadata: { partitionKey: "Work" },
+			});
 			expect(mockStateSave).toHaveBeenCalledWith("todostore", [
-				{ key: "1", value: newTodo },
+				{
+					key: "1",
+					value: newTodo,
+					metadata: { partitionKey: "Work" },
+				},
 			]);
 		});
 
@@ -166,8 +176,12 @@ describe("DaprRepo", () => {
 			const repo = new DaprRepo();
 			const res = await repo.deleteTodo("1", "Work");
 			expect(res).toBe(true);
-			expect(mockStateGet).toHaveBeenCalledWith("todostore", "1");
-			expect(mockStateDelete).toHaveBeenCalledWith("todostore", "1");
+			expect(mockStateGet).toHaveBeenCalledWith("todostore", "1", {
+				metadata: { partitionKey: "Work" },
+			});
+			expect(mockStateDelete).toHaveBeenCalledWith("todostore", "1", {
+				metadata: { partitionKey: "Work" },
+			});
 		});
 
 		it("should return false if item not found", async () => {
