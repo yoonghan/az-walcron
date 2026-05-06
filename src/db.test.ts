@@ -1,12 +1,12 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
-const { mockStateSave, mockStateGet, mockStateDelete, mockBindingSend } =
+const { mockStateSave, mockStateGet, mockStateDelete, mockStateQuery } =
 	vi.hoisted(() => {
 		return {
 			mockStateSave: vi.fn(),
 			mockStateGet: vi.fn(),
 			mockStateDelete: vi.fn(),
-			mockBindingSend: vi.fn(),
+			mockStateQuery: vi.fn(),
 		};
 	});
 
@@ -17,9 +17,7 @@ vi.mock("@dapr/dapr", () => {
 				save: mockStateSave,
 				get: mockStateGet,
 				delete: mockStateDelete,
-			};
-			binding = {
-				send: mockBindingSend,
+				query: mockStateQuery,
 			};
 		},
 	};
@@ -42,16 +40,38 @@ describe("DaprRepo", () => {
 
 	describe("listObjectives", () => {
 		it("should return objectives", async () => {
-			mockBindingSend.mockResolvedValueOnce(["Work", "Personal"]);
+			mockStateQuery.mockResolvedValueOnce({
+				results: [
+					{
+						data: {
+							id: "1",
+							title: "Test 1",
+							objective: "Work",
+							completed: false,
+						},
+					},
+					{
+						data: {
+							id: "2",
+							title: "Test 2",
+							objective: "Personal",
+							completed: false,
+						},
+					},
+					{
+						data: {
+							id: "3",
+							title: "Test 3",
+							objective: "Work",
+							completed: false,
+						},
+					},
+				],
+			});
 			const repo = new DaprRepo();
 			const res = await repo.listObjectives();
 			expect(res).toEqual(["Work", "Personal"]);
-			expect(mockBindingSend).toHaveBeenCalledWith(
-				"todoquery",
-				"query",
-				undefined,
-				{ query: "SELECT DISTINCT VALUE c.objective FROM c" },
-			);
+			expect(mockStateQuery).toHaveBeenCalledWith("todostore", { filter: {} });
 		});
 	});
 
@@ -60,16 +80,13 @@ describe("DaprRepo", () => {
 			const mockTodos = [
 				{ id: "1", title: "Test", objective: "Work", completed: false },
 			];
-			mockBindingSend.mockResolvedValueOnce(mockTodos);
+			mockStateQuery.mockResolvedValueOnce({
+				results: [{ data: mockTodos[0] }],
+			});
 			const repo = new DaprRepo();
 			const res = await repo.listTodos();
 			expect(res).toEqual(mockTodos);
-			expect(mockBindingSend).toHaveBeenCalledWith(
-				"todoquery",
-				"query",
-				undefined,
-				{ query: "SELECT * FROM c" },
-			);
+			expect(mockStateQuery).toHaveBeenCalledWith("todostore", { filter: {} });
 		});
 	});
 
