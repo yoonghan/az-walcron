@@ -19,11 +19,36 @@ export class DaprRepo {
 		this.client = new DaprClient({ daprHost, daprPort });
 	}
 
+	private parseQueryItem(r: any): Todo {
+		let content =
+			r.data !== undefined ? r.data : r.value !== undefined ? r.value : r;
+
+		if (content instanceof Uint8Array || Buffer.isBuffer(content)) {
+			try {
+				content = JSON.parse(Buffer.from(content).toString());
+			} catch (e) {
+				// ignore
+			}
+		} else if (typeof content === "string") {
+			try {
+				content = JSON.parse(content);
+			} catch (e) {
+				// ignore
+			}
+		}
+
+		if (content && typeof content === "object" && "value" in content) {
+			content = content.value;
+		}
+
+		return content as Todo;
+	}
+
 	async listObjectives(): Promise<string[]> {
 		const response = await this.client.state.query(this.stateStoreName, {
 			filter: {},
 		});
-		const todos = response.results.map((r: { data: Todo }) => r.data as Todo);
+		const todos = response.results.map((r: any) => this.parseQueryItem(r));
 		const objectives = new Set(todos.map((t) => t.objective));
 		return Array.from(objectives);
 	}
@@ -32,7 +57,7 @@ export class DaprRepo {
 		const response = await this.client.state.query(this.stateStoreName, {
 			filter: {},
 		});
-		return response.results.map((r: { data: Todo }) => r.data as Todo);
+		return response.results.map((r: any) => this.parseQueryItem(r));
 	}
 
 	async createTodo(todo: Todo): Promise<Todo> {
