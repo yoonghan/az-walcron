@@ -63,7 +63,4 @@ az cosmosdb update \
   --ip-range-filter ""
 
 echo "CosmosDB setup complete."
-echo "Please set the following environment variables in your Container App:"
-echo "COSMOS_ENDPOINT=https://$ACCOUNT_NAME.documents.azure.com:443/"
-echo "COSMOS_DATABASE=$DATABASE_NAME"
-echo "COSMOS_CONTAINER=$CONTAINER_NAME"
+echo "Your Dapr components will now handle the connection using Managed Identity."
