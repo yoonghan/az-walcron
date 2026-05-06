@@ -72,9 +72,6 @@ export class DaprRepo {
 				token: undefined
 			}
 		});
-		console.log("response", response);
-		console.log("results", response.results);
-
 		return response.results.map((r: any) => this.parseQueryItem(r));
 	}
 
