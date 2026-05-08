@@ -1,9 +1,9 @@
 import "./tracing"; // Initialize OpenTelemetry before all other imports
 import { serve } from "@hono/node-server";
-import { trace } from "@opentelemetry/api";
 import * as dotenv from "dotenv";
 import { Hono } from "hono";
 import { cors } from "hono/cors";
+import { httpInstrumentationMiddleware } from '@hono/otel';
 import pino from "pino";
 import { v4 as uuidv4 } from "uuid";
 import { dbRepo } from "./db";
@@ -27,6 +27,8 @@ type Variables = {
 const app = new Hono<{ Variables: Variables }>();
 
 app.use("*", cors());
+
+app.use('*', httpInstrumentationMiddleware());
 
 app.get("/", (c) => {
 	return c.html(renderHtml());
