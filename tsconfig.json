@@ -1,7 +1,9 @@
 {
   "compilerOptions": {
-    "target": "ES2022",
-    "module": "CommonJS",
+    "allowSyntheticDefaultImports": true,
+    "moduleResolution": "nodenext", // Ensures it finds packages in node_modules correctly
+    "target": "ESNext", // Or ES2022
+    "module": "NodeNext", // Or ESNext
     "outDir": "./dist",
     "rootDir": "./src",
     "strict": true,
@@ -10,5 +12,7 @@
     "forceConsistentCasingInFileNames": true,
     "resolveJsonModule": true
   },
-  "include": ["src/**/*"]
+  "include": [
+    "src/**/*"
+  ]
 }
