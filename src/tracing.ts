@@ -2,17 +2,23 @@ import { useAzureMonitor } from "@azure/monitor-opentelemetry";
 import { ConsoleSpanExporter } from "@opentelemetry/sdk-trace-base";
 import { NodeSDK } from "@opentelemetry/sdk-node";
 import { HttpInstrumentation } from "@opentelemetry/instrumentation-http";
+import { UndiciInstrumentation } from "@opentelemetry/instrumentation-undici";
 
 // 1. Initialize Azure Monitor (for production/cloud)
 if (process.env.APPLICATIONINSIGHTS_CONNECTION_STRING) {
 	useAzureMonitor();
 }
 
-// 2. Setup the Local SDK (for your MacBook console logging)
+// 2. We use our own NodeSDK to ADD the console exporter and extra instrumentations.
+// OpenTelemetry is smart enough to merge these configurations.
 const sdk = new NodeSDK({
 	traceExporter: new ConsoleSpanExporter(),
-	instrumentations: [new HttpInstrumentation()],
-	// This automatically sets up the Span Processor for the Console Exporter
+	instrumentations: [
+		// No special config needed for basic propagation!
+		new HttpInstrumentation(),
+		// Essential for linking Hono -> Dapr or Hono -> Hono calls
+		new UndiciInstrumentation(),
+	],
 });
 
 // 3. Start the SDK
