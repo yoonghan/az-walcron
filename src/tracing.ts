@@ -9,6 +9,8 @@ import { ATTR_SERVICE_NAME, ATTR_SERVICE_VERSION } from '@opentelemetry/semantic
 
 // 1. Initialize Azure Monitor (for production/cloud)
 if (process.env.APPLICATIONINSIGHTS_CONNECTION_STRING) {
+	console.log("OTel: Application Insights connection string found. Initializing Azure Monitor.");
+	console.log("OTel: Application Insights connection string: ", process.env.APPLICATIONINSIGHTS_CONNECTION_STRING);
 	useAzureMonitor();
 }
 
