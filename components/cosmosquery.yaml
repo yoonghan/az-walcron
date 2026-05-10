@@ -4,6 +4,7 @@ metadata:
   name: todoquery
 spec:
   type: bindings.azure.cosmosdb
+  initTimeout: 30s
   version: v1
   metadata:
   - name: url

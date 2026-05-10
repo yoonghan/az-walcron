@@ -57,15 +57,16 @@ docker build -t walcron-azure:latest .
 curl -fsSL https://raw.githubusercontent.com/dapr/cli/master/install/install.sh | /bin/bash
 ```
 
-2. Initialize
+2. Initialize Dapr in slim mode (local dev):
 
 ```bash
 dapr init --slim
 ```
 
-3. Init for open telemetry
+3. Configure OpenTelemetry (Local):
 ```bash
-echo <<EOF > ~/.dapr/config.yaml 
+# This creates a local config for tracing to Zipkin
+cat <<EOF > ~/.dapr/config.yaml 
 apiVersion: dapr.io/v1alpha1
 kind: Configuration
 metadata:

@@ -4,6 +4,7 @@ metadata:
   name: todostore
 spec:
   type: state.azure.cosmosdb
+  initTimeout: 30s
   version: v1
   metadata:
   - name: url
