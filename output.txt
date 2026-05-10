@@ -1,0 +1,2076 @@
+
+> az-walcron@1.0.0 dev
+> dapr run --app-id az-walcron --app-port 3000 --dapr-http-port 3500 --resources-path ./components --config ./components/dapr-config.yaml -- tsx watch src/index.ts
+
+ℹ️  Starting Dapr with id az-walcron. HTTP Port: 3500. gRPC Port: 55430
+time="2026-05-11T07:47:14.684534+08:00" level=info msg="Starting Dapr Runtime -- version 1.17.6 -- commit 730072425935a8af961701abcbecc4e4a79039fa" app_id=az-walcron instance=Hans-MacBook-Pro.local scope=dapr.runtime type=log ver=1.17.6
+time="2026-05-11T07:47:14.684632+08:00" level=info msg="Log level set to: info" app_id=az-walcron instance=Hans-MacBook-Pro.local scope=dapr.runtime type=log ver=1.17.6
+time="2026-05-11T07:47:14.685041+08:00" level=warning msg="mTLS is disabled. Skipping certificate request and tls validation" app_id=az-walcron instance=Hans-MacBook-Pro.local scope=dapr.runtime.security type=log ver=1.17.6
+time="2026-05-11T07:47:14.685966+08:00" level=info msg="metric spec: {\"enabled\":true}" app_id=az-walcron instance=Hans-MacBook-Pro.local scope=dapr.runtime.diagnostics type=log ver=1.17.6
+time="2026-05-11T07:47:14.686017+08:00" level=info msg="Using default latency distribution buckets: [1 2 3 4 5 6 8 10 13 16 20 25 30 40 50 65 80 100 130 160 200 250 300 400 500 650 800 1000 2000 5000 10000 20000 50000 100000]" app_id=az-walcron instance=Hans-MacBook-Pro.local scope=dapr.runtime.diagnostics type=log ver=1.17.6
+time="2026-05-11T07:47:14.686162+08:00" level=warning msg="The default value for 'spec.metric.http.increasedCardinality' will change to 'false' in Dapr 1.15 or later" app_id=az-walcron instance=Hans-MacBook-Pro.local scope=dapr.runtime.diagnostics type=log ver=1.17.6
+time="2026-05-11T07:47:14.687184+08:00" level=info msg="standalone mode configured" app_id=az-walcron instance=Hans-MacBook-Pro.local scope=dapr.runtime type=log ver=1.17.6
+time="2026-05-11T07:47:14.687226+08:00" level=info msg="app id: az-walcron" app_id=az-walcron instance=Hans-MacBook-Pro.local scope=dapr.runtime type=log ver=1.17.6
+time="2026-05-11T07:47:14.687328+08:00" level=info msg="metrics server started on 0.0.0.0:55431/" app_id=az-walcron instance=Hans-MacBook-Pro.local scope=dapr.runtime type=log ver=1.17.6
+time="2026-05-11T07:47:14.687466+08:00" level=info msg="Dapr trace sampler initialized: ParentBased{root:AlwaysOnSampler,remoteParentSampled:AlwaysOnSampler,remoteParentNotSampled:AlwaysOffSampler,localParentSampled:AlwaysOnSampler,localParentNotSampled:AlwaysOffSampler}" app_id=az-walcron instance=Hans-MacBook-Pro.local scope=dapr.runtime type=log ver=1.17.6
+time="2026-05-11T07:47:14.688092+08:00" level=info msg="local service entry announced: az-walcron -> 192.168.0.39:55432" app_id=az-walcron component="nr (mdns/v1)" instance=Hans-MacBook-Pro.local scope=dapr.contrib type=log ver=1.17.6
+time="2026-05-11T07:47:14.688162+08:00" level=info msg="Initialized name resolution to mdns" app_id=az-walcron instance=Hans-MacBook-Pro.local scope=dapr.runtime type=log ver=1.17.6
+time="2026-05-11T07:47:14.688376+08:00" level=info msg="Loading components…" app_id=az-walcron instance=Hans-MacBook-Pro.local scope=dapr.runtime type=log ver=1.17.6
+time="2026-05-11T07:47:14.692861+08:00" level=info msg="Connected and received scheduler hosts addresses: [localhost:50006]" app_id=az-walcron instance=Hans-MacBook-Pro.local scope=dapr.runtime.scheduler.watchhosts type=log ver=1.17.6
+time="2026-05-11T07:47:14.693128+08:00" level=info msg="Scheduler client initialized for address: localhost:50006" app_id=az-walcron instance=Hans-MacBook-Pro.local scope=dapr.runtime.scheduler.clients type=log ver=1.17.6
+time="2026-05-11T07:47:14.693166+08:00" level=info msg="Scheduler clients initialized" app_id=az-walcron instance=Hans-MacBook-Pro.local scope=dapr.runtime.scheduler.clients type=log ver=1.17.6
+OTel: NodeSDK started. Logging to console enabled.
+◇ injected env (0) from .env // tip: ⌁ auth for agents [www.vestauth.com]
+{"level":"info","time":1778456837058,"pid":45180,"hostname":"Hans-MacBook-Pro.local","event":"startup","message":"Server is starting on port 3000"}
+time="2026-05-11T07:47:20.397525+08:00" level=info msg="successful init for output binding (todoquery (bindings.azure.cosmosdb/v1))" app_id=az-walcron instance=Hans-MacBook-Pro.local scope=dapr.runtime.processor.binding type=log ver=1.17.6
+time="2026-05-11T07:47:20.397953+08:00" level=info msg="Component loaded: todoquery (bindings.azure.cosmosdb/v1)" app_id=az-walcron instance=Hans-MacBook-Pro.local scope=dapr.runtime.processor type=log ver=1.17.6
+time="2026-05-11T07:47:20.398298+08:00" level=info msg="Waiting for all outstanding components to be processed…" app_id=az-walcron instance=Hans-MacBook-Pro.local scope=dapr.runtime type=log ver=1.17.6
+time="2026-05-11T07:47:22.998647+08:00" level=info msg="Component loaded: todostore (state.azure.cosmosdb/v1)" app_id=az-walcron instance=Hans-MacBook-Pro.local scope=dapr.runtime.processor type=log ver=1.17.6
+time="2026-05-11T07:47:22.998737+08:00" level=info msg="All outstanding components processed" app_id=az-walcron instance=Hans-MacBook-Pro.local scope=dapr.runtime type=log ver=1.17.6
+time="2026-05-11T07:47:22.99878+08:00" level=info msg="Loading endpoints…" app_id=az-walcron instance=Hans-MacBook-Pro.local scope=dapr.runtime type=log ver=1.17.6
+time="2026-05-11T07:47:22.99963+08:00" level=info msg="Waiting for all outstanding http endpoints to be processed…" app_id=az-walcron instance=Hans-MacBook-Pro.local scope=dapr.runtime type=log ver=1.17.6
+time="2026-05-11T07:47:22.999672+08:00" level=info msg="All outstanding http endpoints processed" app_id=az-walcron instance=Hans-MacBook-Pro.local scope=dapr.runtime type=log ver=1.17.6
+time="2026-05-11T07:47:22.99969+08:00" level=info msg="Loading Declarative Subscriptions…" app_id=az-walcron instance=Hans-MacBook-Pro.local scope=dapr.runtime type=log ver=1.17.6
+time="2026-05-11T07:47:23.000507+08:00" level=info msg="gRPC server listening on TCP address: :55430" app_id=az-walcron instance=Hans-MacBook-Pro.local scope=dapr.runtime.grpc.api type=log ver=1.17.6
+time="2026-05-11T07:47:23.000542+08:00" level=info msg="Enabled gRPC tracing middleware" app_id=az-walcron instance=Hans-MacBook-Pro.local scope=dapr.runtime.grpc.api type=log ver=1.17.6
+time="2026-05-11T07:47:23.000554+08:00" level=info msg="Enabled gRPC metrics middleware" app_id=az-walcron instance=Hans-MacBook-Pro.local scope=dapr.runtime.grpc.api type=log ver=1.17.6
+time="2026-05-11T07:47:23.000654+08:00" level=info msg="Registering workflow engine for gRPC endpoint: [::]:55430" app_id=az-walcron instance=Hans-MacBook-Pro.local scope=dapr.runtime.grpc.api type=log ver=1.17.6
+time="2026-05-11T07:47:23.000697+08:00" level=info msg="API gRPC server is running on port 55430" app_id=az-walcron instance=Hans-MacBook-Pro.local scope=dapr.runtime type=log ver=1.17.6
+time="2026-05-11T07:47:23.000745+08:00" level=warning msg="The default value for 'spec.metric.http.increasedCardinality' will change to 'false' in Dapr 1.15 or later" app_id=az-walcron instance=Hans-MacBook-Pro.local scope=dapr.runtime.http type=log ver=1.17.6
+time="2026-05-11T07:47:23.000833+08:00" level=info msg="Enabled max body size HTTP middleware with size 4194304 bytes" app_id=az-walcron instance=Hans-MacBook-Pro.local scope=dapr.runtime.http type=log ver=1.17.6
+time="2026-05-11T07:47:23.000848+08:00" level=info msg="Enabled tracing HTTP middleware" app_id=az-walcron instance=Hans-MacBook-Pro.local scope=dapr.runtime.http type=log ver=1.17.6
+time="2026-05-11T07:47:23.000856+08:00" level=info msg="Enabled metrics HTTP middleware" app_id=az-walcron instance=Hans-MacBook-Pro.local scope=dapr.runtime.http type=log ver=1.17.6
+time="2026-05-11T07:47:23.001187+08:00" level=info msg="HTTP server listening on TCP address: :3500" app_id=az-walcron instance=Hans-MacBook-Pro.local scope=dapr.runtime.http type=log ver=1.17.6
+time="2026-05-11T07:47:23.001221+08:00" level=info msg="HTTP server is running on port 3500" app_id=az-walcron instance=Hans-MacBook-Pro.local scope=dapr.runtime type=log ver=1.17.6
+time="2026-05-11T07:47:23.001232+08:00" level=info msg="The request body size parameter is: 4194304 bytes" app_id=az-walcron instance=Hans-MacBook-Pro.local scope=dapr.runtime type=log ver=1.17.6
+time="2026-05-11T07:47:23.001312+08:00" level=info msg="gRPC server listening on TCP address: :55432" app_id=az-walcron instance=Hans-MacBook-Pro.local scope=dapr.runtime.grpc.internal type=log ver=1.17.6
+time="2026-05-11T07:47:23.001329+08:00" level=info msg="Enabled gRPC tracing middleware" app_id=az-walcron instance=Hans-MacBook-Pro.local scope=dapr.runtime.grpc.internal type=log ver=1.17.6
+time="2026-05-11T07:47:23.001337+08:00" level=info msg="Enabled gRPC metrics middleware" app_id=az-walcron instance=Hans-MacBook-Pro.local scope=dapr.runtime.grpc.internal type=log ver=1.17.6
+time="2026-05-11T07:47:23.001368+08:00" level=info msg="Internal gRPC server is running on :55432" app_id=az-walcron instance=Hans-MacBook-Pro.local scope=dapr.runtime type=log ver=1.17.6
+time="2026-05-11T07:47:23.001381+08:00" level=info msg="application protocol: http. waiting on port 3000.  This will block until the app is listening on that port." app_id=az-walcron instance=Hans-MacBook-Pro.local scope=dapr.runtime type=log ver=1.17.6
+time="2026-05-11T07:47:23.001551+08:00" level=info msg="application discovered on port 3000" app_id=az-walcron instance=Hans-MacBook-Pro.local scope=dapr.runtime type=log ver=1.17.6
+time="2026-05-11T07:47:23.001699+08:00" level=info msg="actors: state store is not configured - this is okay for clients but services with hosted actors will fail to initialize!" app_id=az-walcron instance=Hans-MacBook-Pro.local scope=dapr.runtime type=log ver=1.17.6
+time="2026-05-11T07:47:23.001736+08:00" level=info msg="Actor state store not configured - actor hosting disabled, but invocation enabled" app_id=az-walcron instance=Hans-MacBook-Pro.local scope=dapr.runtime.actor type=log ver=1.17.6
+time="2026-05-11T07:47:23.001751+08:00" level=info msg="Using Scheduler service for reminders." app_id=az-walcron instance=Hans-MacBook-Pro.local scope=dapr.runtime.actor.reminders.scheduler type=log ver=1.17.6
+time="2026-05-11T07:47:23.001881+08:00" level=info msg="Actor runtime started" app_id=az-walcron instance=Hans-MacBook-Pro.local scope=dapr.runtime.actor type=log ver=1.17.6
+time="2026-05-11T07:47:23.001908+08:00" level=warning msg="Graceful shutdown timeout is infinite, will wait indefinitely to shutdown" app_id=az-walcron instance=Hans-MacBook-Pro.local scope=dapr.runtime.actor type=log ver=1.17.6
+time="2026-05-11T07:47:23.001931+08:00" level=info msg="worker started with backend dapr.actors/v1" app_id=az-walcron instance=Hans-MacBook-Pro.local scope=dapr.wfengine.durabletask.backend type=log ver=1.17.6
+time="2026-05-11T07:47:23.001994+08:00" level=info msg="Workflow engine started" app_id=az-walcron instance=Hans-MacBook-Pro.local scope=dapr.runtime.wfengine type=log ver=1.17.6
+time="2026-05-11T07:47:23.002183+08:00" level=info msg="Connected to placement localhost:50005" app_id=az-walcron instance=Hans-MacBook-Pro.local scope=dapr.runtime.actors.placement.manager.connector.static type=log ver=1.17.6
+time="2026-05-11T07:47:23.004798+08:00" level=info msg="Connected to placement service: localhost:50005" app_id=az-walcron instance=Hans-MacBook-Pro.local scope=dapr.runtime.actors.placement.loops.placement type=log ver=1.17.6
+time="2026-05-11T07:47:23.004936+08:00" level=info msg="Reporting initial host to placement service with initial types []" app_id=az-walcron instance=Hans-MacBook-Pro.local scope=dapr.runtime.actors.placement.loops.placement type=log ver=1.17.6
+time="2026-05-11T07:47:23.006543+08:00" level=info msg="Dissemination complete for version 0, unlocking disseminator default/az-walcron" app_id=az-walcron instance=Hans-MacBook-Pro.local scope=dapr.runtime.actors.placement.loops.disseminator type=log ver=1.17.6
+time="2026-05-11T07:47:23.027479+08:00" level=info msg="Application configuration loaded" app_id=az-walcron instance=Hans-MacBook-Pro.local scope=dapr.runtime type=log ver=1.17.6
+time="2026-05-11T07:47:23.027543+08:00" level=info msg="dapr initialized. Status: Running. Init Elapsed 8340ms" app_id=az-walcron instance=Hans-MacBook-Pro.local scope=dapr.runtime type=log ver=1.17.6
+time="2026-05-11T07:47:23.027859+08:00" level=info msg="Scheduler stream connected for [JOB_TARGET_TYPE_JOB]" app_id=az-walcron instance=Hans-MacBook-Pro.local scope=dapr.runtime.scheduler.cluster type=log ver=1.17.6
+time="2026-05-11T07:47:23.027902+08:00" level=info msg="Scheduler stream connected for [JOB_TARGET_TYPE_JOB]" app_id=az-walcron instance=Hans-MacBook-Pro.local scope=dapr.runtime.scheduler.cluster type=log ver=1.17.6
+time="2026-05-11T07:47:23.027907+08:00" level=info msg="Scheduler stream connected for [JOB_TARGET_TYPE_JOB]" app_id=az-walcron instance=Hans-MacBook-Pro.local scope=dapr.runtime.scheduler.cluster type=log ver=1.17.6
+{
+  resource: {
+    attributes: {
+      'host.name': 'Hans-MacBook-Pro.local',
+      'host.arch': 'amd64',
+      'host.id': 'EF992CBF-EF29-52C1-B2D3-A9ED194C1448',
+      'process.pid': 45180,
+      'process.executable.name': '/Users/han/.nvm/versions/node/v24.15.0/bin/node',
+      'process.executable.path': '/Users/han/.nvm/versions/node/v24.15.0/bin/node',
+      'process.command_args': [
+        '/Users/han/.nvm/versions/node/v24.15.0/bin/node',
+        '--require',
+        '/Users/han/work/az-walcron/node_modules/tsx/dist/preflight.cjs',
+        '--import',
+        'file:///Users/han/work/az-walcron/node_modules/tsx/dist/loader.mjs',
+        '/Users/han/work/az-walcron/src/index.ts'
+      ],
+      'process.runtime.version': '24.15.0',
+      'process.runtime.name': 'nodejs',
+      'process.runtime.description': 'Node.js',
+      'process.command': '/Users/han/work/az-walcron/src/index.ts',
+      'process.owner': 'han',
+      'service.name': 'az-walcron',
+      'service.version': '1.0.0'
+    }
+  },
+  instrumentationScope: { name: '@hono/otel', version: '1.1.2', schemaUrl: undefined },
+  traceId: '1c27d5616d2828e2db064f54f0ee2c8d',
+  parentSpanContext: {
+    traceId: '1c27d5616d2828e2db064f54f0ee2c8d',
+    spanId: 'ac8e781f0078c5d8',
+    traceFlags: 1,
+    traceState: undefined
+  },
+  traceState: undefined,
+  name: 'GET /*',
+  id: 'f125edb5c34d8f85',
+  kind: 1,
+  timestamp: 1778456843018000,
+  duration: 4372.58,
+  attributes: {
+    'http.request.method': 'GET',
+    'url.full': 'http://127.0.0.1:3000/dapr/config',
+    'http.route': '/*',
+    'http.response.status_code': 404
+  },
+  status: { code: 0 },
+  events: [],
+  links: []
+}
+{
+  resource: {
+    attributes: {
+      'host.name': 'Hans-MacBook-Pro.local',
+      'host.arch': 'amd64',
+      'host.id': 'EF992CBF-EF29-52C1-B2D3-A9ED194C1448',
+      'process.pid': 45180,
+      'process.executable.name': '/Users/han/.nvm/versions/node/v24.15.0/bin/node',
+      'process.executable.path': '/Users/han/.nvm/versions/node/v24.15.0/bin/node',
+      'process.command_args': [
+        '/Users/han/.nvm/versions/node/v24.15.0/bin/node',
+        '--require',
+        '/Users/han/work/az-walcron/node_modules/tsx/dist/preflight.cjs',
+        '--import',
+        'file:///Users/han/work/az-walcron/node_modules/tsx/dist/loader.mjs',
+        '/Users/han/work/az-walcron/src/index.ts'
+      ],
+      'process.runtime.version': '24.15.0',
+      'process.runtime.name': 'nodejs',
+      'process.runtime.description': 'Node.js',
+      'process.command': '/Users/han/work/az-walcron/src/index.ts',
+      'process.owner': 'han',
+      'service.name': 'az-walcron',
+      'service.version': '1.0.0'
+    }
+  },
+  instrumentationScope: {
+    name: '@opentelemetry/instrumentation-http',
+    version: '0.208.0',
+    schemaUrl: undefined
+  },
+  traceId: '1c27d5616d2828e2db064f54f0ee2c8d',
+  parentSpanContext: undefined,
+  traceState: undefined,
+  name: 'GET',
+  id: 'ac8e781f0078c5d8',
+  kind: 1,
+  timestamp: 1778456843008000,
+  duration: 20617.03,
+  attributes: {
+    'http.url': 'http://127.0.0.1:3000/dapr/config',
+    'http.host': '127.0.0.1:3000',
+    'net.host.name': '127.0.0.1',
+    'http.method': 'GET',
+    'http.scheme': 'http',
+    'http.target': '/dapr/config',
+    'http.user_agent': 'Go-http-client/1.1',
+    'http.flavor': '1.1',
+    'net.transport': 'ip_tcp',
+    'net.host.ip': '::ffff:127.0.0.1',
+    'net.host.port': 3000,
+    'net.peer.ip': '::ffff:127.0.0.1',
+    'net.peer.port': 55459,
+    'http.status_code': 404,
+    'http.status_text': 'NOT FOUND'
+  },
+  status: { code: 0 },
+  events: [],
+  links: []
+}
+ℹ️  Updating metadata for appPID: 45178
+ℹ️  Updating metadata for app command: tsx watch src/index.ts
+✅  You're up and running! Both Dapr and your app logs will appear here.
+
+2026-05-10T23:47:29.578Z INFO [HTTPClient, HTTPClient] Sidecar Started
+Trace Headers being sent to Dapr: {
+  traceparent: '00-635dc2b28085c07a337793a1ab557a31-c17a30b2b38c35b3-01'
+}
+Parsing item: {"key":"757c3919-2f30-4e6e-b92f-99117a1d0f32","data":{"completed":false,"id":"757c3919-2f30-4e6e-b92f-99117a1d0f32","objective":"Disney Trip","title":"Buy early access pass to Disney 2nd day."},"etag":"\"1f00987e-0000-1900-0000-6a01186b0000\""}
+Trace Headers being sent to Dapr: {
+  traceparent: '00-635dc2b28085c07a337793a1ab557a31-c17a30b2b38c35b3-01'
+}
+Parsing item: {"key":"1e6b8fe3-3ffa-4ccd-900c-adb31c5e30ec","data":{"completed":false,"id":"1e6b8fe3-3ffa-4ccd-900c-adb31c5e30ec","objective":"Disney Trip","title":"Purchase Breakfast with Disney Character"},"etag":"\"1f008b79-0000-1900-0000-6a0116540000\""}
+Trace Headers being sent to Dapr: {
+  traceparent: '00-635dc2b28085c07a337793a1ab557a31-c17a30b2b38c35b3-01'
+}
+Parsing item: {"key":"6c9a10fb-83d0-4dc5-9eb2-9b2e37908453","data":{"completed":false,"id":"6c9a10fb-83d0-4dc5-9eb2-9b2e37908453","objective":"Preparation","title":"Bring passport (all 3)"},"etag":"\"1f00666c-0000-1900-0000-6a010e3e0000\""}
+Trace Headers being sent to Dapr: {
+  traceparent: '00-635dc2b28085c07a337793a1ab557a31-c17a30b2b38c35b3-01'
+}
+Parsing item: {"key":"e94057d1-6e1c-469f-835b-1fece4a7a431","data":{"objective":"Preparation","title":"Bring 7 diapers","completed":false,"id":"e94057d1-6e1c-469f-835b-1fece4a7a431"},"etag":"\"1f00686c-0000-1900-0000-6a010e3f0000\""}
+Trace Headers being sent to Dapr: {
+  traceparent: '00-635dc2b28085c07a337793a1ab557a31-c17a30b2b38c35b3-01'
+}
+Parsing item: {"key":"c19901fb-84aa-47ba-9831-565a62b781da","data":{"completed":false,"id":"c19901fb-84aa-47ba-9831-565a62b781da","objective":"Preparation","title":"1 charger"},"etag":"\"2900a4ff-0000-1900-0000-69fb09c70000\""}
+Trace Headers being sent to Dapr: {
+  traceparent: '00-635dc2b28085c07a337793a1ab557a31-c17a30b2b38c35b3-01'
+}
+Parsing item: {"key":"813784ea-feb8-4e18-a1b2-905807285f63","data":{"title":"Walkie talkie","completed":false,"id":"813784ea-feb8-4e18-a1b2-905807285f63","objective":"Preparation"},"etag":"\"310097e4-0000-1900-0000-69fc39ed0000\""}
+Trace Headers being sent to Dapr: {
+  traceparent: '00-635dc2b28085c07a337793a1ab557a31-c17a30b2b38c35b3-01'
+}
+Parsing item: {"key":"89d9387a-8f85-4baa-b224-7daab59b8a25","data":{"id":"89d9387a-8f85-4baa-b224-7daab59b8a25","objective":"Disney Trip","title":"Buy t-rex/woody if he likes","completed":false},"etag":"\"3200d247-0000-1900-0000-69fc472a0000\""}
+Trace Headers being sent to Dapr: {
+  traceparent: '00-635dc2b28085c07a337793a1ab557a31-c17a30b2b38c35b3-01'
+}
+Parsing item: {"key":"26835f76-543d-4835-879d-6c56cbd1c9ec","data":{"objective":"Disney Trip","title":"Get into Frozen on first encounter","completed":false,"id":"26835f76-543d-4835-879d-6c56cbd1c9ec"},"etag":"\"3200596b-0000-1900-0000-69fc4b7e0000\""}
+Trace Headers being sent to Dapr: {
+  traceparent: '00-635dc2b28085c07a337793a1ab557a31-c17a30b2b38c35b3-01'
+}
+Parsing item: {"key":"94ba9e06-73b7-4f11-a272-4a053144506e","data":{"completed":false,"id":"94ba9e06-73b7-4f11-a272-4a053144506e","objective":"Hong Kong","title":"Buy Lego ticket to K11 Musea"},"etag":"\"32009371-0000-1900-0000-69fc4c490000\""}
+Trace Headers being sent to Dapr: {
+  traceparent: '00-635dc2b28085c07a337793a1ab557a31-c17a30b2b38c35b3-01'
+}
+Parsing item: {"key":"371bf21b-4af3-4ead-a592-1b03fd1d0d7a","data":{"objective":"Disney Trip","title":"Frozen Ever After => Wandering Oaken’s Sliding Sleighs => The Many Adventures of Winnie the Pooh","completed":false,"id":"371bf21b-4af3-4ead-a592-1b03fd1d0d7a"},"etag":"\"32005c6b-0000-1900-0000-69fc4b7e0000\""}
+Trace Headers being sent to Dapr: {
+  traceparent: '00-635dc2b28085c07a337793a1ab557a31-c17a30b2b38c35b3-01'
+}
+Parsing item: {"key":"4f70ab29-d1e5-434b-a043-00405d91b628","data":{"completed":false,"id":"4f70ab29-d1e5-434b-a043-00405d91b628","objective":"Return","title":"Buy lots of egg rolls"},"etag":"\"0000deab-0000-1900-0000-69fdb9770000\""}
+Trace Headers being sent to Dapr: {
+  traceparent: '00-62068b965ac2dff8e37091b711dcf350-8d0c50ffae67f465-01'
+}
+Trace Headers being sent to Dapr: {
+  traceparent: '00-62068b965ac2dff8e37091b711dcf350-8d0c50ffae67f465-01'
+}
+Parsing item: {"key":"757c3919-2f30-4e6e-b92f-99117a1d0f32","data":{"id":"757c3919-2f30-4e6e-b92f-99117a1d0f32","objective":"Disney Trip","title":"Buy early access pass to Disney 2nd day.","completed":false},"etag":"\"1f00987e-0000-1900-0000-6a01186b0000\""}
+Trace Headers being sent to Dapr: {
+  traceparent: '00-62068b965ac2dff8e37091b711dcf350-8d0c50ffae67f465-01'
+}
+Parsing item: {"key":"1e6b8fe3-3ffa-4ccd-900c-adb31c5e30ec","data":{"id":"1e6b8fe3-3ffa-4ccd-900c-adb31c5e30ec","objective":"Disney Trip","title":"Purchase Breakfast with Disney Character","completed":false},"etag":"\"1f008b79-0000-1900-0000-6a0116540000\""}
+Trace Headers being sent to Dapr: {
+  traceparent: '00-62068b965ac2dff8e37091b711dcf350-8d0c50ffae67f465-01'
+}
+Parsing item: {"key":"6c9a10fb-83d0-4dc5-9eb2-9b2e37908453","data":{"completed":false,"id":"6c9a10fb-83d0-4dc5-9eb2-9b2e37908453","objective":"Preparation","title":"Bring passport (all 3)"},"etag":"\"1f00666c-0000-1900-0000-6a010e3e0000\""}
+Trace Headers being sent to Dapr: {
+  traceparent: '00-62068b965ac2dff8e37091b711dcf350-8d0c50ffae67f465-01'
+}
+Parsing item: {"key":"e94057d1-6e1c-469f-835b-1fece4a7a431","data":{"completed":false,"id":"e94057d1-6e1c-469f-835b-1fece4a7a431","objective":"Preparation","title":"Bring 7 diapers"},"etag":"\"1f00686c-0000-1900-0000-6a010e3f0000\""}
+Trace Headers being sent to Dapr: {
+  traceparent: '00-62068b965ac2dff8e37091b711dcf350-8d0c50ffae67f465-01'
+}
+Parsing item: {"key":"c19901fb-84aa-47ba-9831-565a62b781da","data":{"completed":false,"id":"c19901fb-84aa-47ba-9831-565a62b781da","objective":"Preparation","title":"1 charger"},"etag":"\"2900a4ff-0000-1900-0000-69fb09c70000\""}
+Trace Headers being sent to Dapr: {
+  traceparent: '00-62068b965ac2dff8e37091b711dcf350-8d0c50ffae67f465-01'
+}
+Parsing item: {"key":"813784ea-feb8-4e18-a1b2-905807285f63","data":{"completed":false,"id":"813784ea-feb8-4e18-a1b2-905807285f63","objective":"Preparation","title":"Walkie talkie"},"etag":"\"310097e4-0000-1900-0000-69fc39ed0000\""}
+Trace Headers being sent to Dapr: {
+  traceparent: '00-62068b965ac2dff8e37091b711dcf350-8d0c50ffae67f465-01'
+}
+Parsing item: {"key":"89d9387a-8f85-4baa-b224-7daab59b8a25","data":{"completed":false,"id":"89d9387a-8f85-4baa-b224-7daab59b8a25","objective":"Disney Trip","title":"Buy t-rex/woody if he likes"},"etag":"\"3200d247-0000-1900-0000-69fc472a0000\""}
+Trace Headers being sent to Dapr: {
+  traceparent: '00-62068b965ac2dff8e37091b711dcf350-8d0c50ffae67f465-01'
+}
+Parsing item: {"key":"26835f76-543d-4835-879d-6c56cbd1c9ec","data":{"id":"26835f76-543d-4835-879d-6c56cbd1c9ec","objective":"Disney Trip","title":"Get into Frozen on first encounter","completed":false},"etag":"\"3200596b-0000-1900-0000-69fc4b7e0000\""}
+Trace Headers being sent to Dapr: {
+  traceparent: '00-62068b965ac2dff8e37091b711dcf350-8d0c50ffae67f465-01'
+}
+Parsing item: {"key":"94ba9e06-73b7-4f11-a272-4a053144506e","data":{"completed":false,"id":"94ba9e06-73b7-4f11-a272-4a053144506e","objective":"Hong Kong","title":"Buy Lego ticket to K11 Musea"},"etag":"\"32009371-0000-1900-0000-69fc4c490000\""}
+Trace Headers being sent to Dapr: {
+  traceparent: '00-62068b965ac2dff8e37091b711dcf350-8d0c50ffae67f465-01'
+}
+Parsing item: {"key":"371bf21b-4af3-4ead-a592-1b03fd1d0d7a","data":{"completed":false,"id":"371bf21b-4af3-4ead-a592-1b03fd1d0d7a","objective":"Disney Trip","title":"Frozen Ever After => Wandering Oaken’s Sliding Sleighs => The Many Adventures of Winnie the Pooh"},"etag":"\"32005c6b-0000-1900-0000-69fc4b7e0000\""}
+Trace Headers being sent to Dapr: {
+  traceparent: '00-62068b965ac2dff8e37091b711dcf350-8d0c50ffae67f465-01'
+}
+Parsing item: {"key":"4f70ab29-d1e5-434b-a043-00405d91b628","data":{"id":"4f70ab29-d1e5-434b-a043-00405d91b628","objective":"Return","title":"Buy lots of egg rolls","completed":false},"etag":"\"0000deab-0000-1900-0000-69fdb9770000\""}
+{
+  resource: {
+    attributes: {
+      'host.name': 'Hans-MacBook-Pro.local',
+      'host.arch': 'amd64',
+      'host.id': 'EF992CBF-EF29-52C1-B2D3-A9ED194C1448',
+      'process.pid': 45180,
+      'process.executable.name': '/Users/han/.nvm/versions/node/v24.15.0/bin/node',
+      'process.executable.path': '/Users/han/.nvm/versions/node/v24.15.0/bin/node',
+      'process.command_args': [
+        '/Users/han/.nvm/versions/node/v24.15.0/bin/node',
+        '--require',
+        '/Users/han/work/az-walcron/node_modules/tsx/dist/preflight.cjs',
+        '--import',
+        'file:///Users/han/work/az-walcron/node_modules/tsx/dist/loader.mjs',
+        '/Users/han/work/az-walcron/src/index.ts'
+      ],
+      'process.runtime.version': '24.15.0',
+      'process.runtime.name': 'nodejs',
+      'process.runtime.description': 'Node.js',
+      'process.command': '/Users/han/work/az-walcron/src/index.ts',
+      'process.owner': 'han',
+      'service.name': 'az-walcron',
+      'service.version': '1.0.0'
+    }
+  },
+  instrumentationScope: { name: '@hono/otel', version: '1.1.2', schemaUrl: undefined },
+  traceId: 'af33c57b841a600d2059361621cc090b',
+  parentSpanContext: {
+    traceId: 'af33c57b841a600d2059361621cc090b',
+    spanId: '3f75121a2df145a3',
+    traceFlags: 1,
+    traceState: undefined
+  },
+  traceState: undefined,
+  name: 'GET /',
+  id: '6acf82d684c53f9f',
+  kind: 1,
+  timestamp: 1778456849497000,
+  duration: 2407.945,
+  attributes: {
+    'http.request.method': 'GET',
+    'url.full': 'http://localhost:3000/',
+    'http.route': '/',
+    'http.response.status_code': 200
+  },
+  status: { code: 0 },
+  events: [],
+  links: []
+}
+{
+  resource: {
+    attributes: {
+      'host.name': 'Hans-MacBook-Pro.local',
+      'host.arch': 'amd64',
+      'host.id': 'EF992CBF-EF29-52C1-B2D3-A9ED194C1448',
+      'process.pid': 45180,
+      'process.executable.name': '/Users/han/.nvm/versions/node/v24.15.0/bin/node',
+      'process.executable.path': '/Users/han/.nvm/versions/node/v24.15.0/bin/node',
+      'process.command_args': [
+        '/Users/han/.nvm/versions/node/v24.15.0/bin/node',
+        '--require',
+        '/Users/han/work/az-walcron/node_modules/tsx/dist/preflight.cjs',
+        '--import',
+        'file:///Users/han/work/az-walcron/node_modules/tsx/dist/loader.mjs',
+        '/Users/han/work/az-walcron/src/index.ts'
+      ],
+      'process.runtime.version': '24.15.0',
+      'process.runtime.name': 'nodejs',
+      'process.runtime.description': 'Node.js',
+      'process.command': '/Users/han/work/az-walcron/src/index.ts',
+      'process.owner': 'han',
+      'service.name': 'az-walcron',
+      'service.version': '1.0.0'
+    }
+  },
+  instrumentationScope: {
+    name: '@opentelemetry/instrumentation-http',
+    version: '0.208.0',
+    schemaUrl: undefined
+  },
+  traceId: 'af33c57b841a600d2059361621cc090b',
+  parentSpanContext: undefined,
+  traceState: undefined,
+  name: 'GET',
+  id: '3f75121a2df145a3',
+  kind: 1,
+  timestamp: 1778456849495000,
+  duration: 4757.469,
+  attributes: {
+    'http.url': 'http://localhost:3000/',
+    'http.host': 'localhost:3000',
+    'net.host.name': 'localhost',
+    'http.method': 'GET',
+    'http.scheme': 'http',
+    'http.target': '/',
+    'http.user_agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/147.0.0.0 Safari/537.36',
+    'http.flavor': '1.1',
+    'net.transport': 'ip_tcp',
+    'net.host.ip': '::1',
+    'net.host.port': 3000,
+    'net.peer.ip': '::1',
+    'net.peer.port': 55470,
+    'http.status_code': 200,
+    'http.status_text': 'OK'
+  },
+  status: { code: 0 },
+  events: [],
+  links: []
+}
+{
+  resource: {
+    attributes: {
+      'host.name': 'Hans-MacBook-Pro.local',
+      'host.arch': 'amd64',
+      'host.id': 'EF992CBF-EF29-52C1-B2D3-A9ED194C1448',
+      'process.pid': 45180,
+      'process.executable.name': '/Users/han/.nvm/versions/node/v24.15.0/bin/node',
+      'process.executable.path': '/Users/han/.nvm/versions/node/v24.15.0/bin/node',
+      'process.command_args': [
+        '/Users/han/.nvm/versions/node/v24.15.0/bin/node',
+        '--require',
+        '/Users/han/work/az-walcron/node_modules/tsx/dist/preflight.cjs',
+        '--import',
+        'file:///Users/han/work/az-walcron/node_modules/tsx/dist/loader.mjs',
+        '/Users/han/work/az-walcron/src/index.ts'
+      ],
+      'process.runtime.version': '24.15.0',
+      'process.runtime.name': 'nodejs',
+      'process.runtime.description': 'Node.js',
+      'process.command': '/Users/han/work/az-walcron/src/index.ts',
+      'process.owner': 'han',
+      'service.name': 'az-walcron',
+      'service.version': '1.0.0'
+    }
+  },
+  instrumentationScope: {
+    name: '@opentelemetry/instrumentation-http',
+    version: '0.208.0',
+    schemaUrl: undefined
+  },
+  traceId: '635dc2b28085c07a337793a1ab557a31',
+  parentSpanContext: {
+    traceId: '635dc2b28085c07a337793a1ab557a31',
+    spanId: 'c17a30b2b38c35b3',
+    traceFlags: 1,
+    traceState: undefined
+  },
+  traceState: undefined,
+  name: 'GET',
+  id: '44abf06c6887113f',
+  kind: 2,
+  timestamp: 1778456849560000,
+  duration: 14420.563,
+  attributes: {
+    'http.url': 'http://127.0.0.1:3500/v1.0/metadata',
+    'http.method': 'GET',
+    'http.target': '/v1.0/metadata',
+    'net.peer.name': '127.0.0.1',
+    'http.host': '127.0.0.1:3500',
+    'http.user_agent': [ 'dapr-sdk-js/v3.17.0 http/1' ],
+    'net.peer.ip': '127.0.0.1',
+    'net.peer.port': 3500,
+    'http.response_content_length_uncompressed': 642,
+    'http.status_code': 200,
+    'http.status_text': 'OK',
+    'http.flavor': '1.1',
+    'net.transport': 'ip_tcp'
+  },
+  status: { code: 0 },
+  events: [],
+  links: []
+}
+{
+  resource: {
+    attributes: {
+      'host.name': 'Hans-MacBook-Pro.local',
+      'host.arch': 'amd64',
+      'host.id': 'EF992CBF-EF29-52C1-B2D3-A9ED194C1448',
+      'process.pid': 45180,
+      'process.executable.name': '/Users/han/.nvm/versions/node/v24.15.0/bin/node',
+      'process.executable.path': '/Users/han/.nvm/versions/node/v24.15.0/bin/node',
+      'process.command_args': [
+        '/Users/han/.nvm/versions/node/v24.15.0/bin/node',
+        '--require',
+        '/Users/han/work/az-walcron/node_modules/tsx/dist/preflight.cjs',
+        '--import',
+        'file:///Users/han/work/az-walcron/node_modules/tsx/dist/loader.mjs',
+        '/Users/han/work/az-walcron/src/index.ts'
+      ],
+      'process.runtime.version': '24.15.0',
+      'process.runtime.name': 'nodejs',
+      'process.runtime.description': 'Node.js',
+      'process.command': '/Users/han/work/az-walcron/src/index.ts',
+      'process.owner': 'han',
+      'service.name': 'az-walcron',
+      'service.version': '1.0.0'
+    }
+  },
+  instrumentationScope: {
+    name: '@opentelemetry/instrumentation-http',
+    version: '0.208.0',
+    schemaUrl: undefined
+  },
+  traceId: '635dc2b28085c07a337793a1ab557a31',
+  parentSpanContext: {
+    traceId: '635dc2b28085c07a337793a1ab557a31',
+    spanId: 'c17a30b2b38c35b3',
+    traceFlags: 1,
+    traceState: undefined
+  },
+  traceState: undefined,
+  name: 'POST',
+  id: 'c86161c8c7f198ce',
+  kind: 2,
+  timestamp: 1778456849580000,
+  duration: 44144.783,
+  attributes: {
+    'http.url': 'http://127.0.0.1:3500/v1.0-alpha1/state/todostore/query',
+    'http.method': 'POST',
+    'http.target': '/v1.0-alpha1/state/todostore/query',
+    'net.peer.name': '127.0.0.1',
+    'http.host': '127.0.0.1:3500',
+    'http.user_agent': [ 'dapr-sdk-js/v3.17.0 http/1' ],
+    'net.peer.ip': '127.0.0.1',
+    'net.peer.port': 3500,
+    'http.status_code': 200,
+    'http.status_text': 'OK',
+    'http.flavor': '1.1',
+    'net.transport': 'ip_tcp'
+  },
+  status: { code: 0 },
+  events: [],
+  links: []
+}
+  {
+    resource: {
+      attributes: {
+        'host.name': 'Hans-MacBook-Pro.local',
+        'host.arch': 'amd64',
+        'host.id': 'EF992CBF-EF29-52C1-B2D3-A9ED194C1448',
+        'process.pid': 45180,
+        'process.executable.name': '/Users/han/.nvm/versions/node/v24.15.0/bin/node',
+        'process.executable.path': '/Users/han/.nvm/versions/node/v24.15.0/bin/node',
+        'process.command_args': [
+          '/Users/han/.nvm/versions/node/v24.15.0/bin/node',
+          '--require',
+          '/Users/han/work/az-walcron/node_modules/tsx/dist/preflight.cjs',
+          '--import',
+          'file:///Users/han/work/az-walcron/node_modules/tsx/dist/loader.mjs',
+          '/Users/han/work/az-walcron/src/index.ts'
+        ],
+        'process.runtime.version': '24.15.0',
+        'process.runtime.name': 'nodejs',
+        'process.runtime.description': 'Node.js',
+        'process.command': '/Users/han/work/az-walcron/src/index.ts',
+        'process.owner': 'han',
+        'service.name': 'az-walcron',
+        'service.version': '1.0.0'
+      }
+    },
+    instrumentationScope: { name: '@hono/otel', version: '1.1.2', schemaUrl: undefined },
+    traceId: '635dc2b28085c07a337793a1ab557a31',
+    parentSpanContext: {
+      traceId: '635dc2b28085c07a337793a1ab557a31',
+      spanId: 'e4b21a15defaf57d',
+      traceFlags: 1,
+      traceState: undefined
+    },
+    traceState: undefined,
+    name: 'GET /todos',
+    id: 'c17a30b2b38c35b3',
+    kind: 1,
+    timestamp: 1778456849545000,
+    duration: 81721.992,
+    attributes: {
+      'http.request.method': 'GET',
+      'url.full': 'http://localhost:3000/todos',
+      'http.route': '/todos',
+      'http.response.status_code': 200
+    },
+    status: { code: 0 },
+    events: [],
+    links: []
+  }
+  {
+    resource: {
+      attributes: {
+        'host.name': 'Hans-MacBook-Pro.local',
+        'host.arch': 'amd64',
+        'host.id': 'EF992CBF-EF29-52C1-B2D3-A9ED194C1448',
+        'process.pid': 45180,
+        'process.executable.name': '/Users/han/.nvm/versions/node/v24.15.0/bin/node',
+        'process.executable.path': '/Users/han/.nvm/versions/node/v24.15.0/bin/node',
+        'process.command_args': [
+          '/Users/han/.nvm/versions/node/v24.15.0/bin/node',
+          '--require',
+          '/Users/han/work/az-walcron/node_modules/tsx/dist/preflight.cjs',
+          '--import',
+          'file:///Users/han/work/az-walcron/node_modules/tsx/dist/loader.mjs',
+          '/Users/han/work/az-walcron/src/index.ts'
+        ],
+        'process.runtime.version': '24.15.0',
+        'process.runtime.name': 'nodejs',
+        'process.runtime.description': 'Node.js',
+        'process.command': '/Users/han/work/az-walcron/src/index.ts',
+        'process.owner': 'han',
+        'service.name': 'az-walcron',
+        'service.version': '1.0.0'
+      }
+    },
+    instrumentationScope: {
+      name: '@opentelemetry/instrumentation-http',
+      version: '0.208.0',
+      schemaUrl: undefined
+    },
+    traceId: '635dc2b28085c07a337793a1ab557a31',
+    parentSpanContext: undefined,
+    traceState: undefined,
+    name: 'GET',
+    id: 'e4b21a15defaf57d',
+    kind: 1,
+    timestamp: 1778456849544000,
+    duration: 83187.461,
+    attributes: {
+      'http.url': 'http://localhost:3000/todos',
+      'http.host': 'localhost:3000',
+      'net.host.name': 'localhost',
+      'http.method': 'GET',
+      'http.scheme': 'http',
+      'http.target': '/todos',
+      'http.user_agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/147.0.0.0 Safari/537.36',
+      'http.flavor': '1.1',
+      'net.transport': 'ip_tcp',
+      'net.host.ip': '::1',
+      'net.host.port': 3000,
+      'net.peer.ip': '::1',
+      'net.peer.port': 55470,
+      'http.status_code': 200,
+      'http.status_text': 'OK'
+    },
+    status: { code: 0 },
+    events: [],
+    links: []
+  }
+{
+  resource: {
+    attributes: {
+      'host.name': 'Hans-MacBook-Pro.local',
+      'host.arch': 'amd64',
+      'host.id': 'EF992CBF-EF29-52C1-B2D3-A9ED194C1448',
+      'process.pid': 45180,
+      'process.executable.name': '/Users/han/.nvm/versions/node/v24.15.0/bin/node',
+      'process.executable.path': '/Users/han/.nvm/versions/node/v24.15.0/bin/node',
+      'process.command_args': [
+        '/Users/han/.nvm/versions/node/v24.15.0/bin/node',
+        '--require',
+        '/Users/han/work/az-walcron/node_modules/tsx/dist/preflight.cjs',
+        '--import',
+        'file:///Users/han/work/az-walcron/node_modules/tsx/dist/loader.mjs',
+        '/Users/han/work/az-walcron/src/index.ts'
+      ],
+      'process.runtime.version': '24.15.0',
+      'process.runtime.name': 'nodejs',
+      'process.runtime.description': 'Node.js',
+      'process.command': '/Users/han/work/az-walcron/src/index.ts',
+      'process.owner': 'han',
+      'service.name': 'az-walcron',
+      'service.version': '1.0.0'
+    }
+  },
+  instrumentationScope: {
+    name: '@opentelemetry/instrumentation-http',
+    version: '0.208.0',
+    schemaUrl: undefined
+  },
+  traceId: '62068b965ac2dff8e37091b711dcf350',
+  parentSpanContext: {
+    traceId: '62068b965ac2dff8e37091b711dcf350',
+    spanId: '8d0c50ffae67f465',
+    traceFlags: 1,
+    traceState: undefined
+  },
+  traceState: undefined,
+  name: 'POST',
+  id: '0f149858f0d27aa3',
+  kind: 2,
+  timestamp: 1778456849631000,
+  duration: 45071.503,
+  attributes: {
+    'http.url': 'http://127.0.0.1:3500/v1.0-alpha1/state/todostore/query',
+    'http.method': 'POST',
+    'http.target': '/v1.0-alpha1/state/todostore/query',
+    'net.peer.name': '127.0.0.1',
+    'http.host': '127.0.0.1:3500',
+    'http.user_agent': [ 'dapr-sdk-js/v3.17.0 http/1' ],
+    'net.peer.ip': '127.0.0.1',
+    'net.peer.port': 3500,
+    'http.status_code': 200,
+    'http.status_text': 'OK',
+    'http.flavor': '1.1',
+    'net.transport': 'ip_tcp'
+  },
+  status: { code: 0 },
+  events: [],
+  links: []
+}
+{
+  resource: {
+    attributes: {
+      'host.name': 'Hans-MacBook-Pro.local',
+      'host.arch': 'amd64',
+      'host.id': 'EF992CBF-EF29-52C1-B2D3-A9ED194C1448',
+      'process.pid': 45180,
+      'process.executable.name': '/Users/han/.nvm/versions/node/v24.15.0/bin/node',
+      'process.executable.path': '/Users/han/.nvm/versions/node/v24.15.0/bin/node',
+      'process.command_args': [
+        '/Users/han/.nvm/versions/node/v24.15.0/bin/node',
+        '--require',
+        '/Users/han/work/az-walcron/node_modules/tsx/dist/preflight.cjs',
+        '--import',
+        'file:///Users/han/work/az-walcron/node_modules/tsx/dist/loader.mjs',
+        '/Users/han/work/az-walcron/src/index.ts'
+      ],
+      'process.runtime.version': '24.15.0',
+      'process.runtime.name': 'nodejs',
+      'process.runtime.description': 'Node.js',
+      'process.command': '/Users/han/work/az-walcron/src/index.ts',
+      'process.owner': 'han',
+      'service.name': 'az-walcron',
+      'service.version': '1.0.0'
+    }
+  },
+  instrumentationScope: { name: '@hono/otel', version: '1.1.2', schemaUrl: undefined },
+  traceId: '62068b965ac2dff8e37091b711dcf350',
+  parentSpanContext: {
+    traceId: '62068b965ac2dff8e37091b711dcf350',
+    spanId: '6de25cc4c4b286dd',
+    traceFlags: 1,
+    traceState: undefined
+  },
+  traceState: undefined,
+  name: 'GET /objectives',
+  id: '8d0c50ffae67f465',
+  kind: 1,
+  timestamp: 1778456849631000,
+  duration: 47239.861,
+  attributes: {
+    'http.request.method': 'GET',
+    'url.full': 'http://localhost:3000/objectives',
+    'http.route': '/objectives',
+    'http.response.status_code': 200
+  },
+  status: { code: 0 },
+  events: [],
+  links: []
+}
+{
+  resource: {
+    attributes: {
+      'host.name': 'Hans-MacBook-Pro.local',
+      'host.arch': 'amd64',
+      'host.id': 'EF992CBF-EF29-52C1-B2D3-A9ED194C1448',
+      'process.pid': 45180,
+      'process.executable.name': '/Users/han/.nvm/versions/node/v24.15.0/bin/node',
+      'process.executable.path': '/Users/han/.nvm/versions/node/v24.15.0/bin/node',
+      'process.command_args': [
+        '/Users/han/.nvm/versions/node/v24.15.0/bin/node',
+        '--require',
+        '/Users/han/work/az-walcron/node_modules/tsx/dist/preflight.cjs',
+        '--import',
+        'file:///Users/han/work/az-walcron/node_modules/tsx/dist/loader.mjs',
+        '/Users/han/work/az-walcron/src/index.ts'
+      ],
+      'process.runtime.version': '24.15.0',
+      'process.runtime.name': 'nodejs',
+      'process.runtime.description': 'Node.js',
+      'process.command': '/Users/han/work/az-walcron/src/index.ts',
+      'process.owner': 'han',
+      'service.name': 'az-walcron',
+      'service.version': '1.0.0'
+    }
+  },
+  instrumentationScope: {
+    name: '@opentelemetry/instrumentation-http',
+    version: '0.208.0',
+    schemaUrl: undefined
+  },
+  traceId: '62068b965ac2dff8e37091b711dcf350',
+  parentSpanContext: undefined,
+  traceState: undefined,
+  name: 'GET',
+  id: '6de25cc4c4b286dd',
+  kind: 1,
+  timestamp: 1778456849630000,
+  duration: 48384.845,
+  attributes: {
+    'http.url': 'http://localhost:3000/objectives',
+    'http.host': 'localhost:3000',
+    'net.host.name': 'localhost',
+    'http.method': 'GET',
+    'http.scheme': 'http',
+    'http.target': '/objectives',
+    'http.user_agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/147.0.0.0 Safari/537.36',
+    'http.flavor': '1.1',
+    'net.transport': 'ip_tcp',
+    'net.host.ip': '::1',
+    'net.host.port': 3000,
+    'net.peer.ip': '::1',
+    'net.peer.port': 55470,
+    'http.status_code': 200,
+    'http.status_text': 'OK'
+  },
+  status: { code: 0 },
+  events: [],
+  links: []
+}
+Trace Headers being sent to Dapr: {
+  traceparent: '00-12c86dca472f45d7f742e34510bfa741-96fb44e270aa8bed-01'
+}
+Parsing item: {"key":"757c3919-2f30-4e6e-b92f-99117a1d0f32","data":{"id":"757c3919-2f30-4e6e-b92f-99117a1d0f32","objective":"Disney Trip","title":"Buy early access pass to Disney 2nd day.","completed":false},"etag":"\"1f00987e-0000-1900-0000-6a01186b0000\""}
+Trace Headers being sent to Dapr: {
+  traceparent: '00-12c86dca472f45d7f742e34510bfa741-96fb44e270aa8bed-01'
+}
+Parsing item: {"key":"1e6b8fe3-3ffa-4ccd-900c-adb31c5e30ec","data":{"title":"Purchase Breakfast with Disney Character","completed":false,"id":"1e6b8fe3-3ffa-4ccd-900c-adb31c5e30ec","objective":"Disney Trip"},"etag":"\"1f008b79-0000-1900-0000-6a0116540000\""}
+Trace Headers being sent to Dapr: {
+  traceparent: '00-12c86dca472f45d7f742e34510bfa741-96fb44e270aa8bed-01'
+}
+Parsing item: {"key":"6c9a10fb-83d0-4dc5-9eb2-9b2e37908453","data":{"objective":"Preparation","title":"Bring passport (all 3)","completed":false,"id":"6c9a10fb-83d0-4dc5-9eb2-9b2e37908453"},"etag":"\"1f00666c-0000-1900-0000-6a010e3e0000\""}
+Trace Headers being sent to Dapr: {
+  traceparent: '00-12c86dca472f45d7f742e34510bfa741-96fb44e270aa8bed-01'
+}
+Parsing item: {"key":"e94057d1-6e1c-469f-835b-1fece4a7a431","data":{"completed":false,"id":"e94057d1-6e1c-469f-835b-1fece4a7a431","objective":"Preparation","title":"Bring 7 diapers"},"etag":"\"1f00686c-0000-1900-0000-6a010e3f0000\""}
+Trace Headers being sent to Dapr: {
+  traceparent: '00-12c86dca472f45d7f742e34510bfa741-96fb44e270aa8bed-01'
+}
+Parsing item: {"key":"c19901fb-84aa-47ba-9831-565a62b781da","data":{"title":"1 charger","completed":false,"id":"c19901fb-84aa-47ba-9831-565a62b781da","objective":"Preparation"},"etag":"\"2900a4ff-0000-1900-0000-69fb09c70000\""}
+Trace Headers being sent to Dapr: {
+  traceparent: '00-12c86dca472f45d7f742e34510bfa741-96fb44e270aa8bed-01'
+}
+Parsing item: {"key":"813784ea-feb8-4e18-a1b2-905807285f63","data":{"objective":"Preparation","title":"Walkie talkie","completed":false,"id":"813784ea-feb8-4e18-a1b2-905807285f63"},"etag":"\"310097e4-0000-1900-0000-69fc39ed0000\""}
+Trace Headers being sent to Dapr: {
+  traceparent: '00-12c86dca472f45d7f742e34510bfa741-96fb44e270aa8bed-01'
+}
+Parsing item: {"key":"89d9387a-8f85-4baa-b224-7daab59b8a25","data":{"completed":false,"id":"89d9387a-8f85-4baa-b224-7daab59b8a25","objective":"Disney Trip","title":"Buy t-rex/woody if he likes"},"etag":"\"3200d247-0000-1900-0000-69fc472a0000\""}
+Trace Headers being sent to Dapr: {
+  traceparent: '00-12c86dca472f45d7f742e34510bfa741-96fb44e270aa8bed-01'
+}
+Parsing item: {"key":"26835f76-543d-4835-879d-6c56cbd1c9ec","data":{"completed":false,"id":"26835f76-543d-4835-879d-6c56cbd1c9ec","objective":"Disney Trip","title":"Get into Frozen on first encounter"},"etag":"\"3200596b-0000-1900-0000-69fc4b7e0000\""}
+Trace Headers being sent to Dapr: {
+  traceparent: '00-12c86dca472f45d7f742e34510bfa741-96fb44e270aa8bed-01'
+}
+Parsing item: {"key":"94ba9e06-73b7-4f11-a272-4a053144506e","data":{"completed":false,"id":"94ba9e06-73b7-4f11-a272-4a053144506e","objective":"Hong Kong","title":"Buy Lego ticket to K11 Musea"},"etag":"\"32009371-0000-1900-0000-69fc4c490000\""}
+Trace Headers being sent to Dapr: {
+  traceparent: '00-12c86dca472f45d7f742e34510bfa741-96fb44e270aa8bed-01'
+}
+Parsing item: {"key":"371bf21b-4af3-4ead-a592-1b03fd1d0d7a","data":{"completed":false,"id":"371bf21b-4af3-4ead-a592-1b03fd1d0d7a","objective":"Disney Trip","title":"Frozen Ever After => Wandering Oaken’s Sliding Sleighs => The Many Adventures of Winnie the Pooh"},"etag":"\"32005c6b-0000-1900-0000-69fc4b7e0000\""}
+Trace Headers being sent to Dapr: {
+  traceparent: '00-12c86dca472f45d7f742e34510bfa741-96fb44e270aa8bed-01'
+}
+Parsing item: {"key":"4f70ab29-d1e5-434b-a043-00405d91b628","data":{"completed":false,"id":"4f70ab29-d1e5-434b-a043-00405d91b628","objective":"Return","title":"Buy lots of egg rolls"},"etag":"\"0000deab-0000-1900-0000-69fdb9770000\""}
+Trace Headers being sent to Dapr: {
+  traceparent: '00-12c86dca472f45d7f742e34510bfa741-96fb44e270aa8bed-01'
+}
+Parsing item: {"key":"cb71bf2b-0177-4998-a52b-c738bac12f1b","data":{"objective":"tet","title":"test","completed":false,"id":"cb71bf2b-0177-4998-a52b-c738bac12f1b"},"etag":"\"1f00cd80-0000-1900-0000-6a0119600000\""}
+Trace Headers being sent to Dapr: {
+  traceparent: '00-454b42e4e0aeaaa67ab46fbe3f3beb4a-4b69621dd237634c-01'
+}
+Trace Headers being sent to Dapr: {
+  traceparent: '00-454b42e4e0aeaaa67ab46fbe3f3beb4a-4b69621dd237634c-01'
+}
+Parsing item: {"key":"757c3919-2f30-4e6e-b92f-99117a1d0f32","data":{"id":"757c3919-2f30-4e6e-b92f-99117a1d0f32","objective":"Disney Trip","title":"Buy early access pass to Disney 2nd day.","completed":false},"etag":"\"1f00987e-0000-1900-0000-6a01186b0000\""}
+Trace Headers being sent to Dapr: {
+  traceparent: '00-454b42e4e0aeaaa67ab46fbe3f3beb4a-4b69621dd237634c-01'
+}
+Parsing item: {"key":"1e6b8fe3-3ffa-4ccd-900c-adb31c5e30ec","data":{"completed":false,"id":"1e6b8fe3-3ffa-4ccd-900c-adb31c5e30ec","objective":"Disney Trip","title":"Purchase Breakfast with Disney Character"},"etag":"\"1f008b79-0000-1900-0000-6a0116540000\""}
+Trace Headers being sent to Dapr: {
+  traceparent: '00-454b42e4e0aeaaa67ab46fbe3f3beb4a-4b69621dd237634c-01'
+}
+Parsing item: {"key":"6c9a10fb-83d0-4dc5-9eb2-9b2e37908453","data":{"completed":false,"id":"6c9a10fb-83d0-4dc5-9eb2-9b2e37908453","objective":"Preparation","title":"Bring passport (all 3)"},"etag":"\"1f00666c-0000-1900-0000-6a010e3e0000\""}
+Trace Headers being sent to Dapr: {
+  traceparent: '00-454b42e4e0aeaaa67ab46fbe3f3beb4a-4b69621dd237634c-01'
+}
+Parsing item: {"key":"e94057d1-6e1c-469f-835b-1fece4a7a431","data":{"completed":false,"id":"e94057d1-6e1c-469f-835b-1fece4a7a431","objective":"Preparation","title":"Bring 7 diapers"},"etag":"\"1f00686c-0000-1900-0000-6a010e3f0000\""}
+Trace Headers being sent to Dapr: {
+  traceparent: '00-454b42e4e0aeaaa67ab46fbe3f3beb4a-4b69621dd237634c-01'
+}
+Parsing item: {"key":"c19901fb-84aa-47ba-9831-565a62b781da","data":{"objective":"Preparation","title":"1 charger","completed":false,"id":"c19901fb-84aa-47ba-9831-565a62b781da"},"etag":"\"2900a4ff-0000-1900-0000-69fb09c70000\""}
+Trace Headers being sent to Dapr: {
+  traceparent: '00-454b42e4e0aeaaa67ab46fbe3f3beb4a-4b69621dd237634c-01'
+}
+Parsing item: {"key":"813784ea-feb8-4e18-a1b2-905807285f63","data":{"completed":false,"id":"813784ea-feb8-4e18-a1b2-905807285f63","objective":"Preparation","title":"Walkie talkie"},"etag":"\"310097e4-0000-1900-0000-69fc39ed0000\""}
+Trace Headers being sent to Dapr: {
+  traceparent: '00-454b42e4e0aeaaa67ab46fbe3f3beb4a-4b69621dd237634c-01'
+}
+Parsing item: {"key":"89d9387a-8f85-4baa-b224-7daab59b8a25","data":{"completed":false,"id":"89d9387a-8f85-4baa-b224-7daab59b8a25","objective":"Disney Trip","title":"Buy t-rex/woody if he likes"},"etag":"\"3200d247-0000-1900-0000-69fc472a0000\""}
+Trace Headers being sent to Dapr: {
+  traceparent: '00-454b42e4e0aeaaa67ab46fbe3f3beb4a-4b69621dd237634c-01'
+}
+Parsing item: {"key":"26835f76-543d-4835-879d-6c56cbd1c9ec","data":{"id":"26835f76-543d-4835-879d-6c56cbd1c9ec","objective":"Disney Trip","title":"Get into Frozen on first encounter","completed":false},"etag":"\"3200596b-0000-1900-0000-69fc4b7e0000\""}
+Trace Headers being sent to Dapr: {
+  traceparent: '00-454b42e4e0aeaaa67ab46fbe3f3beb4a-4b69621dd237634c-01'
+}
+Parsing item: {"key":"94ba9e06-73b7-4f11-a272-4a053144506e","data":{"id":"94ba9e06-73b7-4f11-a272-4a053144506e","objective":"Hong Kong","title":"Buy Lego ticket to K11 Musea","completed":false},"etag":"\"32009371-0000-1900-0000-69fc4c490000\""}
+Trace Headers being sent to Dapr: {
+  traceparent: '00-454b42e4e0aeaaa67ab46fbe3f3beb4a-4b69621dd237634c-01'
+}
+Parsing item: {"key":"371bf21b-4af3-4ead-a592-1b03fd1d0d7a","data":{"completed":false,"id":"371bf21b-4af3-4ead-a592-1b03fd1d0d7a","objective":"Disney Trip","title":"Frozen Ever After => Wandering Oaken’s Sliding Sleighs => The Many Adventures of Winnie the Pooh"},"etag":"\"32005c6b-0000-1900-0000-69fc4b7e0000\""}
+Trace Headers being sent to Dapr: {
+  traceparent: '00-454b42e4e0aeaaa67ab46fbe3f3beb4a-4b69621dd237634c-01'
+}
+Parsing item: {"key":"4f70ab29-d1e5-434b-a043-00405d91b628","data":{"completed":false,"id":"4f70ab29-d1e5-434b-a043-00405d91b628","objective":"Return","title":"Buy lots of egg rolls"},"etag":"\"0000deab-0000-1900-0000-69fdb9770000\""}
+Trace Headers being sent to Dapr: {
+  traceparent: '00-454b42e4e0aeaaa67ab46fbe3f3beb4a-4b69621dd237634c-01'
+}
+Parsing item: {"key":"cb71bf2b-0177-4998-a52b-c738bac12f1b","data":{"completed":false,"id":"cb71bf2b-0177-4998-a52b-c738bac12f1b","objective":"tet","title":"test"},"etag":"\"1f00cd80-0000-1900-0000-6a0119600000\""}
+Trace Headers being sent to Dapr: {
+  traceparent: '00-e866b4e9534fd319989046473ccfcbee-48d683d9fe2b0f14-01'
+}
+Parsing item: {"key":"757c3919-2f30-4e6e-b92f-99117a1d0f32","data":{"completed":false,"id":"757c3919-2f30-4e6e-b92f-99117a1d0f32","objective":"Disney Trip","title":"Buy early access pass to Disney 2nd day."},"etag":"\"1f00987e-0000-1900-0000-6a01186b0000\""}
+Trace Headers being sent to Dapr: {
+  traceparent: '00-e866b4e9534fd319989046473ccfcbee-48d683d9fe2b0f14-01'
+}
+Parsing item: {"key":"1e6b8fe3-3ffa-4ccd-900c-adb31c5e30ec","data":{"completed":false,"id":"1e6b8fe3-3ffa-4ccd-900c-adb31c5e30ec","objective":"Disney Trip","title":"Purchase Breakfast with Disney Character"},"etag":"\"1f008b79-0000-1900-0000-6a0116540000\""}
+Trace Headers being sent to Dapr: {
+  traceparent: '00-e866b4e9534fd319989046473ccfcbee-48d683d9fe2b0f14-01'
+}
+Parsing item: {"key":"6c9a10fb-83d0-4dc5-9eb2-9b2e37908453","data":{"completed":false,"id":"6c9a10fb-83d0-4dc5-9eb2-9b2e37908453","objective":"Preparation","title":"Bring passport (all 3)"},"etag":"\"1f00666c-0000-1900-0000-6a010e3e0000\""}
+Trace Headers being sent to Dapr: {
+  traceparent: '00-e866b4e9534fd319989046473ccfcbee-48d683d9fe2b0f14-01'
+}
+Parsing item: {"key":"e94057d1-6e1c-469f-835b-1fece4a7a431","data":{"completed":false,"id":"e94057d1-6e1c-469f-835b-1fece4a7a431","objective":"Preparation","title":"Bring 7 diapers"},"etag":"\"1f00686c-0000-1900-0000-6a010e3f0000\""}
+Trace Headers being sent to Dapr: {
+  traceparent: '00-e866b4e9534fd319989046473ccfcbee-48d683d9fe2b0f14-01'
+}
+Parsing item: {"key":"c19901fb-84aa-47ba-9831-565a62b781da","data":{"completed":false,"id":"c19901fb-84aa-47ba-9831-565a62b781da","objective":"Preparation","title":"1 charger"},"etag":"\"2900a4ff-0000-1900-0000-69fb09c70000\""}
+Trace Headers being sent to Dapr: {
+  traceparent: '00-e866b4e9534fd319989046473ccfcbee-48d683d9fe2b0f14-01'
+}
+Parsing item: {"key":"813784ea-feb8-4e18-a1b2-905807285f63","data":{"completed":false,"id":"813784ea-feb8-4e18-a1b2-905807285f63","objective":"Preparation","title":"Walkie talkie"},"etag":"\"310097e4-0000-1900-0000-69fc39ed0000\""}
+Trace Headers being sent to Dapr: {
+  traceparent: '00-e866b4e9534fd319989046473ccfcbee-48d683d9fe2b0f14-01'
+}
+Parsing item: {"key":"89d9387a-8f85-4baa-b224-7daab59b8a25","data":{"completed":false,"id":"89d9387a-8f85-4baa-b224-7daab59b8a25","objective":"Disney Trip","title":"Buy t-rex/woody if he likes"},"etag":"\"3200d247-0000-1900-0000-69fc472a0000\""}
+Trace Headers being sent to Dapr: {
+  traceparent: '00-e866b4e9534fd319989046473ccfcbee-48d683d9fe2b0f14-01'
+}
+Parsing item: {"key":"26835f76-543d-4835-879d-6c56cbd1c9ec","data":{"id":"26835f76-543d-4835-879d-6c56cbd1c9ec","objective":"Disney Trip","title":"Get into Frozen on first encounter","completed":false},"etag":"\"3200596b-0000-1900-0000-69fc4b7e0000\""}
+Trace Headers being sent to Dapr: {
+  traceparent: '00-e866b4e9534fd319989046473ccfcbee-48d683d9fe2b0f14-01'
+}
+Parsing item: {"key":"94ba9e06-73b7-4f11-a272-4a053144506e","data":{"completed":false,"id":"94ba9e06-73b7-4f11-a272-4a053144506e","objective":"Hong Kong","title":"Buy Lego ticket to K11 Musea"},"etag":"\"32009371-0000-1900-0000-69fc4c490000\""}
+Trace Headers being sent to Dapr: {
+  traceparent: '00-e866b4e9534fd319989046473ccfcbee-48d683d9fe2b0f14-01'
+}
+Parsing item: {"key":"371bf21b-4af3-4ead-a592-1b03fd1d0d7a","data":{"id":"371bf21b-4af3-4ead-a592-1b03fd1d0d7a","objective":"Disney Trip","title":"Frozen Ever After => Wandering Oaken’s Sliding Sleighs => The Many Adventures of Winnie the Pooh","completed":false},"etag":"\"32005c6b-0000-1900-0000-69fc4b7e0000\""}
+Trace Headers being sent to Dapr: {
+  traceparent: '00-e866b4e9534fd319989046473ccfcbee-48d683d9fe2b0f14-01'
+}
+Parsing item: {"key":"4f70ab29-d1e5-434b-a043-00405d91b628","data":{"id":"4f70ab29-d1e5-434b-a043-00405d91b628","objective":"Return","title":"Buy lots of egg rolls","completed":false},"etag":"\"0000deab-0000-1900-0000-69fdb9770000\""}
+Trace Headers being sent to Dapr: {
+  traceparent: '00-e059f3b9204f29b8b08fe2e10cf1d138-9178245a8df5c420-01'
+}
+Trace Headers being sent to Dapr: {
+  traceparent: '00-e059f3b9204f29b8b08fe2e10cf1d138-9178245a8df5c420-01'
+}
+Parsing item: {"key":"757c3919-2f30-4e6e-b92f-99117a1d0f32","data":{"completed":false,"id":"757c3919-2f30-4e6e-b92f-99117a1d0f32","objective":"Disney Trip","title":"Buy early access pass to Disney 2nd day."},"etag":"\"1f00987e-0000-1900-0000-6a01186b0000\""}
+Trace Headers being sent to Dapr: {
+  traceparent: '00-e059f3b9204f29b8b08fe2e10cf1d138-9178245a8df5c420-01'
+}
+Parsing item: {"key":"1e6b8fe3-3ffa-4ccd-900c-adb31c5e30ec","data":{"completed":false,"id":"1e6b8fe3-3ffa-4ccd-900c-adb31c5e30ec","objective":"Disney Trip","title":"Purchase Breakfast with Disney Character"},"etag":"\"1f008b79-0000-1900-0000-6a0116540000\""}
+Trace Headers being sent to Dapr: {
+  traceparent: '00-e059f3b9204f29b8b08fe2e10cf1d138-9178245a8df5c420-01'
+}
+Parsing item: {"key":"6c9a10fb-83d0-4dc5-9eb2-9b2e37908453","data":{"completed":false,"id":"6c9a10fb-83d0-4dc5-9eb2-9b2e37908453","objective":"Preparation","title":"Bring passport (all 3)"},"etag":"\"1f00666c-0000-1900-0000-6a010e3e0000\""}
+Trace Headers being sent to Dapr: {
+  traceparent: '00-e059f3b9204f29b8b08fe2e10cf1d138-9178245a8df5c420-01'
+}
+Parsing item: {"key":"e94057d1-6e1c-469f-835b-1fece4a7a431","data":{"completed":false,"id":"e94057d1-6e1c-469f-835b-1fece4a7a431","objective":"Preparation","title":"Bring 7 diapers"},"etag":"\"1f00686c-0000-1900-0000-6a010e3f0000\""}
+Trace Headers being sent to Dapr: {
+  traceparent: '00-e059f3b9204f29b8b08fe2e10cf1d138-9178245a8df5c420-01'
+}
+Parsing item: {"key":"c19901fb-84aa-47ba-9831-565a62b781da","data":{"title":"1 charger","completed":false,"id":"c19901fb-84aa-47ba-9831-565a62b781da","objective":"Preparation"},"etag":"\"2900a4ff-0000-1900-0000-69fb09c70000\""}
+Trace Headers being sent to Dapr: {
+  traceparent: '00-e059f3b9204f29b8b08fe2e10cf1d138-9178245a8df5c420-01'
+}
+Parsing item: {"key":"813784ea-feb8-4e18-a1b2-905807285f63","data":{"title":"Walkie talkie","completed":false,"id":"813784ea-feb8-4e18-a1b2-905807285f63","objective":"Preparation"},"etag":"\"310097e4-0000-1900-0000-69fc39ed0000\""}
+Trace Headers being sent to Dapr: {
+  traceparent: '00-e059f3b9204f29b8b08fe2e10cf1d138-9178245a8df5c420-01'
+}
+Parsing item: {"key":"89d9387a-8f85-4baa-b224-7daab59b8a25","data":{"objective":"Disney Trip","title":"Buy t-rex/woody if he likes","completed":false,"id":"89d9387a-8f85-4baa-b224-7daab59b8a25"},"etag":"\"3200d247-0000-1900-0000-69fc472a0000\""}
+Trace Headers being sent to Dapr: {
+  traceparent: '00-e059f3b9204f29b8b08fe2e10cf1d138-9178245a8df5c420-01'
+}
+Parsing item: {"key":"26835f76-543d-4835-879d-6c56cbd1c9ec","data":{"completed":false,"id":"26835f76-543d-4835-879d-6c56cbd1c9ec","objective":"Disney Trip","title":"Get into Frozen on first encounter"},"etag":"\"3200596b-0000-1900-0000-69fc4b7e0000\""}
+Trace Headers being sent to Dapr: {
+  traceparent: '00-e059f3b9204f29b8b08fe2e10cf1d138-9178245a8df5c420-01'
+}
+Parsing item: {"key":"94ba9e06-73b7-4f11-a272-4a053144506e","data":{"objective":"Hong Kong","title":"Buy Lego ticket to K11 Musea","completed":false,"id":"94ba9e06-73b7-4f11-a272-4a053144506e"},"etag":"\"32009371-0000-1900-0000-69fc4c490000\""}
+Trace Headers being sent to Dapr: {
+  traceparent: '00-e059f3b9204f29b8b08fe2e10cf1d138-9178245a8df5c420-01'
+}
+Parsing item: {"key":"371bf21b-4af3-4ead-a592-1b03fd1d0d7a","data":{"completed":false,"id":"371bf21b-4af3-4ead-a592-1b03fd1d0d7a","objective":"Disney Trip","title":"Frozen Ever After => Wandering Oaken’s Sliding Sleighs => The Many Adventures of Winnie the Pooh"},"etag":"\"32005c6b-0000-1900-0000-69fc4b7e0000\""}
+Trace Headers being sent to Dapr: {
+  traceparent: '00-e059f3b9204f29b8b08fe2e10cf1d138-9178245a8df5c420-01'
+}
+Parsing item: {"key":"4f70ab29-d1e5-434b-a043-00405d91b628","data":{"objective":"Return","title":"Buy lots of egg rolls","completed":false,"id":"4f70ab29-d1e5-434b-a043-00405d91b628"},"etag":"\"0000deab-0000-1900-0000-69fdb9770000\""}
+{
+  resource: {
+    attributes: {
+      'host.name': 'Hans-MacBook-Pro.local',
+      'host.arch': 'amd64',
+      'host.id': 'EF992CBF-EF29-52C1-B2D3-A9ED194C1448',
+      'process.pid': 45180,
+      'process.executable.name': '/Users/han/.nvm/versions/node/v24.15.0/bin/node',
+      'process.executable.path': '/Users/han/.nvm/versions/node/v24.15.0/bin/node',
+      'process.command_args': [
+        '/Users/han/.nvm/versions/node/v24.15.0/bin/node',
+        '--require',
+        '/Users/han/work/az-walcron/node_modules/tsx/dist/preflight.cjs',
+        '--import',
+        'file:///Users/han/work/az-walcron/node_modules/tsx/dist/loader.mjs',
+        '/Users/han/work/az-walcron/src/index.ts'
+      ],
+      'process.runtime.version': '24.15.0',
+      'process.runtime.name': 'nodejs',
+      'process.runtime.description': 'Node.js',
+      'process.command': '/Users/han/work/az-walcron/src/index.ts',
+      'process.owner': 'han',
+      'service.name': 'az-walcron',
+      'service.version': '1.0.0'
+    }
+  },
+  instrumentationScope: {
+    name: '@opentelemetry/instrumentation-http',
+    version: '0.208.0',
+    schemaUrl: undefined
+  },
+  traceId: '12cb21bc4b3de4e14c31862bc89e359f',
+  parentSpanContext: {
+    traceId: '12cb21bc4b3de4e14c31862bc89e359f',
+    spanId: 'b488b8608c3e8fe0',
+    traceFlags: 1,
+    traceState: undefined
+  },
+  traceState: undefined,
+  name: 'POST',
+  id: 'fe1af18df933ef16',
+  kind: 2,
+  timestamp: 1778456928666000,
+  duration: 46027.417,
+  attributes: {
+    'http.url': 'http://127.0.0.1:3500/v1.0/state/todostore?',
+    'http.method': 'POST',
+    'http.target': '/v1.0/state/todostore?',
+    'net.peer.name': '127.0.0.1',
+    'http.host': '127.0.0.1:3500',
+    'http.user_agent': [ 'dapr-sdk-js/v3.17.0 http/1' ],
+    'net.peer.ip': '127.0.0.1',
+    'net.peer.port': 3500,
+    'http.status_code': 204,
+    'http.status_text': 'NO CONTENT',
+    'http.flavor': '1.1',
+    'net.transport': 'ip_tcp'
+  },
+  status: { code: 0 },
+  events: [],
+  links: []
+}
+{
+  resource: {
+    attributes: {
+      'host.name': 'Hans-MacBook-Pro.local',
+      'host.arch': 'amd64',
+      'host.id': 'EF992CBF-EF29-52C1-B2D3-A9ED194C1448',
+      'process.pid': 45180,
+      'process.executable.name': '/Users/han/.nvm/versions/node/v24.15.0/bin/node',
+      'process.executable.path': '/Users/han/.nvm/versions/node/v24.15.0/bin/node',
+      'process.command_args': [
+        '/Users/han/.nvm/versions/node/v24.15.0/bin/node',
+        '--require',
+        '/Users/han/work/az-walcron/node_modules/tsx/dist/preflight.cjs',
+        '--import',
+        'file:///Users/han/work/az-walcron/node_modules/tsx/dist/loader.mjs',
+        '/Users/han/work/az-walcron/src/index.ts'
+      ],
+      'process.runtime.version': '24.15.0',
+      'process.runtime.name': 'nodejs',
+      'process.runtime.description': 'Node.js',
+      'process.command': '/Users/han/work/az-walcron/src/index.ts',
+      'process.owner': 'han',
+      'service.name': 'az-walcron',
+      'service.version': '1.0.0'
+    }
+  },
+  instrumentationScope: { name: '@hono/otel', version: '1.1.2', schemaUrl: undefined },
+  traceId: '12cb21bc4b3de4e14c31862bc89e359f',
+  parentSpanContext: {
+    traceId: '12cb21bc4b3de4e14c31862bc89e359f',
+    spanId: 'e5ec2179293b44f1',
+    traceFlags: 1,
+    traceState: undefined
+  },
+  traceState: undefined,
+  name: 'POST /todos',
+  id: 'b488b8608c3e8fe0',
+  kind: 1,
+  timestamp: 1778456928658000,
+  duration: 55787.105,
+  attributes: {
+    'http.request.method': 'POST',
+    'url.full': 'http://localhost:3000/todos',
+    'http.route': '/todos',
+    'http.response.status_code': 201
+  },
+  status: { code: 0 },
+  events: [],
+  links: []
+}
+{
+  resource: {
+    attributes: {
+      'host.name': 'Hans-MacBook-Pro.local',
+      'host.arch': 'amd64',
+      'host.id': 'EF992CBF-EF29-52C1-B2D3-A9ED194C1448',
+      'process.pid': 45180,
+      'process.executable.name': '/Users/han/.nvm/versions/node/v24.15.0/bin/node',
+      'process.executable.path': '/Users/han/.nvm/versions/node/v24.15.0/bin/node',
+      'process.command_args': [
+        '/Users/han/.nvm/versions/node/v24.15.0/bin/node',
+        '--require',
+        '/Users/han/work/az-walcron/node_modules/tsx/dist/preflight.cjs',
+        '--import',
+        'file:///Users/han/work/az-walcron/node_modules/tsx/dist/loader.mjs',
+        '/Users/han/work/az-walcron/src/index.ts'
+      ],
+      'process.runtime.version': '24.15.0',
+      'process.runtime.name': 'nodejs',
+      'process.runtime.description': 'Node.js',
+      'process.command': '/Users/han/work/az-walcron/src/index.ts',
+      'process.owner': 'han',
+      'service.name': 'az-walcron',
+      'service.version': '1.0.0'
+    }
+  },
+  instrumentationScope: {
+    name: '@opentelemetry/instrumentation-http',
+    version: '0.208.0',
+    schemaUrl: undefined
+  },
+  traceId: '12cb21bc4b3de4e14c31862bc89e359f',
+  parentSpanContext: undefined,
+  traceState: undefined,
+  name: 'POST',
+  id: 'e5ec2179293b44f1',
+  kind: 1,
+  timestamp: 1778456928657000,
+  duration: 57613.906,
+  attributes: {
+    'http.url': 'http://localhost:3000/todos',
+    'http.host': 'localhost:3000',
+    'net.host.name': 'localhost',
+    'http.method': 'POST',
+    'http.scheme': 'http',
+    'http.target': '/todos',
+    'http.user_agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/147.0.0.0 Safari/537.36',
+    'http.request_content_length_uncompressed': 34,
+    'http.flavor': '1.1',
+    'net.transport': 'ip_tcp',
+    'net.host.ip': '::1',
+    'net.host.port': 3000,
+    'net.peer.ip': '::1',
+    'net.peer.port': 55502,
+    'http.status_code': 201,
+    'http.status_text': 'CREATED'
+  },
+  status: { code: 0 },
+  events: [],
+  links: []
+}
+{
+  resource: {
+    attributes: {
+      'host.name': 'Hans-MacBook-Pro.local',
+      'host.arch': 'amd64',
+      'host.id': 'EF992CBF-EF29-52C1-B2D3-A9ED194C1448',
+      'process.pid': 45180,
+      'process.executable.name': '/Users/han/.nvm/versions/node/v24.15.0/bin/node',
+      'process.executable.path': '/Users/han/.nvm/versions/node/v24.15.0/bin/node',
+      'process.command_args': [
+        '/Users/han/.nvm/versions/node/v24.15.0/bin/node',
+        '--require',
+        '/Users/han/work/az-walcron/node_modules/tsx/dist/preflight.cjs',
+        '--import',
+        'file:///Users/han/work/az-walcron/node_modules/tsx/dist/loader.mjs',
+        '/Users/han/work/az-walcron/src/index.ts'
+      ],
+      'process.runtime.version': '24.15.0',
+      'process.runtime.name': 'nodejs',
+      'process.runtime.description': 'Node.js',
+      'process.command': '/Users/han/work/az-walcron/src/index.ts',
+      'process.owner': 'han',
+      'service.name': 'az-walcron',
+      'service.version': '1.0.0'
+    }
+  },
+  instrumentationScope: {
+    name: '@opentelemetry/instrumentation-http',
+    version: '0.208.0',
+    schemaUrl: undefined
+  },
+  traceId: '12c86dca472f45d7f742e34510bfa741',
+  parentSpanContext: {
+    traceId: '12c86dca472f45d7f742e34510bfa741',
+    spanId: '96fb44e270aa8bed',
+    traceFlags: 1,
+    traceState: undefined
+  },
+  traceState: undefined,
+  name: 'POST',
+  id: '0b793bdaeef4b12a',
+  kind: 2,
+  timestamp: 1778456928723000,
+  duration: 44494.82,
+  attributes: {
+    'http.url': 'http://127.0.0.1:3500/v1.0-alpha1/state/todostore/query',
+    'http.method': 'POST',
+    'http.target': '/v1.0-alpha1/state/todostore/query',
+    'net.peer.name': '127.0.0.1',
+    'http.host': '127.0.0.1:3500',
+    'http.user_agent': [ 'dapr-sdk-js/v3.17.0 http/1' ],
+    'net.peer.ip': '127.0.0.1',
+    'net.peer.port': 3500,
+    'http.status_code': 200,
+    'http.status_text': 'OK',
+    'http.flavor': '1.1',
+    'net.transport': 'ip_tcp'
+  },
+  status: { code: 0 },
+  events: [],
+  links: []
+}
+{
+  resource: {
+    attributes: {
+      'host.name': 'Hans-MacBook-Pro.local',
+      'host.arch': 'amd64',
+      'host.id': 'EF992CBF-EF29-52C1-B2D3-A9ED194C1448',
+      'process.pid': 45180,
+      'process.executable.name': '/Users/han/.nvm/versions/node/v24.15.0/bin/node',
+      'process.executable.path': '/Users/han/.nvm/versions/node/v24.15.0/bin/node',
+      'process.command_args': [
+        '/Users/han/.nvm/versions/node/v24.15.0/bin/node',
+        '--require',
+        '/Users/han/work/az-walcron/node_modules/tsx/dist/preflight.cjs',
+        '--import',
+        'file:///Users/han/work/az-walcron/node_modules/tsx/dist/loader.mjs',
+        '/Users/han/work/az-walcron/src/index.ts'
+      ],
+      'process.runtime.version': '24.15.0',
+      'process.runtime.name': 'nodejs',
+      'process.runtime.description': 'Node.js',
+      'process.command': '/Users/han/work/az-walcron/src/index.ts',
+      'process.owner': 'han',
+      'service.name': 'az-walcron',
+      'service.version': '1.0.0'
+    }
+  },
+  instrumentationScope: { name: '@hono/otel', version: '1.1.2', schemaUrl: undefined },
+  traceId: '12c86dca472f45d7f742e34510bfa741',
+  parentSpanContext: {
+    traceId: '12c86dca472f45d7f742e34510bfa741',
+    spanId: '49ee1e9dbe1bbc1d',
+    traceFlags: 1,
+    traceState: undefined
+  },
+  traceState: undefined,
+  name: 'GET /todos',
+  id: '96fb44e270aa8bed',
+  kind: 1,
+  timestamp: 1778456928722000,
+  duration: 49914.613,
+  attributes: {
+    'http.request.method': 'GET',
+    'url.full': 'http://localhost:3000/todos',
+    'http.route': '/todos',
+    'http.response.status_code': 200
+  },
+  status: { code: 0 },
+  events: [],
+  links: []
+}
+{
+  resource: {
+    attributes: {
+      'host.name': 'Hans-MacBook-Pro.local',
+      'host.arch': 'amd64',
+      'host.id': 'EF992CBF-EF29-52C1-B2D3-A9ED194C1448',
+      'process.pid': 45180,
+      'process.executable.name': '/Users/han/.nvm/versions/node/v24.15.0/bin/node',
+      'process.executable.path': '/Users/han/.nvm/versions/node/v24.15.0/bin/node',
+      'process.command_args': [
+        '/Users/han/.nvm/versions/node/v24.15.0/bin/node',
+        '--require',
+        '/Users/han/work/az-walcron/node_modules/tsx/dist/preflight.cjs',
+        '--import',
+        'file:///Users/han/work/az-walcron/node_modules/tsx/dist/loader.mjs',
+        '/Users/han/work/az-walcron/src/index.ts'
+      ],
+      'process.runtime.version': '24.15.0',
+      'process.runtime.name': 'nodejs',
+      'process.runtime.description': 'Node.js',
+      'process.command': '/Users/han/work/az-walcron/src/index.ts',
+      'process.owner': 'han',
+      'service.name': 'az-walcron',
+      'service.version': '1.0.0'
+    }
+  },
+  instrumentationScope: {
+    name: '@opentelemetry/instrumentation-http',
+    version: '0.208.0',
+    schemaUrl: undefined
+  },
+  traceId: '12c86dca472f45d7f742e34510bfa741',
+  parentSpanContext: undefined,
+  traceState: undefined,
+  name: 'GET',
+  id: '49ee1e9dbe1bbc1d',
+  kind: 1,
+  timestamp: 1778456928721000,
+  duration: 51730.208,
+  attributes: {
+    'http.url': 'http://localhost:3000/todos',
+    'http.host': 'localhost:3000',
+    'net.host.name': 'localhost',
+    'http.method': 'GET',
+    'http.scheme': 'http',
+    'http.target': '/todos',
+    'http.user_agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/147.0.0.0 Safari/537.36',
+    'http.flavor': '1.1',
+    'net.transport': 'ip_tcp',
+    'net.host.ip': '::1',
+    'net.host.port': 3000,
+    'net.peer.ip': '::1',
+    'net.peer.port': 55502,
+    'http.status_code': 200,
+    'http.status_text': 'OK'
+  },
+  status: { code: 0 },
+  events: [],
+  links: []
+}
+{
+  resource: {
+    attributes: {
+      'host.name': 'Hans-MacBook-Pro.local',
+      'host.arch': 'amd64',
+      'host.id': 'EF992CBF-EF29-52C1-B2D3-A9ED194C1448',
+      'process.pid': 45180,
+      'process.executable.name': '/Users/han/.nvm/versions/node/v24.15.0/bin/node',
+      'process.executable.path': '/Users/han/.nvm/versions/node/v24.15.0/bin/node',
+      'process.command_args': [
+        '/Users/han/.nvm/versions/node/v24.15.0/bin/node',
+        '--require',
+        '/Users/han/work/az-walcron/node_modules/tsx/dist/preflight.cjs',
+        '--import',
+        'file:///Users/han/work/az-walcron/node_modules/tsx/dist/loader.mjs',
+        '/Users/han/work/az-walcron/src/index.ts'
+      ],
+      'process.runtime.version': '24.15.0',
+      'process.runtime.name': 'nodejs',
+      'process.runtime.description': 'Node.js',
+      'process.command': '/Users/han/work/az-walcron/src/index.ts',
+      'process.owner': 'han',
+      'service.name': 'az-walcron',
+      'service.version': '1.0.0'
+    }
+  },
+  instrumentationScope: {
+    name: '@opentelemetry/instrumentation-http',
+    version: '0.208.0',
+    schemaUrl: undefined
+  },
+  traceId: '454b42e4e0aeaaa67ab46fbe3f3beb4a',
+  parentSpanContext: {
+    traceId: '454b42e4e0aeaaa67ab46fbe3f3beb4a',
+    spanId: '4b69621dd237634c',
+    traceFlags: 1,
+    traceState: undefined
+  },
+  traceState: undefined,
+  name: 'POST',
+  id: '1d9dc709ec20c447',
+  kind: 2,
+  timestamp: 1778456928778000,
+  duration: 41273.148,
+  attributes: {
+    'http.url': 'http://127.0.0.1:3500/v1.0-alpha1/state/todostore/query',
+    'http.method': 'POST',
+    'http.target': '/v1.0-alpha1/state/todostore/query',
+    'net.peer.name': '127.0.0.1',
+    'http.host': '127.0.0.1:3500',
+    'http.user_agent': [ 'dapr-sdk-js/v3.17.0 http/1' ],
+    'net.peer.ip': '127.0.0.1',
+    'net.peer.port': 3500,
+    'http.status_code': 200,
+    'http.status_text': 'OK',
+    'http.flavor': '1.1',
+    'net.transport': 'ip_tcp'
+  },
+  status: { code: 0 },
+  events: [],
+  links: []
+}
+{
+  resource: {
+    attributes: {
+      'host.name': 'Hans-MacBook-Pro.local',
+      'host.arch': 'amd64',
+      'host.id': 'EF992CBF-EF29-52C1-B2D3-A9ED194C1448',
+      'process.pid': 45180,
+      'process.executable.name': '/Users/han/.nvm/versions/node/v24.15.0/bin/node',
+      'process.executable.path': '/Users/han/.nvm/versions/node/v24.15.0/bin/node',
+      'process.command_args': [
+        '/Users/han/.nvm/versions/node/v24.15.0/bin/node',
+        '--require',
+        '/Users/han/work/az-walcron/node_modules/tsx/dist/preflight.cjs',
+        '--import',
+        'file:///Users/han/work/az-walcron/node_modules/tsx/dist/loader.mjs',
+        '/Users/han/work/az-walcron/src/index.ts'
+      ],
+      'process.runtime.version': '24.15.0',
+      'process.runtime.name': 'nodejs',
+      'process.runtime.description': 'Node.js',
+      'process.command': '/Users/han/work/az-walcron/src/index.ts',
+      'process.owner': 'han',
+      'service.name': 'az-walcron',
+      'service.version': '1.0.0'
+    }
+  },
+  instrumentationScope: { name: '@hono/otel', version: '1.1.2', schemaUrl: undefined },
+  traceId: '454b42e4e0aeaaa67ab46fbe3f3beb4a',
+  parentSpanContext: {
+    traceId: '454b42e4e0aeaaa67ab46fbe3f3beb4a',
+    spanId: 'c19a0aa7f6d248d6',
+    traceFlags: 1,
+    traceState: undefined
+  },
+  traceState: undefined,
+  name: 'GET /objectives',
+  id: '4b69621dd237634c',
+  kind: 1,
+  timestamp: 1778456928778000,
+  duration: 44190.035,
+  attributes: {
+    'http.request.method': 'GET',
+    'url.full': 'http://localhost:3000/objectives',
+    'http.route': '/objectives',
+    'http.response.status_code': 200
+  },
+  status: { code: 0 },
+  events: [],
+  links: []
+}
+{
+  resource: {
+    attributes: {
+      'host.name': 'Hans-MacBook-Pro.local',
+      'host.arch': 'amd64',
+      'host.id': 'EF992CBF-EF29-52C1-B2D3-A9ED194C1448',
+      'process.pid': 45180,
+      'process.executable.name': '/Users/han/.nvm/versions/node/v24.15.0/bin/node',
+      'process.executable.path': '/Users/han/.nvm/versions/node/v24.15.0/bin/node',
+      'process.command_args': [
+        '/Users/han/.nvm/versions/node/v24.15.0/bin/node',
+        '--require',
+        '/Users/han/work/az-walcron/node_modules/tsx/dist/preflight.cjs',
+        '--import',
+        'file:///Users/han/work/az-walcron/node_modules/tsx/dist/loader.mjs',
+        '/Users/han/work/az-walcron/src/index.ts'
+      ],
+      'process.runtime.version': '24.15.0',
+      'process.runtime.name': 'nodejs',
+      'process.runtime.description': 'Node.js',
+      'process.command': '/Users/han/work/az-walcron/src/index.ts',
+      'process.owner': 'han',
+      'service.name': 'az-walcron',
+      'service.version': '1.0.0'
+    }
+  },
+  instrumentationScope: {
+    name: '@opentelemetry/instrumentation-http',
+    version: '0.208.0',
+    schemaUrl: undefined
+  },
+  traceId: '454b42e4e0aeaaa67ab46fbe3f3beb4a',
+  parentSpanContext: undefined,
+  traceState: undefined,
+  name: 'GET',
+  id: 'c19a0aa7f6d248d6',
+  kind: 1,
+  timestamp: 1778456928777000,
+  duration: 45527.744,
+  attributes: {
+    'http.url': 'http://localhost:3000/objectives',
+    'http.host': 'localhost:3000',
+    'net.host.name': 'localhost',
+    'http.method': 'GET',
+    'http.scheme': 'http',
+    'http.target': '/objectives',
+    'http.user_agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/147.0.0.0 Safari/537.36',
+    'http.flavor': '1.1',
+    'net.transport': 'ip_tcp',
+    'net.host.ip': '::1',
+    'net.host.port': 3000,
+    'net.peer.ip': '::1',
+    'net.peer.port': 55502,
+    'http.status_code': 200,
+    'http.status_text': 'OK'
+  },
+  status: { code: 0 },
+  events: [],
+  links: []
+}
+{
+  resource: {
+    attributes: {
+      'host.name': 'Hans-MacBook-Pro.local',
+      'host.arch': 'amd64',
+      'host.id': 'EF992CBF-EF29-52C1-B2D3-A9ED194C1448',
+      'process.pid': 45180,
+      'process.executable.name': '/Users/han/.nvm/versions/node/v24.15.0/bin/node',
+      'process.executable.path': '/Users/han/.nvm/versions/node/v24.15.0/bin/node',
+      'process.command_args': [
+        '/Users/han/.nvm/versions/node/v24.15.0/bin/node',
+        '--require',
+        '/Users/han/work/az-walcron/node_modules/tsx/dist/preflight.cjs',
+        '--import',
+        'file:///Users/han/work/az-walcron/node_modules/tsx/dist/loader.mjs',
+        '/Users/han/work/az-walcron/src/index.ts'
+      ],
+      'process.runtime.version': '24.15.0',
+      'process.runtime.name': 'nodejs',
+      'process.runtime.description': 'Node.js',
+      'process.command': '/Users/han/work/az-walcron/src/index.ts',
+      'process.owner': 'han',
+      'service.name': 'az-walcron',
+      'service.version': '1.0.0'
+    }
+  },
+  instrumentationScope: {
+    name: '@opentelemetry/instrumentation-http',
+    version: '0.208.0',
+    schemaUrl: undefined
+  },
+  traceId: 'e89df41fbc64be7db2d973cc5138d0bf',
+  parentSpanContext: {
+    traceId: 'e89df41fbc64be7db2d973cc5138d0bf',
+    spanId: '9eb9e4fa0e3d2b83',
+    traceFlags: 1,
+    traceState: undefined
+  },
+  traceState: undefined,
+  name: 'GET',
+  id: '9274620521b8b77b',
+  kind: 2,
+  timestamp: 1778456932523000,
+  duration: 40720.796,
+  attributes: {
+    'http.url': 'http://127.0.0.1:3500/v1.0/state/todostore/cb71bf2b-0177-4998-a52b-c738bac12f1b?metadata.partitionKey=tet',
+    'http.method': 'GET',
+    'http.target': '/v1.0/state/todostore/cb71bf2b-0177-4998-a52b-c738bac12f1b?metadata.partitionKey=tet',
+    'net.peer.name': '127.0.0.1',
+    'http.host': '127.0.0.1:3500',
+    'http.user_agent': [ 'dapr-sdk-js/v3.17.0 http/1' ],
+    'net.peer.ip': '127.0.0.1',
+    'net.peer.port': 3500,
+    'http.response_content_length_uncompressed': 96,
+    'http.status_code': 200,
+    'http.status_text': 'OK',
+    'http.flavor': '1.1',
+    'net.transport': 'ip_tcp'
+  },
+  status: { code: 0 },
+  events: [],
+  links: []
+}
+{
+  resource: {
+    attributes: {
+      'host.name': 'Hans-MacBook-Pro.local',
+      'host.arch': 'amd64',
+      'host.id': 'EF992CBF-EF29-52C1-B2D3-A9ED194C1448',
+      'process.pid': 45180,
+      'process.executable.name': '/Users/han/.nvm/versions/node/v24.15.0/bin/node',
+      'process.executable.path': '/Users/han/.nvm/versions/node/v24.15.0/bin/node',
+      'process.command_args': [
+        '/Users/han/.nvm/versions/node/v24.15.0/bin/node',
+        '--require',
+        '/Users/han/work/az-walcron/node_modules/tsx/dist/preflight.cjs',
+        '--import',
+        'file:///Users/han/work/az-walcron/node_modules/tsx/dist/loader.mjs',
+        '/Users/han/work/az-walcron/src/index.ts'
+      ],
+      'process.runtime.version': '24.15.0',
+      'process.runtime.name': 'nodejs',
+      'process.runtime.description': 'Node.js',
+      'process.command': '/Users/han/work/az-walcron/src/index.ts',
+      'process.owner': 'han',
+      'service.name': 'az-walcron',
+      'service.version': '1.0.0'
+    }
+  },
+  instrumentationScope: {
+    name: '@opentelemetry/instrumentation-http',
+    version: '0.208.0',
+    schemaUrl: undefined
+  },
+  traceId: 'e89df41fbc64be7db2d973cc5138d0bf',
+  parentSpanContext: {
+    traceId: 'e89df41fbc64be7db2d973cc5138d0bf',
+    spanId: '9eb9e4fa0e3d2b83',
+    traceFlags: 1,
+    traceState: undefined
+  },
+  traceState: undefined,
+  name: 'DELETE',
+  id: '697eabb5bcfcd7e8',
+  kind: 2,
+  timestamp: 1778456932566000,
+  duration: 47257.667,
+  attributes: {
+    'http.url': 'http://127.0.0.1:3500/v1.0/state/todostore/cb71bf2b-0177-4998-a52b-c738bac12f1b?metadata.partitionKey=tet',
+    'http.method': 'DELETE',
+    'http.target': '/v1.0/state/todostore/cb71bf2b-0177-4998-a52b-c738bac12f1b?metadata.partitionKey=tet',
+    'net.peer.name': '127.0.0.1',
+    'http.host': '127.0.0.1:3500',
+    'http.user_agent': [ 'dapr-sdk-js/v3.17.0 http/1' ],
+    'net.peer.ip': '127.0.0.1',
+    'net.peer.port': 3500,
+    'http.status_code': 204,
+    'http.status_text': 'NO CONTENT',
+    'http.flavor': '1.1',
+    'net.transport': 'ip_tcp'
+  },
+  status: { code: 0 },
+  events: [],
+  links: []
+}
+{
+  resource: {
+    attributes: {
+      'host.name': 'Hans-MacBook-Pro.local',
+      'host.arch': 'amd64',
+      'host.id': 'EF992CBF-EF29-52C1-B2D3-A9ED194C1448',
+      'process.pid': 45180,
+      'process.executable.name': '/Users/han/.nvm/versions/node/v24.15.0/bin/node',
+      'process.executable.path': '/Users/han/.nvm/versions/node/v24.15.0/bin/node',
+      'process.command_args': [
+        '/Users/han/.nvm/versions/node/v24.15.0/bin/node',
+        '--require',
+        '/Users/han/work/az-walcron/node_modules/tsx/dist/preflight.cjs',
+        '--import',
+        'file:///Users/han/work/az-walcron/node_modules/tsx/dist/loader.mjs',
+        '/Users/han/work/az-walcron/src/index.ts'
+      ],
+      'process.runtime.version': '24.15.0',
+      'process.runtime.name': 'nodejs',
+      'process.runtime.description': 'Node.js',
+      'process.command': '/Users/han/work/az-walcron/src/index.ts',
+      'process.owner': 'han',
+      'service.name': 'az-walcron',
+      'service.version': '1.0.0'
+    }
+  },
+  instrumentationScope: { name: '@hono/otel', version: '1.1.2', schemaUrl: undefined },
+  traceId: 'e89df41fbc64be7db2d973cc5138d0bf',
+  parentSpanContext: {
+    traceId: 'e89df41fbc64be7db2d973cc5138d0bf',
+    spanId: '8d3a84f96a2c9c16',
+    traceFlags: 1,
+    traceState: undefined
+  },
+  traceState: undefined,
+  name: 'DELETE /todos/:id',
+  id: '9eb9e4fa0e3d2b83',
+  kind: 1,
+  timestamp: 1778456932520000,
+  duration: 94027.77,
+  attributes: {
+    'http.request.method': 'DELETE',
+    'url.full': 'http://localhost:3000/todos/cb71bf2b-0177-4998-a52b-c738bac12f1b?objective=tet',
+    'http.route': '/todos/:id',
+    'http.response.status_code': 204
+  },
+  status: { code: 0 },
+  events: [],
+  links: []
+}
+{
+  resource: {
+    attributes: {
+      'host.name': 'Hans-MacBook-Pro.local',
+      'host.arch': 'amd64',
+      'host.id': 'EF992CBF-EF29-52C1-B2D3-A9ED194C1448',
+      'process.pid': 45180,
+      'process.executable.name': '/Users/han/.nvm/versions/node/v24.15.0/bin/node',
+      'process.executable.path': '/Users/han/.nvm/versions/node/v24.15.0/bin/node',
+      'process.command_args': [
+        '/Users/han/.nvm/versions/node/v24.15.0/bin/node',
+        '--require',
+        '/Users/han/work/az-walcron/node_modules/tsx/dist/preflight.cjs',
+        '--import',
+        'file:///Users/han/work/az-walcron/node_modules/tsx/dist/loader.mjs',
+        '/Users/han/work/az-walcron/src/index.ts'
+      ],
+      'process.runtime.version': '24.15.0',
+      'process.runtime.name': 'nodejs',
+      'process.runtime.description': 'Node.js',
+      'process.command': '/Users/han/work/az-walcron/src/index.ts',
+      'process.owner': 'han',
+      'service.name': 'az-walcron',
+      'service.version': '1.0.0'
+    }
+  },
+  instrumentationScope: {
+    name: '@opentelemetry/instrumentation-http',
+    version: '0.208.0',
+    schemaUrl: undefined
+  },
+  traceId: 'e89df41fbc64be7db2d973cc5138d0bf',
+  parentSpanContext: undefined,
+  traceState: undefined,
+  name: 'DELETE',
+  id: '8d3a84f96a2c9c16',
+  kind: 1,
+  timestamp: 1778456932519000,
+  duration: 97532.853,
+  attributes: {
+    'http.url': 'http://localhost:3000/todos/cb71bf2b-0177-4998-a52b-c738bac12f1b?objective=tet',
+    'http.host': 'localhost:3000',
+    'net.host.name': 'localhost',
+    'http.method': 'DELETE',
+    'http.scheme': 'http',
+    'http.target': '/todos/cb71bf2b-0177-4998-a52b-c738bac12f1b?objective=tet',
+    'http.user_agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/147.0.0.0 Safari/537.36',
+    'http.flavor': '1.1',
+    'net.transport': 'ip_tcp',
+    'net.host.ip': '::1',
+    'net.host.port': 3000,
+    'net.peer.ip': '::1',
+    'net.peer.port': 55502,
+    'http.status_code': 204,
+    'http.status_text': 'NO CONTENT'
+  },
+  status: { code: 0 },
+  events: [],
+  links: []
+}
+{
+  resource: {
+    attributes: {
+      'host.name': 'Hans-MacBook-Pro.local',
+      'host.arch': 'amd64',
+      'host.id': 'EF992CBF-EF29-52C1-B2D3-A9ED194C1448',
+      'process.pid': 45180,
+      'process.executable.name': '/Users/han/.nvm/versions/node/v24.15.0/bin/node',
+      'process.executable.path': '/Users/han/.nvm/versions/node/v24.15.0/bin/node',
+      'process.command_args': [
+        '/Users/han/.nvm/versions/node/v24.15.0/bin/node',
+        '--require',
+        '/Users/han/work/az-walcron/node_modules/tsx/dist/preflight.cjs',
+        '--import',
+        'file:///Users/han/work/az-walcron/node_modules/tsx/dist/loader.mjs',
+        '/Users/han/work/az-walcron/src/index.ts'
+      ],
+      'process.runtime.version': '24.15.0',
+      'process.runtime.name': 'nodejs',
+      'process.runtime.description': 'Node.js',
+      'process.command': '/Users/han/work/az-walcron/src/index.ts',
+      'process.owner': 'han',
+      'service.name': 'az-walcron',
+      'service.version': '1.0.0'
+    }
+  },
+  instrumentationScope: {
+    name: '@opentelemetry/instrumentation-http',
+    version: '0.208.0',
+    schemaUrl: undefined
+  },
+  traceId: 'e866b4e9534fd319989046473ccfcbee',
+  parentSpanContext: {
+    traceId: 'e866b4e9534fd319989046473ccfcbee',
+    spanId: '48d683d9fe2b0f14',
+    traceFlags: 1,
+    traceState: undefined
+  },
+  traceState: undefined,
+  name: 'POST',
+  id: 'b5fbb406d0cb4336',
+  kind: 2,
+  timestamp: 1778456932622000,
+  duration: 43866.665,
+  attributes: {
+    'http.url': 'http://127.0.0.1:3500/v1.0-alpha1/state/todostore/query',
+    'http.method': 'POST',
+    'http.target': '/v1.0-alpha1/state/todostore/query',
+    'net.peer.name': '127.0.0.1',
+    'http.host': '127.0.0.1:3500',
+    'http.user_agent': [ 'dapr-sdk-js/v3.17.0 http/1' ],
+    'net.peer.ip': '127.0.0.1',
+    'net.peer.port': 3500,
+    'http.status_code': 200,
+    'http.status_text': 'OK',
+    'http.flavor': '1.1',
+    'net.transport': 'ip_tcp'
+  },
+  status: { code: 0 },
+  events: [],
+  links: []
+}
+{
+  resource: {
+    attributes: {
+      'host.name': 'Hans-MacBook-Pro.local',
+      'host.arch': 'amd64',
+      'host.id': 'EF992CBF-EF29-52C1-B2D3-A9ED194C1448',
+      'process.pid': 45180,
+      'process.executable.name': '/Users/han/.nvm/versions/node/v24.15.0/bin/node',
+      'process.executable.path': '/Users/han/.nvm/versions/node/v24.15.0/bin/node',
+      'process.command_args': [
+        '/Users/han/.nvm/versions/node/v24.15.0/bin/node',
+        '--require',
+        '/Users/han/work/az-walcron/node_modules/tsx/dist/preflight.cjs',
+        '--import',
+        'file:///Users/han/work/az-walcron/node_modules/tsx/dist/loader.mjs',
+        '/Users/han/work/az-walcron/src/index.ts'
+      ],
+      'process.runtime.version': '24.15.0',
+      'process.runtime.name': 'nodejs',
+      'process.runtime.description': 'Node.js',
+      'process.command': '/Users/han/work/az-walcron/src/index.ts',
+      'process.owner': 'han',
+      'service.name': 'az-walcron',
+      'service.version': '1.0.0'
+    }
+  },
+  instrumentationScope: { name: '@hono/otel', version: '1.1.2', schemaUrl: undefined },
+  traceId: 'e866b4e9534fd319989046473ccfcbee',
+  parentSpanContext: {
+    traceId: 'e866b4e9534fd319989046473ccfcbee',
+    spanId: 'ab57e8fd37936240',
+    traceFlags: 1,
+    traceState: undefined
+  },
+  traceState: undefined,
+  name: 'GET /todos',
+  id: '48d683d9fe2b0f14',
+  kind: 1,
+  timestamp: 1778456932621000,
+  duration: 46239.203,
+  attributes: {
+    'http.request.method': 'GET',
+    'url.full': 'http://localhost:3000/todos',
+    'http.route': '/todos',
+    'http.response.status_code': 200
+  },
+  status: { code: 0 },
+  events: [],
+  links: []
+}
+{
+  resource: {
+    attributes: {
+      'host.name': 'Hans-MacBook-Pro.local',
+      'host.arch': 'amd64',
+      'host.id': 'EF992CBF-EF29-52C1-B2D3-A9ED194C1448',
+      'process.pid': 45180,
+      'process.executable.name': '/Users/han/.nvm/versions/node/v24.15.0/bin/node',
+      'process.executable.path': '/Users/han/.nvm/versions/node/v24.15.0/bin/node',
+      'process.command_args': [
+        '/Users/han/.nvm/versions/node/v24.15.0/bin/node',
+        '--require',
+        '/Users/han/work/az-walcron/node_modules/tsx/dist/preflight.cjs',
+        '--import',
+        'file:///Users/han/work/az-walcron/node_modules/tsx/dist/loader.mjs',
+        '/Users/han/work/az-walcron/src/index.ts'
+      ],
+      'process.runtime.version': '24.15.0',
+      'process.runtime.name': 'nodejs',
+      'process.runtime.description': 'Node.js',
+      'process.command': '/Users/han/work/az-walcron/src/index.ts',
+      'process.owner': 'han',
+      'service.name': 'az-walcron',
+      'service.version': '1.0.0'
+    }
+  },
+  instrumentationScope: {
+    name: '@opentelemetry/instrumentation-http',
+    version: '0.208.0',
+    schemaUrl: undefined
+  },
+  traceId: 'e866b4e9534fd319989046473ccfcbee',
+  parentSpanContext: undefined,
+  traceState: undefined,
+  name: 'GET',
+  id: 'ab57e8fd37936240',
+  kind: 1,
+  timestamp: 1778456932620000,
+  duration: 48111.079,
+  attributes: {
+    'http.url': 'http://localhost:3000/todos',
+    'http.host': 'localhost:3000',
+    'net.host.name': 'localhost',
+    'http.method': 'GET',
+    'http.scheme': 'http',
+    'http.target': '/todos',
+    'http.user_agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/147.0.0.0 Safari/537.36',
+    'http.flavor': '1.1',
+    'net.transport': 'ip_tcp',
+    'net.host.ip': '::1',
+    'net.host.port': 3000,
+    'net.peer.ip': '::1',
+    'net.peer.port': 55502,
+    'http.status_code': 200,
+    'http.status_text': 'OK'
+  },
+  status: { code: 0 },
+  events: [],
+  links: []
+}
+{
+  resource: {
+    attributes: {
+      'host.name': 'Hans-MacBook-Pro.local',
+      'host.arch': 'amd64',
+      'host.id': 'EF992CBF-EF29-52C1-B2D3-A9ED194C1448',
+      'process.pid': 45180,
+      'process.executable.name': '/Users/han/.nvm/versions/node/v24.15.0/bin/node',
+      'process.executable.path': '/Users/han/.nvm/versions/node/v24.15.0/bin/node',
+      'process.command_args': [
+        '/Users/han/.nvm/versions/node/v24.15.0/bin/node',
+        '--require',
+        '/Users/han/work/az-walcron/node_modules/tsx/dist/preflight.cjs',
+        '--import',
+        'file:///Users/han/work/az-walcron/node_modules/tsx/dist/loader.mjs',
+        '/Users/han/work/az-walcron/src/index.ts'
+      ],
+      'process.runtime.version': '24.15.0',
+      'process.runtime.name': 'nodejs',
+      'process.runtime.description': 'Node.js',
+      'process.command': '/Users/han/work/az-walcron/src/index.ts',
+      'process.owner': 'han',
+      'service.name': 'az-walcron',
+      'service.version': '1.0.0'
+    }
+  },
+  instrumentationScope: {
+    name: '@opentelemetry/instrumentation-http',
+    version: '0.208.0',
+    schemaUrl: undefined
+  },
+  traceId: 'e059f3b9204f29b8b08fe2e10cf1d138',
+  parentSpanContext: {
+    traceId: 'e059f3b9204f29b8b08fe2e10cf1d138',
+    spanId: '9178245a8df5c420',
+    traceFlags: 1,
+    traceState: undefined
+  },
+  traceState: undefined,
+  name: 'POST',
+  id: 'b05ea759e4ccffb2',
+  kind: 2,
+  timestamp: 1778456932673000,
+  duration: 49930.706,
+  attributes: {
+    'http.url': 'http://127.0.0.1:3500/v1.0-alpha1/state/todostore/query',
+    'http.method': 'POST',
+    'http.target': '/v1.0-alpha1/state/todostore/query',
+    'net.peer.name': '127.0.0.1',
+    'http.host': '127.0.0.1:3500',
+    'http.user_agent': [ 'dapr-sdk-js/v3.17.0 http/1' ],
+    'net.peer.ip': '127.0.0.1',
+    'net.peer.port': 3500,
+    'http.status_code': 200,
+    'http.status_text': 'OK',
+    'http.flavor': '1.1',
+    'net.transport': 'ip_tcp'
+  },
+  status: { code: 0 },
+  events: [],
+  links: []
+}
+{
+  resource: {
+    attributes: {
+      'host.name': 'Hans-MacBook-Pro.local',
+      'host.arch': 'amd64',
+      'host.id': 'EF992CBF-EF29-52C1-B2D3-A9ED194C1448',
+      'process.pid': 45180,
+      'process.executable.name': '/Users/han/.nvm/versions/node/v24.15.0/bin/node',
+      'process.executable.path': '/Users/han/.nvm/versions/node/v24.15.0/bin/node',
+      'process.command_args': [
+        '/Users/han/.nvm/versions/node/v24.15.0/bin/node',
+        '--require',
+        '/Users/han/work/az-walcron/node_modules/tsx/dist/preflight.cjs',
+        '--import',
+        'file:///Users/han/work/az-walcron/node_modules/tsx/dist/loader.mjs',
+        '/Users/han/work/az-walcron/src/index.ts'
+      ],
+      'process.runtime.version': '24.15.0',
+      'process.runtime.name': 'nodejs',
+      'process.runtime.description': 'Node.js',
+      'process.command': '/Users/han/work/az-walcron/src/index.ts',
+      'process.owner': 'han',
+      'service.name': 'az-walcron',
+      'service.version': '1.0.0'
+    }
+  },
+  instrumentationScope: { name: '@hono/otel', version: '1.1.2', schemaUrl: undefined },
+  traceId: 'e059f3b9204f29b8b08fe2e10cf1d138',
+  parentSpanContext: {
+    traceId: 'e059f3b9204f29b8b08fe2e10cf1d138',
+    spanId: '20b0b48b1c3117d8',
+    traceFlags: 1,
+    traceState: undefined
+  },
+  traceState: undefined,
+  name: 'GET /objectives',
+  id: '9178245a8df5c420',
+  kind: 1,
+  timestamp: 1778456932673000,
+  duration: 51937.141,
+  attributes: {
+    'http.request.method': 'GET',
+    'url.full': 'http://localhost:3000/objectives',
+    'http.route': '/objectives',
+    'http.response.status_code': 200
+  },
+  status: { code: 0 },
+  events: [],
+  links: []
+}
+{
+  resource: {
+    attributes: {
+      'host.name': 'Hans-MacBook-Pro.local',
+      'host.arch': 'amd64',
+      'host.id': 'EF992CBF-EF29-52C1-B2D3-A9ED194C1448',
+      'process.pid': 45180,
+      'process.executable.name': '/Users/han/.nvm/versions/node/v24.15.0/bin/node',
+      'process.executable.path': '/Users/han/.nvm/versions/node/v24.15.0/bin/node',
+      'process.command_args': [
+        '/Users/han/.nvm/versions/node/v24.15.0/bin/node',
+        '--require',
+        '/Users/han/work/az-walcron/node_modules/tsx/dist/preflight.cjs',
+        '--import',
+        'file:///Users/han/work/az-walcron/node_modules/tsx/dist/loader.mjs',
+        '/Users/han/work/az-walcron/src/index.ts'
+      ],
+      'process.runtime.version': '24.15.0',
+      'process.runtime.name': 'nodejs',
+      'process.runtime.description': 'Node.js',
+      'process.command': '/Users/han/work/az-walcron/src/index.ts',
+      'process.owner': 'han',
+      'service.name': 'az-walcron',
+      'service.version': '1.0.0'
+    }
+  },
+  instrumentationScope: {
+    name: '@opentelemetry/instrumentation-http',
+    version: '0.208.0',
+    schemaUrl: undefined
+  },
+  traceId: 'e059f3b9204f29b8b08fe2e10cf1d138',
+  parentSpanContext: undefined,
+  traceState: undefined,
+  name: 'GET',
+  id: '20b0b48b1c3117d8',
+  kind: 1,
+  timestamp: 1778456932672000,
+  duration: 53230.333,
+  attributes: {
+    'http.url': 'http://localhost:3000/objectives',
+    'http.host': 'localhost:3000',
+    'net.host.name': 'localhost',
+    'http.method': 'GET',
+    'http.scheme': 'http',
+    'http.target': '/objectives',
+    'http.user_agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/147.0.0.0 Safari/537.36',
+    'http.flavor': '1.1',
+    'net.transport': 'ip_tcp',
+    'net.host.ip': '::1',
+    'net.host.port': 3000,
+    'net.peer.ip': '::1',
+    'net.peer.port': 55502,
+    'http.status_code': 200,
+    'http.status_text': 'OK'
+  },
+  status: { code: 0 },
+  events: [],
+  links: []
+}
