@@ -1,6 +1,5 @@
 import { useAzureMonitor } from "@azure/monitor-opentelemetry";
 import { ZipkinExporter } from '@opentelemetry/exporter-zipkin';
-import { OTLPTraceExporter } from '@opentelemetry/exporter-trace-otlp-http';
 import { NodeSDK } from "@opentelemetry/sdk-node";
 import { HttpInstrumentation } from "@opentelemetry/instrumentation-http";
 import { UndiciInstrumentation } from "@opentelemetry/instrumentation-undici";
@@ -11,7 +10,21 @@ import { ATTR_SERVICE_NAME, ATTR_SERVICE_VERSION } from '@opentelemetry/semantic
 // 1. Initialize Azure Monitor (for production/cloud)
 if (process.env.APPLICATIONINSIGHTS_CONNECTION_STRING) {
 	console.log("OTel: Application Insights connection string found. Initializing Azure Monitor.");
-	useAzureMonitor();
+	console.log("OTel: Application Insights connection string: ", process.env.APPLICATIONINSIGHTS_CONNECTION_STRING);
+	useAzureMonitor({
+		resource: resourceFromAttributes({
+			[ATTR_SERVICE_NAME]: "az-walcron",
+			[ATTR_SERVICE_VERSION]: "1.0.0",
+		}),
+		instrumentationOptions: {
+			mongoDb: {
+				enabled: true
+			},
+			http: {
+				enabled: true
+			}
+		}
+	});
 } else {
 	// 2. We use our own NodeSDK to ADD the console exporter and extra instrumentations.
 	// OpenTelemetry is smart enough to merge these configurations.
@@ -45,3 +58,4 @@ if (process.env.APPLICATIONINSIGHTS_CONNECTION_STRING) {
 			.finally(() => process.exit(0));
 	});
 }
+
