@@ -50,6 +50,35 @@ The application is containerized using a multi-stage Docker build and deployed t
 docker build -t walcron-azure:latest .
 ```
 
+## Run Dapr locally
+
+1. Install
+```bash
+curl -fsSL https://raw.githubusercontent.com/dapr/cli/master/install/install.sh | /bin/bash
+```
+
+2. Initialize Dapr in slim mode (local dev):
+
+```bash
+dapr init --slim
+```
+
+3. Configure OpenTelemetry (Local):
+```bash
+# This creates a local config for tracing to Zipkin
+cat <<EOF > ~/.dapr/config.yaml 
+apiVersion: dapr.io/v1alpha1
+kind: Configuration
+metadata:
+  name: daprConfig
+spec:
+  tracing:
+    samplingRate: "1" # Capture 100% of traces
+    zipkin:
+      endpointAddress: "http://localhost:9411/api/v2/spans"
+EOF
+```
+
 ## Architecture & Flow
 
 ```mermaid
