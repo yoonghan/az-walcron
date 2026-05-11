@@ -29,9 +29,6 @@ properties:
         resources:
           cpu: 0.5
           memory: 1.0Gi
-        env:
-          - name: APPLICATIONINSIGHTS_CONFIGURATION_CONTENT
-            value: "{}" # Must be set to prevent OTel else thrown a phantom exception of (/app/index.js:54817:41) code: 'ERR_INVALID_ARG_TYPE'
         probes:
           - type: Liveness
             httpGet:
