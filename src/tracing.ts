@@ -4,18 +4,20 @@ import { NodeSDK } from "@opentelemetry/sdk-node";
 import { HttpInstrumentation } from "@opentelemetry/instrumentation-http";
 import { UndiciInstrumentation } from "@opentelemetry/instrumentation-undici";
 import { resourceFromAttributes } from "@opentelemetry/resources";
-import { ATTR_SERVICE_NAME, ATTR_SERVICE_VERSION } from '@opentelemetry/semantic-conventions';
+import { ATTR_SERVICE_NAME, ATTR_SERVICE_VERSION, ATTR_SERVICE_INSTANCE_ID } from '@opentelemetry/semantic-conventions';
 import { OTLPTraceExporter } from '@opentelemetry/exporter-trace-otlp-http';
+
+const resourceAttribute = resourceFromAttributes({
+	[ATTR_SERVICE_NAME]: process.env.OTEL_SERVICE_NAME || "az-walcron",
+	[ATTR_SERVICE_VERSION]: process.env.OTEL_SERVICE_NAMESPACE || "1.0.0",
+	[ATTR_SERVICE_INSTANCE_ID]: process.env.OTEL_SERVICE_INSTANCE_ID || "walcron-instance",
+})
 
 // 1. Initialize Azure Monitor (for production/cloud)
 if (process.env.APPLICATIONINSIGHTS_CONNECTION_STRING) {
-	console.log("OTel: Application Insights connection string found. Initializing Azure Monitor.");
-	console.log("OTel: Application Insights connection string: ", process.env.APPLICATIONINSIGHTS_CONNECTION_STRING);
+	console.log("OTel: Application Insights connection string found. Initializing Azure Monitor with process.env.OTEL_SERVICE_NAME.");
 	useAzureMonitor({
-		resource: resourceFromAttributes({
-			[ATTR_SERVICE_NAME]: "az-walcron",
-			[ATTR_SERVICE_VERSION]: "1.0.0",
-		}),
+		resource: resourceAttribute,
 		instrumentationOptions: {
 			mongoDb: {
 				enabled: true
@@ -35,10 +37,7 @@ const exporter = process.env.APPLICATIONINSIGHTS_CONNECTION_STRING
 // 2. We use our own NodeSDK to ADD the console exporter and extra instrumentations.
 // OpenTelemetry is smart enough to merge these configurations.
 const sdk = new NodeSDK({
-	resource: resourceFromAttributes({
-		[ATTR_SERVICE_NAME]: "az-walcron",
-		[ATTR_SERVICE_VERSION]: "1.0.0",
-	}),
+	resource: resourceAttribute,
 	traceExporter: exporter,
 	instrumentations: [
 		// No special config needed for basic propagation!
@@ -63,5 +62,5 @@ process.on('SIGTERM', () => {
 		.catch((error: unknown) => console.log('Error terminating tracing', error))
 		.finally(() => process.exit(0));
 });
-}
+
 
