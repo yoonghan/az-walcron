@@ -10,3 +10,5 @@ metadata:
     value: "Todos"
   - name: authMode
     value: "managed"
+  - name: connectionMode
+    value: "Gateway"
