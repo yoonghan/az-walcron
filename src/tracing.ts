@@ -27,43 +27,42 @@ if (process.env.APPLICATIONINSIGHTS_CONNECTION_STRING) {
 			}
 		}
 	});
+} else {
+
+	// 2.1
+	const exporter = process.env.APPLICATIONINSIGHTS_CONNECTION_STRING
+		? new OTLPTraceExporter() // Azure uses OTLP by default
+		: new ZipkinExporter({ url: 'http://localhost:9411/api/v2/spans' });
+
+	// 2. We use our own NodeSDK to ADD the console exporter and extra instrumentations.
+	// OpenTelemetry is smart enough to merge these configurations.
+	const sdk = new NodeSDK({
+		resource: resourceAttribute,
+		traceExporter: exporter,
+		instrumentations: [
+			// No special config needed for basic propagation!
+			new HttpInstrumentation(),
+			// Essential for linking Hono -> Dapr or Hono -> Hono calls
+			new UndiciInstrumentation(),
+		],
+	});
+
+	// 3. Start the SDK
+	try {
+		sdk.start();
+		console.log("OTel: NodeSDK started. Logging to console enabled.");
+	} catch (error) {
+		console.error("Error starting OTel SDK", error);
+	}
+
+	// Graceful shutdown
+	process.on('SIGTERM', () => {
+		sdk.shutdown()
+			.then(() => console.log('Tracing terminated'))
+			.catch((error: unknown) => console.log('Error terminating tracing', error))
+			.finally(() => process.exit(0));
+	});
 }
-
-// 2.1
-const exporter = process.env.APPLICATIONINSIGHTS_CONNECTION_STRING
-	? new OTLPTraceExporter() // Azure uses OTLP by default
-	: new ZipkinExporter({ url: 'http://localhost:9411/api/v2/spans' });
-
-// 2. We use our own NodeSDK to ADD the console exporter and extra instrumentations.
-// OpenTelemetry is smart enough to merge these configurations.
-const sdk = new NodeSDK({
-	resource: resourceAttribute,
-	traceExporter: exporter,
-	instrumentations: [
-		// No special config needed for basic propagation!
-		new HttpInstrumentation(),
-		// Essential for linking Hono -> Dapr or Hono -> Hono calls
-		new UndiciInstrumentation(),
-	],
-});
-
-// 3. Start the SDK
-try {
-	sdk.start();
-	console.log("OTel: NodeSDK started. Logging to console enabled.");
-} catch (error) {
-	console.error("Error starting OTel SDK", error);
-}
-
-// Graceful shutdown
-process.on('SIGTERM', () => {
-	sdk.shutdown()
-		.then(() => console.log('Tracing terminated'))
-		.catch((error: unknown) => console.log('Error terminating tracing', error))
-		.finally(() => process.exit(0));
-});
-
-
 
 /* Azure annoying
 
