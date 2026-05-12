@@ -25,6 +25,9 @@ if (process.env.APPLICATIONINSIGHTS_CONNECTION_STRING) {
 			http: {
 				enabled: true
 			}
+		},
+		azureMonitorExporterOptions: {
+			connectionString: process.env.APPLICATIONINSIGHTS_CONNECTION_STRING
 		}
 	});
 }
