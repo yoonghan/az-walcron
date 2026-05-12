@@ -5,7 +5,6 @@ COPY package*.json ./
 RUN npm ci
 COPY tsconfig.json ./
 COPY src ./src
-COPY applicationinsights.json ./
 RUN npm run build
 
 # ─── Stage 2: Minimal runtime image ──────────────────────────────────────

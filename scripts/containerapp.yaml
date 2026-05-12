@@ -29,9 +29,6 @@ properties:
         resources:
           cpu: 0.5
           memory: 1.0Gi
-        env:
-          - name: APPLICATIONINSIGHTS_CONFIGURATION_FILE
-            value: "/app/applicationinsights.json"
         probes:
           - type: Liveness
             httpGet:
