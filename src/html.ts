@@ -124,18 +124,12 @@ export const renderHtml = () => html`<!DOCTYPE html>
             editBtn.className = 'secondary';
             editBtn.onclick = () => editTodo(todo);
             
-            const doneBtn = document.createElement('button');
-            doneBtn.textContent = todo.completed ? 'Pending' : 'Done';
-            doneBtn.className = todo.completed ? 'secondary' : 'success';
-            doneBtn.onclick = () => toggleTodo(todo);
-            
             const deleteBtn = document.createElement('button');
             deleteBtn.textContent = '🗑 Delete';
             deleteBtn.className = 'danger';
             deleteBtn.onclick = () => deleteTodo(todo);
 
             actions.appendChild(editBtn);
-            actions.appendChild(doneBtn);
             actions.appendChild(deleteBtn);
 
             li.appendChild(content);
