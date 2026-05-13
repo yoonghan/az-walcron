@@ -26,6 +26,9 @@ properties:
     containers:
       - image: ghcr.io/yoonghan/az-walcron:latest
         name: walcron
+        env:
+          - name: APPLICATIONINSIGHTS_CONFIGURATION_CONTENT
+            value: "{}"
         resources:
           cpu: 0.5
           memory: 1.0Gi
