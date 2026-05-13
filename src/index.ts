@@ -83,6 +83,12 @@ app.get("/healthz", (c) => {
 	return c.text("ready");
 });
 
+app.get("/dapr/config", (c) => {
+	// Dapr calls this on startup to look for application-side configurations
+	// Returning an empty object (200 OK) tells Dapr we have no dynamic config.
+	return c.json({});
+});
+
 app.get("/objectives", async (c) => {
 	try {
 		const objectives = await dbRepo.listObjectives();
