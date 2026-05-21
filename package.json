@@ -43,7 +43,7 @@
     "@biomejs/biome": "2.4.15",
     "@opentelemetry/instrumentation-undici": "^0.28.0",
     "@opentelemetry/sdk-node": "^0.217.0",
-    "@types/node": "^25.6.0",
+    "@types/node": "^25.9.1",
     "@types/pino": "^7.0.5",
     "@types/uuid": "^10.0.0",
     "@vitest/coverage-v8": "^4.1.6",
