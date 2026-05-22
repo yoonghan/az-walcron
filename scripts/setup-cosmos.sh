@@ -25,7 +25,8 @@ az cosmosdb sql container create \
 echo "Enabling System-Assigned Managed Identity for $APP_NAME..."
 az containerapp identity assign \
   --name $APP_NAME \
-  --resource-group $RESOURCE_GROUP
+  --resource-group $RESOURCE_GROUP \
+  --system-assigned
 
 PRINCIPAL_ID=$(az containerapp show \
   --name $APP_NAME \
