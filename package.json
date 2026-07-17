@@ -45,7 +45,7 @@
     "@opentelemetry/sdk-node": "^0.217.0",
     "@types/node": "^25.9.1",
     "@types/pino": "^7.0.5",
-    "@types/uuid": "^10.0.0",
+    "@types/uuid": "^11.0.0",
     "@vitest/coverage-v8": "^4.1.7",
     "esbuild": "^0.28.0",
     "tsx": "^4.22.3",
