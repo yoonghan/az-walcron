@@ -26,6 +26,7 @@ if (process.env.APPLICATIONINSIGHTS_CONNECTION_STRING) {
 	useAzureMonitor({
 		resource: resourceAttribute,
 		instrumentationOptions: {
+			azureSdk: { enabled: false }, // Prevent ESM bundle crash for tracing bridge
 			mongoDb: {
 				enabled: true
 			},
