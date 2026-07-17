@@ -3,7 +3,7 @@ componentType: state.azure.cosmosdb
 version: v1
 metadata:
   - name: url
-    value: "https://walcron-db.documents.azure.com:443/"
+    value: "https://walcron-cosmosdb.documents.azure.com:443/"
   - name: database
     value: "TodoDatabase"
   - name: collection

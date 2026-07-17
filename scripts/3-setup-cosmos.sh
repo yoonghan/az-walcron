@@ -1,12 +1,20 @@
 #!/bin/bash
 # setup-cosmos.sh
 
-ACCOUNT_NAME=walcron-db
+ACCOUNT_NAME=walcron-cosmosdb
 APP_NAME=walcron
 RESOURCE_GROUP="walcron-rg"
 DATABASE_NAME="TodoDatabase"
 CONTAINER_NAME="Todos"
 SUB_ID="1b7354d6-a407-4b91-a72a-009aa3805317"
+
+az cosmosdb create \
+  --name $ACCOUNT_NAME \
+  --resource-group $RESOURCE_GROUP \
+  --kind GlobalDocumentDB \
+  --locations regionName=southeastasia failoverPriority=0 isZoneRedundant=false \
+  --enable-free-tier true \
+  --default-consistency-level "Session"
 
 echo "Creating Database: $DATABASE_NAME..."
 az cosmosdb sql database create \
@@ -36,8 +44,8 @@ PRINCIPAL_ID=$(az containerapp show \
 echo "Assigning 'Cosmos DB Built-in Data Contributor' role to Principal ID: $PRINCIPAL_ID..."
 # Role Definition ID for 'Cosmos DB Built-in Data Contributor' is 00000000-0000-0000-0000-000000000002
 az cosmosdb sql role assignment create \
-  --account-name walcron-db \
-  --resource-group walcron-rg \
+  --account-name $ACCOUNT_NAME \
+  --resource-group $RESOURCE_GROUP \
   --role-definition-id "00000000-0000-0000-0000-000000000002" \
   --principal-id $PRINCIPAL_ID \
   --scope "/"
