@@ -1,3 +1,5 @@
+identity:
+  type: SystemAssigned
 properties:
   configuration:
     dapr:
@@ -22,8 +24,6 @@ properties:
         allowedHeaders:
           - "*"
         allowCredentials: true
-  identity:
-    type: SystemAssigned
   template:
     containers:
       - image: ghcr.io/yoonghan/az-walcron:latest
@@ -39,7 +39,7 @@ properties:
             httpGet:
               path: "/healthz"
               port: 3000
-            initialDelaySeconds: 5  # Increased for Rust warm-up
+            initialDelaySeconds: 5
             periodSeconds: 10
             failureThreshold: 3
           - type: Readiness

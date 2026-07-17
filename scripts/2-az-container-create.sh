@@ -1,7 +1,7 @@
 # az-container-create.sh yoonghan 
 
 if [ -z "$1" ] || [ -z "$2" ]; then
-  echo "Usage: $0 <username> <password>"
+  echo "Usage: $0 <ghcr-username> <ghcr-password>"
   exit 1
 fi
 # 1. Create Log Analytics Workspace explicitly to link to Application Insights
