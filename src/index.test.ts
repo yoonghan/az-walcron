@@ -39,6 +39,14 @@ describe("API Routes", () => {
 		});
 	});
 
+	describe("GET /openapi", () => {
+		it("should return open api", async () => {
+			const res = await app.request("/openapi");
+			expect(res.status).toBe(200);
+			expect(await res.json()).toEqual({ "message": "Connected to OpenAPI!" });
+		});
+	});
+
 	describe("GET /objectives", () => {
 		it("should return list of objectives", async () => {
 			vi.mocked(dbRepo.listObjectives).mockResolvedValue(["Work", "Personal"]);

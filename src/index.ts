@@ -89,6 +89,10 @@ app.get("/dapr/config", (c) => {
 	return c.json({});
 });
 
+app.get("/openapi", async (c) => {
+	return c.json({ "message": "Connected to OpenAPI!" });
+})
+
 app.get("/objectives", async (c) => {
 	try {
 		const objectives = await dbRepo.listObjectives();
