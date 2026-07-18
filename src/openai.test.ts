@@ -1,6 +1,6 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
-import { openApiSpec } from "./openapi";
+import { openAiSpec } from "./openai";
 
 describe("OpenApiSpec", () => {
     beforeEach(() => {
@@ -9,8 +9,8 @@ describe("OpenApiSpec", () => {
 
     describe("getSpec", () => {
         it("should return open api spec", () => {
-            const res = openApiSpec.getSpec();
-            expect(res).toEqual({ "openapi": "3.1.0", "info": { "title": "WalCron API", "version": "1.0.0" }, "paths": {} });
+            const res = openAiSpec.getSpec();
+            expect(res).toEqual({ "openai": "3.1.0", "info": { "title": "Walcron AI API", "version": "1.0.0" }, "paths": {} });
         });
     });
 });

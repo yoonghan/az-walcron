@@ -39,11 +39,11 @@ describe("API Routes", () => {
 		});
 	});
 
-	describe("GET /openapi", () => {
-		it("should return open api", async () => {
-			const res = await app.request("/openapi");
+	describe("GET /openai", () => {
+		it("should return openai api spec", async () => {
+			const res = await app.request("/openai");
 			expect(res.status).toBe(200);
-			expect(await res.json()).toEqual({ openapi: "3.1.0", info: { title: "WalCron API", version: "1.0.0" }, paths: {} });
+			expect(await res.json()).toEqual({ openai: "3.1.0", info: { title: "Walcron AI API", version: "1.0.0" }, paths: {} });
 		});
 	});
 

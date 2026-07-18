@@ -1,12 +1,12 @@
-class OpenApiSpec {
+class OpenAiSpec {
     constructor() {
     }
 
     getSpec() {
         return {
-            "openapi": "3.1.0",
+            "openai": "3.1.0",
             "info": {
-                "title": "WalCron API",
+                "title": "Walcron AI API",
                 "version": "1.0.0"
             },
             "paths": {}
@@ -14,4 +14,4 @@ class OpenApiSpec {
     }
 }
 
-export const openApiSpec = new OpenApiSpec();
+export const openAiSpec = new OpenAiSpec();
