@@ -43,7 +43,7 @@ describe("API Routes", () => {
 		it("should return open api", async () => {
 			const res = await app.request("/openapi");
 			expect(res.status).toBe(200);
-			expect(await res.json()).toEqual({ "message": "Connected to OpenAPI!" });
+			expect(await res.json()).toEqual({ openapi: "3.1.0", info: { title: "WalCron API", version: "1.0.0" }, paths: {} });
 		});
 	});
 

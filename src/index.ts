@@ -8,6 +8,7 @@ import pino from "pino";
 import { v4 as uuidv4 } from "uuid";
 import { dbRepo } from "./db";
 import { renderHtml } from "./html";
+import { openApiSpec } from "./openapi";
 
 dotenv.config();
 
@@ -90,7 +91,7 @@ app.get("/dapr/config", (c) => {
 });
 
 app.get("/openapi", async (c) => {
-	return c.json({ "message": "Connected to OpenAPI!" });
+	return c.json(openApiSpec.getSpec());
 })
 
 app.get("/objectives", async (c) => {
