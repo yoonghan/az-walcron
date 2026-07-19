@@ -91,7 +91,7 @@ app.get("/dapr/config", (c) => {
 });
 
 app.get("/openai", async (c) => {
-	return c.json(openAiSpec.getSpec());
+	return c.json(await openAiSpec.getSpec());
 })
 
 app.get("/objectives", async (c) => {

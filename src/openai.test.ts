@@ -6,6 +6,18 @@ vi.hoisted(() => {
     process.env.AZURE_OPENAI_DEPLOYMENT = "test-deployment";
 });
 
+vi.mock("openai", () => {
+    return {
+        AzureOpenAI: class {
+            models = {
+                list: vi.fn().mockResolvedValue({
+                    data: [{ id: "test-model" }]
+                })
+            }
+        }
+    }
+});
+
 import { OpenAiSpec } from "./openai";
 
 describe("OpenApiSpec", () => {
@@ -21,9 +33,9 @@ describe("OpenApiSpec", () => {
     });
 
     describe("getSpec", () => {
-        it("should return open api spec", () => {
-            const res = new OpenAiSpec().getSpec();
-            expect(res).toEqual({ "openai": "3.1.0", "info": { "title": "Walcron AI API", "version": "1.0.0" }, "paths": {} });
+        it("should return open api spec", async () => {
+            const res = await new OpenAiSpec().getSpec();
+            expect(res).toEqual({ "openai": "3.1.0", "info": { "title": "Walcron AI API", "version": "1.0.0" }, "models": [{ id: "test-model" }] });
         });
     });
 });
