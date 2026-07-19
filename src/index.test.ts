@@ -17,21 +17,22 @@ vi.mock("./db", () => ({
 }));
 
 vi.hoisted(() => {
-    process.env.AZURE_OPENAI_ENDPOINT = "test-endpoint";
-    process.env.AZURE_OPENAI_API_KEY = "test-key";
-    process.env.AZURE_OPENAI_DEPLOYMENT = "test-deployment";
+	process.env.AZURE_OPENAI_ENDPOINT = "test-endpoint";
+	process.env.AZURE_OPENAI_API_KEY = "test-key";
+	process.env.AZURE_OPENAI_DEPLOYMENT = "test-deployment";
+	process.env.AZURE_OPENAI_API_VERSION = "test-api-version";
 });
 
 vi.mock("openai", () => {
-    return {
-        AzureOpenAI: class {
-            models = {
-                list: async () => ({
-                    data: [{ id: "test-model" }]
-                })
-            }
-        }
-    }
+	return {
+		AzureOpenAI: class {
+			models = {
+				list: async () => ({
+					data: [{ id: "test-model" }]
+				})
+			}
+		}
+	}
 });
 
 import { dbRepo } from "./db";
