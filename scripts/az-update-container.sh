@@ -16,4 +16,6 @@ az containerapp connection create app-insights \
   --target-resource-group walcron-rg \
   --app-insights walcron-application-insight \
   --client-type nodejs \
-  --container walcron
+  --container walcron \
+  --connection walcron_appinsights_conn \
+  --secret
