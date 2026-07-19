@@ -16,6 +16,12 @@ vi.mock("./db", () => ({
 	},
 }));
 
+vi.hoisted(() => {
+    process.env.AZURE_OPENAI_ENDPOINT = "test-endpoint";
+    process.env.AZURE_OPENAI_API_KEY = "test-key";
+    process.env.AZURE_OPENAI_DEPLOYMENT = "test-deployment";
+});
+
 import { dbRepo } from "./db";
 
 describe("API Routes", () => {
