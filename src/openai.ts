@@ -4,6 +4,7 @@ import pino from "pino";
 
 export class OpenAiSpec {
     private client: AzureOpenAI;
+    private deployment: string;
 
     private logger = pino({
         level: process.env.LOG_LEVEL || "info",
@@ -24,12 +25,13 @@ export class OpenAiSpec {
             throw new Error("Missing Azure OpenAI configuration");
         }
 
-        this.logger.info(`Initializing Azure OpenAI: endpoint ${endpoint}, deployment ${deployment}, apiVersion ${apiVersion}`);
+        this.deployment = deployment;
+
+        this.logger.info(`Initializing Azure OpenAI: endpoint ${endpoint}, deployment ${this.deployment}, apiVersion ${apiVersion}`);
         this.client = new AzureOpenAI({
             endpoint,
             apiKey,
-            apiVersion,
-            deployment
+            apiVersion
         });
 
         this.logger.info(`Successfully connected to Azure OpenAI`);
