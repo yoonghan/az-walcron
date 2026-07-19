@@ -31,6 +31,12 @@ properties:
         env:
           - name: APPLICATIONINSIGHTS_CONFIGURATION_CONTENT
             value: "{}"
+          - name: AZURE_OPENAI_ENDPOINT
+            secretRef: azure-openai-endpoint
+          - name: AZURE_OPENAI_API_KEY
+            secretRef: azure-openai-key
+          - name: AZURE_OPENAI_DEPLOYMENT
+            secretRef: azure-openai-deployment
         resources:
           cpu: 0.5
           memory: 1.0Gi

@@ -16,6 +16,12 @@ vi.mock("./db", () => ({
 	},
 }));
 
+vi.hoisted(() => {
+    process.env.AZURE_OPENAI_ENDPOINT = "test-endpoint";
+    process.env.AZURE_OPENAI_API_KEY = "test-key";
+    process.env.AZURE_OPENAI_DEPLOYMENT = "test-deployment";
+});
+
 import { dbRepo } from "./db";
 
 describe("API Routes", () => {
@@ -36,6 +42,14 @@ describe("API Routes", () => {
 			const res = await app.request("/");
 			expect(res.status).toBe(200);
 			expect(res.headers.get("content-type")).toContain("text/html");
+		});
+	});
+
+	describe("GET /openai", () => {
+		it("should return openai api spec", async () => {
+			const res = await app.request("/openai");
+			expect(res.status).toBe(200);
+			expect(await res.json()).toEqual({ openai: "3.1.0", info: { title: "Walcron AI API", version: "1.0.0" }, paths: {} });
 		});
 	});
 
