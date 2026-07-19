@@ -35,14 +35,15 @@ export class OpenAiSpec {
         this.logger.info(`Successfully connected to Azure OpenAI`);
     }
 
-    getSpec() {
+    async getSpec() {
+        const response = await this.client.models.list();
         return {
             "openai": "3.1.0",
             "info": {
                 "title": "Walcron AI API",
                 "version": "1.0.0"
             },
-            "paths": {}
+            "models": response.data
         }
     }
 }
