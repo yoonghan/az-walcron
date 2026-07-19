@@ -24,11 +24,10 @@ export class OpenAiSpec {
             throw new Error("Missing Azure OpenAI configuration");
         }
 
-        this.logger.info(`Initializing Azure OpenAI: endpoint ${endpoint}, deployment ${deployment}, apiVersion ${apiVersion}`);
+        this.logger.info(`Initializing Azure OpenAI: endpoint ${endpoint}, deployment ${deployment}, apiVersion(not used) ${apiVersion}`);
         this.client = new AzureOpenAI({
             endpoint,
             apiKey,
-            apiVersion,
             deployment
         });
 
