@@ -17,10 +17,10 @@ export class OpenAiSpec {
     constructor() {
         const endpoint = process.env.AZURE_OPENAI_ENDPOINT;
         const apiKey = process.env.AZURE_OPENAI_API_KEY;
-        const deployment = process.env.AZURE_OPENAI_DEPLOYMENT || "gpt-4o-mini";
-        const apiVersion = "2024-02-15-preview";
+        const deployment = process.env.AZURE_OPENAI_DEPLOYMENT;
+        const apiVersion = process.env.AZURE_OPENAI_API_VERSION;
 
-        if (!endpoint || !apiKey || !deployment) {
+        if (!endpoint || !apiKey || !deployment || !apiVersion) {
             throw new Error("Missing Azure OpenAI configuration");
         }
 
