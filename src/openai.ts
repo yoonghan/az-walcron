@@ -45,6 +45,7 @@ export class OpenAiSpec {
                 "title": "Walcron AI API",
                 "version": "1.0.0"
             },
+            "deployment": this.deployment,
             "models": response.data
         }
     }

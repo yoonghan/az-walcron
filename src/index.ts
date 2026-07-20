@@ -9,6 +9,7 @@ import { v4 as uuidv4 } from "uuid";
 import { dbRepo } from "./db";
 import { renderHtml } from "./html";
 import { openAiSpec } from "./openai";
+import { appConfig } from "./appconfig";
 
 dotenv.config();
 
@@ -93,6 +94,13 @@ app.get("/dapr/config", (c) => {
 app.get("/openai", async (c) => {
 	return c.json(await openAiSpec.getSpec());
 })
+
+app.get("/openai/config", async (c) => {
+	const openAISpecSettings = await openAiSpec.getSpec();
+	const openAIConfig = await appConfig.getOpenAISetting();
+	return c.json({ spec: openAISpecSettings, config: openAIConfig });
+})
+
 
 app.get("/objectives", async (c) => {
 	try {

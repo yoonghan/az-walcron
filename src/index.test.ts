@@ -21,6 +21,7 @@ vi.hoisted(() => {
 	process.env.AZURE_OPENAI_API_KEY = "test-key";
 	process.env.AZURE_OPENAI_DEPLOYMENT = "test-deployment";
 	process.env.AZURE_OPENAI_API_VERSION = "test-api-version";
+	process.env.AZURE_APPCONFIG_CONNECTIONSTRING = "test-connectionstring";
 });
 
 vi.mock("openai", () => {
@@ -35,11 +36,34 @@ vi.mock("openai", () => {
 	}
 });
 
+vi.mock("@azure/app-configuration", () => {
+	return {
+		AppConfigurationClient: class {
+			constructor() {
+			}
+			getConfigurationSetting = vi.fn().mockImplementation(async ({ key }: { key: string }) => {
+				let value = "";
+				switch (key) {
+					case "openai-model":
+						value = "test-model";
+						break;
+					case "openai-version":
+						value = "test-version";
+						break;
+				}
+				return {
+					value
+				}
+			});
+		}
+	}
+});
+
 import { dbRepo } from "./db";
 
 describe("API Routes", () => {
 	beforeEach(() => {
-		vi.resetAllMocks();
+		vi.clearAllMocks();
 	});
 
 	describe("GET /healthz", () => {
@@ -62,9 +86,18 @@ describe("API Routes", () => {
 		it("should return openai api spec", async () => {
 			const res = await app.request("/openai");
 			expect(res.status).toBe(200);
-			expect(await res.json()).toEqual({ openai: "3.1.0", info: { title: "Walcron AI API", version: "1.0.0" }, models: [{ id: "test-model" }] });
+			expect(await res.json()).toEqual({ openai: "3.1.0", info: { title: "Walcron AI API", version: "1.0.0" }, deployment: "test-deployment", models: [{ id: "test-model" }] });
+		});
+
+		it("should return config api spec", async () => {
+			const res = await app.request("/openai/config");
+			expect(res.status).toBe(200);
+			const json = await res.json()
+			expect(json.config.apiVersion).toEqual("test-version");
+			expect(json.spec.deployment).toEqual("test-deployment");
 		});
 	});
+
 
 	describe("GET /objectives", () => {
 		it("should return list of objectives", async () => {

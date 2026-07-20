@@ -36,7 +36,7 @@ describe("OpenApiSpec", () => {
     describe("getSpec", () => {
         it("should return open api spec", async () => {
             const res = await new OpenAiSpec().getSpec();
-            expect(res).toEqual({ "openai": "3.1.0", "info": { "title": "Walcron AI API", "version": "1.0.0" }, "models": [{ id: "test-model" }] });
+            expect(res).toEqual({ "openai": "3.1.0", "info": { "title": "Walcron AI API", "version": "1.0.0" }, "deployment": "test-deployment", "models": [{ id: "test-model" }] });
         });
     });
 });
