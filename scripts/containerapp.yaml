@@ -39,6 +39,8 @@ properties:
             secretRef: azure-openai-deployment
           - name: AZURE_OPENAI_API_VERSION
             value: "2025-04-01-preview" #See https://learn.microsoft.com/en-us/azure/foundry/openai/api-version-lifecycle?tabs=python
+          - name: AZURE_APPCONFIG_CONNECTIONSTRING
+            value: "https://walcronconfig.azconfig.io"
         resources:
           cpu: 0.5
           memory: 1.0Gi
