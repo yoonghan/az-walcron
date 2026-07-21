@@ -1,8 +1,10 @@
 export RESOURCE_GROUP="walcron-rg"
-export APP_NAME="walcronconfig"
+export APPCONFIG_NAME="walcronconfig"
 export CONTAINER_APP_NAME="walcron"
 
 az appconfig create -g $RESOURCE_GROUP -n $APP_NAME -l southeastasia --sku Free
+
+echo "Creating App Config: $APP_NAME..."
 
 PRINCIPAL_ID=$(az containerapp show \
   --name $CONTAINER_APP_NAME \
