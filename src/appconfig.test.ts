@@ -1,7 +1,7 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
 vi.hoisted(() => {
-    process.env.AZURE_APPCONFIG_CONNECTIONSTRING = "test-connectionstring";
+    process.env.AZURE_APPCONFIG_ENDPOINT = "test-connectionstring";
 });
 
 vi.mock("@azure/app-configuration", () => {
@@ -12,10 +12,10 @@ vi.mock("@azure/app-configuration", () => {
             getConfigurationSetting = vi.fn().mockImplementation(async ({ key }: { key: string }) => {
                 let value = "";
                 switch (key) {
-                    case "openai-model":
+                    case "openai:model":
                         value = "test-model";
                         break;
-                    case "openai-version":
+                    case "openai:version":
                         value = "test-version";
                         break;
                 }

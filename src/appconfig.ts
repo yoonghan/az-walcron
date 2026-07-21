@@ -5,7 +5,7 @@ export class AppConfig {
     private client: AppConfigurationClient;
 
     constructor() {
-        const connectionString = process.env.AZURE_APPCONFIG_CONNECTIONSTRING;
+        const connectionString = process.env.AZURE_APPCONFIG_ENDPOINT;
         if (!connectionString) {
             throw new Error("Missing Azure App Configuration connection string");
         }
@@ -17,9 +17,8 @@ export class AppConfig {
     }
 
     async getOpenAISetting() {
-        const modelSetting = await this.client.getConfigurationSetting({ key: "openai-model" });
-        //See https://learn.microsoft.com/en-us/azure/foundry/openai/api-version-lifecycle?tabs=python
-        const apiversionSetting = await this.client.getConfigurationSetting({ key: "openai-version" });
+        const modelSetting = await this.client.getConfigurationSetting({ key: "openai:model" });
+        const apiversionSetting = await this.client.getConfigurationSetting({ key: "openai:version" });
 
         return {
             deployment: modelSetting.value,

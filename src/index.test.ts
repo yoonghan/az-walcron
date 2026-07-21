@@ -21,7 +21,7 @@ vi.hoisted(() => {
 	process.env.AZURE_OPENAI_API_KEY = "test-key";
 	process.env.AZURE_OPENAI_DEPLOYMENT = "test-deployment";
 	process.env.AZURE_OPENAI_API_VERSION = "test-api-version";
-	process.env.AZURE_APPCONFIG_CONNECTIONSTRING = "test-connectionstring";
+	process.env.AZURE_APPCONFIG_ENDPOINT = "test-connectionstring";
 });
 
 vi.mock("openai", () => {
@@ -44,10 +44,10 @@ vi.mock("@azure/app-configuration", () => {
 			getConfigurationSetting = vi.fn().mockImplementation(async ({ key }: { key: string }) => {
 				let value = "";
 				switch (key) {
-					case "openai-model":
+					case "openai:model":
 						value = "test-model";
 						break;
-					case "openai-version":
+					case "openai:version":
 						value = "test-version";
 						break;
 				}
