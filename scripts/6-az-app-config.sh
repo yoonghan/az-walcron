@@ -24,3 +24,15 @@ az role assignment create \
   --assignee $PRINCIPAL_ID \
   --role "App Configuration Data Reader" \
   --scope $APPCONFIG_ID
+
+az appconfig kv set \
+  --name walcronconfig \
+  --key openai-model \
+  --value "gpt-5-mini" \
+  --yes
+  
+az appconfig kv set \
+  --name walcronconfig \
+  --key openai-version \
+  --value "2025-04-01-preview" \
+  --yes
