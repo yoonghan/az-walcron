@@ -27,12 +27,12 @@ az role assignment create \
 
 az appconfig kv set \
   --name walcronconfig \
-  --key openai-model \
+  --key openai:model \
   --value "gpt-5-mini" \
   --yes
   
 az appconfig kv set \
   --name walcronconfig \
-  --key openai-version \
+  --key openai:version \
   --value "2025-04-01-preview" \
   --yes

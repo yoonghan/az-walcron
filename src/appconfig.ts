@@ -17,8 +17,8 @@ export class AppConfig {
     }
 
     async getOpenAISetting() {
-        const modelSetting = await this.client.getConfigurationSetting({ key: "openai-model" });
-        const apiversionSetting = await this.client.getConfigurationSetting({ key: "openai-version" });
+        const modelSetting = await this.client.getConfigurationSetting({ key: "openai:model" });
+        const apiversionSetting = await this.client.getConfigurationSetting({ key: "openai:version" });
 
         return {
             deployment: modelSetting.value,

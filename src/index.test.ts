@@ -44,10 +44,10 @@ vi.mock("@azure/app-configuration", () => {
 			getConfigurationSetting = vi.fn().mockImplementation(async ({ key }: { key: string }) => {
 				let value = "";
 				switch (key) {
-					case "openai-model":
+					case "openai:model":
 						value = "test-model";
 						break;
-					case "openai-version":
+					case "openai:version":
 						value = "test-version";
 						break;
 				}
