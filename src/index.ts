@@ -98,7 +98,7 @@ app.get("/openai", async (c) => {
 app.get("/openai/config", async (c) => {
 	const openAISpecSettings = await openAiSpec.getSpec();
 	const openAIConfig = await appConfig.getOpenAISetting();
-	return c.json({ spec: openAISpecSettings, config: openAIConfig });
+	return c.json({ config: openAIConfig, spec: openAISpecSettings });
 })
 
 
