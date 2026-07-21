@@ -1,7 +1,7 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
 vi.hoisted(() => {
-    process.env.AZURE_APPCONFIG_CONNECTIONSTRING = "test-connectionstring";
+    process.env.AZURE_APPCONFIG_ENDPOINT = "test-connectionstring";
 });
 
 vi.mock("@azure/app-configuration", () => {

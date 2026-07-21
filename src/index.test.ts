@@ -21,7 +21,7 @@ vi.hoisted(() => {
 	process.env.AZURE_OPENAI_API_KEY = "test-key";
 	process.env.AZURE_OPENAI_DEPLOYMENT = "test-deployment";
 	process.env.AZURE_OPENAI_API_VERSION = "test-api-version";
-	process.env.AZURE_APPCONFIG_CONNECTIONSTRING = "test-connectionstring";
+	process.env.AZURE_APPCONFIG_ENDPOINT = "test-connectionstring";
 });
 
 vi.mock("openai", () => {
