@@ -46,5 +46,9 @@ az appconfig kv set \
 az appconfig kv set \
   --name walcronconfig \
   --key openai:temperature \
-  --value "0.3" \
+  --value "1" \
   --yes
+
+
+
+  
