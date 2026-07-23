@@ -32,6 +32,16 @@ vi.mock("openai", () => {
 					data: [{ id: "test-model" }]
 				})
 			}
+			chat = {
+				completions: {
+					create: async () => {
+						return (async function* () {
+							yield { choices: [{ delta: { content: "hello " } }] };
+							yield { choices: [{ delta: { content: "world" } }] };
+						})();
+					}
+				}
+			}
 		}
 	}
 });
@@ -42,18 +52,7 @@ vi.mock("@azure/app-configuration", () => {
 			constructor() {
 			}
 			getConfigurationSetting = vi.fn().mockImplementation(async ({ key }: { key: string }) => {
-				let value = "";
-				switch (key) {
-					case "openai:model":
-						value = "test-model";
-						break;
-					case "openai:version":
-						value = "test-version";
-						break;
-				}
-				return {
-					value
-				}
+				return { key, value: "test" }
 			});
 		}
 	}
@@ -93,8 +92,18 @@ describe("API Routes", () => {
 			const res = await app.request("/openai/config");
 			expect(res.status).toBe(200);
 			const json = await res.json()
-			expect(json.config.apiVersion).toEqual("test-version");
-			expect(json.spec.deployment).toEqual("test-deployment");
+			expect(json.config.systemPrompt).toEqual("test");
+		});
+	});
+
+	describe("POST /openai/question", () => {
+		it("should stream question completion", async () => {
+			const res = await app.request("/openai/question", {
+				method: "POST"
+			});
+			expect(res.status).toBe(200);
+			const text = await res.text();
+			expect(text).toEqual("hello world");
 		});
 	});
 

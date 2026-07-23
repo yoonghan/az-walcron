@@ -10,6 +10,7 @@ import { dbRepo } from "./db";
 import { renderHtml } from "./html";
 import { openAiSpec } from "./openai";
 import { appConfig } from "./appconfig";
+import { streamText } from "hono/streaming";
 
 dotenv.config();
 
@@ -100,6 +101,26 @@ app.get("/openai/config", async (c) => {
 	const openAIConfig = await appConfig.getOpenAISetting();
 	return c.json({ config: openAIConfig, spec: openAISpecSettings });
 })
+
+app.post("/openai/question", async (c) => {
+	const config = await appConfig.getOpenAISetting();
+
+	const chatStream = await openAiSpec.completion(
+		config.systemPrompt,
+		config.userPrompt,
+		Number(config.temperature),
+		config.isQuestionFormatted
+	);
+
+	return streamText(c, async (stream) => {
+		for await (const chunk of chatStream) {
+			const content = chunk.choices[0]?.delta?.content || "";
+			if (content) {
+				await stream.write(content);
+			}
+		}
+	});
+});
 
 
 app.get("/objectives", async (c) => {

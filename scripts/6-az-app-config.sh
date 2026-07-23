@@ -27,12 +27,24 @@ az role assignment create \
 
 az appconfig kv set \
   --name walcronconfig \
-  --key openai:model \
-  --value "gpt-5-mini" \
+  --key openai:systemPrompt \
+  --value "You are an expert instructor helping an examinee prepare for the AI-200 Microsoft AI-cloud developer exam. When given a topic, generate a relevant, certification-level question. Provide a short hint to guide the user, the correct answer, and a brief, concise explanation." \
   --yes
   
 az appconfig kv set \
   --name walcronconfig \
-  --key openai:version \
-  --value "2025-04-01-preview" \
+  --key openai:userPrompt \
+  --value "Topic: Microsoft Azure AI Developer (AI-200)" \
+  --yes
+
+az appconfig kv set \
+  --name walcronconfig \
+  --key openai:isQuestionFormatted \
+  --value "true" \
+  --yes
+
+az appconfig kv set \
+  --name walcronconfig \
+  --key openai:temperature \
+  --value "0.3" \
   --yes

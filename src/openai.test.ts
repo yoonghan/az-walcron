@@ -15,6 +15,13 @@ vi.mock("openai", () => {
                     data: [{ id: "test-model" }]
                 })
             }
+            chat = {
+                completions: {
+                    create: vi.fn().mockResolvedValue([{
+                        choices: [{ delta: { content: "test" } }]
+                    }])
+                }
+            }
         }
     }
 });
@@ -37,6 +44,15 @@ describe("OpenApiSpec", () => {
         it("should return open api spec", async () => {
             const res = await new OpenAiSpec().getSpec();
             expect(res).toEqual({ "openai": "3.1.0", "info": { "title": "Walcron AI API", "version": "1.0.0" }, "deployment": "test-deployment", "models": [{ id: "test-model" }] });
+        });
+    });
+
+    describe("completion", () => {
+        it("should call chat completions create", async () => {
+            const spec = new OpenAiSpec();
+            const stream = await spec.completion("sys-prompt", "msg-prompt", 0.5, "true") as any[];
+            expect(stream).toBeDefined();
+            expect(stream[0].choices[0].delta.content).toEqual("test");
         });
     });
 });
