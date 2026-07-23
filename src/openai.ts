@@ -88,7 +88,6 @@ export class OpenAiSpec {
 
         return await this.client.chat.completions.create({
             model: this.deployment,
-            stream: true,
             temperature: temperature,
             messages: [
                 {

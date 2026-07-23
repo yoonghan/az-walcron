@@ -35,10 +35,9 @@ vi.mock("openai", () => {
 			chat = {
 				completions: {
 					create: async () => {
-						return (async function* () {
-							yield { choices: [{ delta: { content: "hello " } }] };
-							yield { choices: [{ delta: { content: "world" } }] };
-						})();
+						return {
+							choices: [{ message: { content: "test response" } }]
+						};
 					}
 				}
 			}
@@ -96,14 +95,14 @@ describe("API Routes", () => {
 		});
 	});
 
-	describe("POST /openai/question", () => {
-		it("should stream question completion", async () => {
+	describe("GET /openai/question", () => {
+		it("should return question completion", async () => {
 			const res = await app.request("/openai/question", {
-				method: "POST"
+				method: "GET"
 			});
 			expect(res.status).toBe(200);
-			const text = await res.text();
-			expect(text).toEqual("hello world");
+			const json = await res.json();
+			expect(json).toEqual({ choices: [{ message: { content: "test response" } }] });
 		});
 	});
 
