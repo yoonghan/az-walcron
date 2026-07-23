@@ -32,6 +32,16 @@ vi.mock("openai", () => {
 					data: [{ id: "test-model" }]
 				})
 			}
+			chat = {
+				completions: {
+					create: async () => {
+						return (async function* () {
+							yield { choices: [{ delta: { content: "hello " } }] };
+							yield { choices: [{ delta: { content: "world" } }] };
+						})();
+					}
+				}
+			}
 		}
 	}
 });
@@ -100,6 +110,17 @@ describe("API Routes", () => {
 			expect(json.config.userPrompt).toEqual("openai-userPrompt");
 			expect(json.config.temperature).toEqual("openai-temperature");
 			expect(json.config.isQuestionFormatted).toEqual("false");
+		});
+	});
+
+	describe("POST /openai/question", () => {
+		it("should stream question completion", async () => {
+			const res = await app.request("/openai/question", {
+				method: "POST"
+			});
+			expect(res.status).toBe(200);
+			const text = await res.text();
+			expect(text).toEqual("hello world");
 		});
 	});
 

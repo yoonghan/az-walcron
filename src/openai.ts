@@ -1,4 +1,5 @@
 import { AzureOpenAI } from "openai";
+import { ResponseFormatJSONSchema } from "openai/resources";
 import pino from "pino";
 
 
@@ -48,6 +49,59 @@ export class OpenAiSpec {
             "deployment": this.deployment,
             "models": response.data
         }
+    }
+
+    async completion(systemPrompt: string, messagePrompt: string, temperature: number, responseFormat?: string) {
+
+        const formatted: { response_format: ResponseFormatJSONSchema } | {} = responseFormat === "true" ? {
+            response_format: {
+                type: "json_schema",
+                json_schema: {
+                    name: "exam_prep_content",
+                    strict: true,
+                    schema: {
+                        type: "object",
+                        properties: {
+                            question: {
+                                type: "string",
+                                description: "The multiple-choice or scenario-based exam question."
+                            },
+                            hint: {
+                                type: "string",
+                                description: "A brief, one-sentence hint that doesn't give away the direct answer."
+                            },
+                            answer: {
+                                type: "string",
+                                description: "The correct answer to the question."
+                            },
+                            explanation: {
+                                type: "string",
+                                description: "A brief explanation of why the answer is correct."
+                            }
+                        },
+                        required: ["question", "hint", "answer", "explanation"],
+                        additionalProperties: false
+                    }
+                }
+            }
+        } : {}
+
+        return await this.client.chat.completions.create({
+            model: this.deployment,
+            stream: true,
+            temperature: temperature,
+            messages: [
+                {
+                    role: "system",
+                    content: systemPrompt,
+                },
+                {
+                    role: "user",
+                    content: messagePrompt,
+                },
+            ],
+            ...formatted
+        });
     }
 }
 

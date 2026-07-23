@@ -103,13 +103,13 @@ app.get("/openai/config", async (c) => {
 })
 
 app.post("/openai/question", async (c) => {
-	const { question } = await c.req.json();
 	const config = await appConfig.getOpenAISetting();
 
-	const chatStream = await openAiSpec.question(
-		question,
-		config.systemPrompt,
-		config.messagePrompt
+	const chatStream = await openAiSpec.completion(
+		config.userPrompt,
+		config.messagePrompt,
+		Number(config.temperature),
+		config.isQuestionFormatted
 	);
 
 	return streamText(c, async (stream) => {
