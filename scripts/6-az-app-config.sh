@@ -34,7 +34,7 @@ az appconfig kv set \
 az appconfig kv set \
   --name walcronconfig \
   --key openai:userPrompt \
-  --value "Topic: Microsoft Azure AI Developer (AI-200)" \
+  --value "Topic: Microsoft Azure AI Cloud Developer Associate Certificate (AI-200). Focus on containers and container-orchestrated solutions. " \
   --yes
 
 az appconfig kv set \
@@ -46,5 +46,9 @@ az appconfig kv set \
 az appconfig kv set \
   --name walcronconfig \
   --key openai:temperature \
-  --value "0.3" \
+  --value "1" \
   --yes
+
+
+
+  
