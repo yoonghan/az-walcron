@@ -12,8 +12,8 @@ vi.mock("@azure/app-configuration", () => {
             getConfigurationSetting = vi.fn().mockImplementation(async ({ key }: { key: string }) => {
                 let value = "";
                 switch (key) {
-                    case "openai:messagePrompt":
-                        value = "openai-messagePrompt";
+                    case "openai:systemPrompt":
+                        value = "openai-systemPrompt";
                         break;
                     case "openai:userPrompt":
                         value = "openai-userPrompt";
@@ -51,7 +51,7 @@ describe("AppConfig", () => {
         it("should return open ai", async () => {
             const res = await new AppConfig().getOpenAISetting();
             expect(res).toEqual({
-                messagePrompt: "openai-messagePrompt",
+                systemPrompt: "openai-systemPrompt",
                 userPrompt: "openai-userPrompt",
                 temperature: "openai-temperature",
                 isQuestionFormatted: "true",

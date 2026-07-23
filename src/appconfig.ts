@@ -17,13 +17,13 @@ export class AppConfig {
     }
 
     async getOpenAISetting() {
-        const messagePromptSetting = await this.client.getConfigurationSetting({ key: "openai:messagePrompt" });
+        const systemPromptSetting = await this.client.getConfigurationSetting({ key: "openai:systemPrompt" });
         const userPromptSetting = await this.client.getConfigurationSetting({ key: "openai:userPrompt" });
         const temperatureSetting = await this.client.getConfigurationSetting({ key: "openai:temperature" });
         const isQuestionFormattedSetting = await this.client.getConfigurationSetting({ key: "openai:isQuestionFormatted" });
 
         return {
-            messagePrompt: messagePromptSetting.value || "",
+            systemPrompt: systemPromptSetting.value || "",
             userPrompt: userPromptSetting.value || "",
             temperature: temperatureSetting.value || "",
             isQuestionFormatted: isQuestionFormattedSetting.value || "false",

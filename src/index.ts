@@ -106,8 +106,8 @@ app.post("/openai/question", async (c) => {
 	const config = await appConfig.getOpenAISetting();
 
 	const chatStream = await openAiSpec.completion(
+		config.systemPrompt,
 		config.userPrompt,
-		config.messagePrompt,
 		Number(config.temperature),
 		config.isQuestionFormatted
 	);

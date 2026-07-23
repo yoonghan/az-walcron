@@ -27,7 +27,7 @@ az role assignment create \
 
 az appconfig kv set \
   --name walcronconfig \
-  --key openai:model \
+  --key openai:messagePrompt \
   --value "gpt-5-mini" \
   --yes
   

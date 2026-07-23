@@ -92,7 +92,7 @@ describe("API Routes", () => {
 			const res = await app.request("/openai/config");
 			expect(res.status).toBe(200);
 			const json = await res.json()
-			expect(json.config.messagePrompt).toEqual("test");
+			expect(json.config.systemPrompt).toEqual("test");
 		});
 	});
 
