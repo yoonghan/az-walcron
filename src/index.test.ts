@@ -44,11 +44,14 @@ vi.mock("@azure/app-configuration", () => {
 			getConfigurationSetting = vi.fn().mockImplementation(async ({ key }: { key: string }) => {
 				let value = "";
 				switch (key) {
-					case "openai:model":
-						value = "test-model";
+					case "openai:messagePrompt":
+						value = "openai-messagePrompt";
 						break;
-					case "openai:version":
-						value = "test-version";
+					case "openai:userPrompt":
+						value = "openai-userPrompt";
+						break;
+					case "openai:temperature":
+						value = "openai-temperature";
 						break;
 				}
 				return {
@@ -93,8 +96,10 @@ describe("API Routes", () => {
 			const res = await app.request("/openai/config");
 			expect(res.status).toBe(200);
 			const json = await res.json()
-			expect(json.config.apiVersion).toEqual("test-version");
-			expect(json.spec.deployment).toEqual("test-deployment");
+			expect(json.config.messagePrompt).toEqual("openai-messagePrompt");
+			expect(json.config.userPrompt).toEqual("openai-userPrompt");
+			expect(json.config.temperature).toEqual("openai-temperature");
+			expect(json.config.isQuestionFormatted).toEqual("false");
 		});
 	});
 

@@ -12,11 +12,17 @@ vi.mock("@azure/app-configuration", () => {
             getConfigurationSetting = vi.fn().mockImplementation(async ({ key }: { key: string }) => {
                 let value = "";
                 switch (key) {
-                    case "openai:model":
-                        value = "test-model";
+                    case "openai:messagePrompt":
+                        value = "openai-messagePrompt";
                         break;
-                    case "openai:version":
-                        value = "test-version";
+                    case "openai:userPrompt":
+                        value = "openai-userPrompt";
+                        break;
+                    case "openai:temperature":
+                        value = "openai-temperature";
+                        break;
+                    case "openai:isQuestionFormatted":
+                        value = "true";
                         break;
                 }
                 return {
@@ -45,8 +51,10 @@ describe("AppConfig", () => {
         it("should return open ai", async () => {
             const res = await new AppConfig().getOpenAISetting();
             expect(res).toEqual({
-                deployment: "test-model",
-                apiVersion: "test-version"
+                messagePrompt: "openai-messagePrompt",
+                userPrompt: "openai-userPrompt",
+                temperature: "openai-temperature",
+                isQuestionFormatted: "true",
             });
         });
     });
