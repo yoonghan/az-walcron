@@ -115,17 +115,17 @@ describe("API Routes", () => {
 		});
 	});
 
-	describe("GET /objectives", () => {
+	describe("GET /todos/objective", () => {
 		it("should return list of objectives", async () => {
 			vi.mocked(dbRepo.listObjectives).mockResolvedValue(["Work", "Personal"]);
-			const res = await app.request("/objectives");
+			const res = await app.request("/todos/objective");
 			expect(res.status).toBe(200);
 			expect(await res.json()).toEqual(["Work", "Personal"]);
 		});
 
 		it("should return 500 on db error", async () => {
 			vi.mocked(dbRepo.listObjectives).mockRejectedValue(new Error("DB Error"));
-			const res = await app.request("/objectives");
+			const res = await app.request("/todos/objective");
 			expect(res.status).toBe(500);
 		});
 	});
