@@ -111,9 +111,20 @@ app.get("/openai/question", async (c) => {
 		config.isQuestionFormatted
 	);
 
+	if (c.req.query("pretty") !== undefined) {
+		const message = chat.choices[0].message
+		if (message.content !== null) {
+			const content = JSON.parse(message.content)
+			return c.json({
+				ask: content["question"],
+				hint: content["hint"],
+				explanation: content["explanation"],
+				result: content["answer"]
+			})
+		}
+	}
 	return c.json(chat);
 });
-
 
 app.get("/objectives", async (c) => {
 	try {
