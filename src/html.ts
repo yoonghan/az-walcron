@@ -50,7 +50,7 @@ export const renderHtml = () => html`<!DOCTYPE html>
     <script>
       async function fetchObjectives() {
         try {
-          const res = await fetch('/objectives');
+          const res = await fetch('/todos/objectives');
           if (!res.ok) throw new Error('Failed to fetch objectives');
           const objectives = await res.json();
           const datalist = document.getElementById('objective-options');

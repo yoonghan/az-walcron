@@ -4,24 +4,14 @@ import * as dotenv from "dotenv";
 import { Hono } from "hono";
 import { cors } from "hono/cors";
 import { httpInstrumentationMiddleware } from '@hono/otel';
-import pino from "pino";
-import { v4 as uuidv4 } from "uuid";
-import { dbRepo } from "./db";
 import { renderHtml } from "./html";
-import { openAiSpec } from "./openai";
-import { appConfig } from "./appconfig";
+import { logger } from "./logger";
+import adminRoutes from "./routes/admin";
+import openaiRoutes from "./routes/openai";
+import todosRoutes from "./routes/todos";
 
 dotenv.config();
 
-// Create structured logger
-const logger = pino({
-	level: process.env.LOG_LEVEL || "info",
-	formatters: {
-		level: (label) => {
-			return { level: label };
-		},
-	},
-});
 type Variables = {
 	requestId: string;
 };
@@ -81,147 +71,9 @@ app.get("/", (c) => {
 	return c.html(renderHtml());
 });
 
-app.get("/healthz", (c) => {
-	return c.text("ready");
-});
-
-app.get("/dapr/config", (c) => {
-	// Dapr calls this on startup to look for application-side configurations
-	// Returning an empty object (200 OK) tells Dapr we have no dynamic config.
-	return c.json({});
-});
-
-app.get("/openai", async (c) => {
-	return c.json(await openAiSpec.getSpec());
-})
-
-app.get("/openai/config", async (c) => {
-	const openAISpecSettings = await openAiSpec.getSpec();
-	const openAIConfig = await appConfig.getOpenAISetting();
-	return c.json({ config: openAIConfig, spec: openAISpecSettings });
-})
-
-app.get("/openai/question", async (c) => {
-	const config = await appConfig.getOpenAISetting();
-
-	const chat = await openAiSpec.completion(
-		config.systemPrompt,
-		config.userPrompt,
-		Number(config.temperature),
-		config.isQuestionFormatted
-	);
-
-	return c.json(chat);
-});
-
-
-app.get("/objectives", async (c) => {
-	try {
-		const objectives = await dbRepo.listObjectives();
-		return c.json(objectives);
-	} catch (err: unknown) {
-		logger.error(
-			{
-				err: err instanceof Error ? err.message : String(err),
-				request_id: c.get("requestId"),
-			},
-			"Failed to list objectives",
-		);
-		return c.json({ error: "Internal Server Error" }, 500);
-	}
-});
-
-app.get("/todos", async (c) => {
-	try {
-		const todos = await dbRepo.listTodos();
-		return c.json(todos);
-	} catch (err: unknown) {
-		logger.error(
-			{
-				err: err instanceof Error ? err.message : String(err),
-				request_id: c.get("requestId"),
-			},
-			"Failed to list todos",
-		);
-		return c.json({ error: "Internal Server Error" }, 500);
-	}
-});
-
-app.post("/todos", async (c) => {
-	try {
-		const body = await c.req.json();
-		const newTodo = {
-			id: uuidv4(),
-			objective: body.objective,
-			title: body.title,
-			completed: false,
-		};
-		const created = await dbRepo.createTodo(newTodo);
-		return c.json(created, 201);
-	} catch (err: unknown) {
-		logger.error(
-			{
-				err: err instanceof Error ? err.message : String(err),
-				request_id: c.get("requestId"),
-			},
-			"Failed to create todo",
-		);
-		return c.json({ error: "Internal Server Error" }, 500);
-	}
-});
-
-app.put("/todos/:id", async (c) => {
-	try {
-		const id = c.req.param("id");
-		const body = await c.req.json();
-		const updated = await dbRepo.updateTodo(
-			id,
-			body.objective,
-			body.title,
-			body.completed,
-		);
-
-		if (!updated) {
-			return c.json({ error: "Not found" }, 404);
-		}
-		return c.json(updated);
-	} catch (err: unknown) {
-		logger.error(
-			{
-				err: err instanceof Error ? err.message : String(err),
-				request_id: c.get("requestId"),
-			},
-			"Failed to update todo",
-		);
-		return c.json({ error: "Internal Server Error" }, 500);
-	}
-});
-
-app.delete("/todos/:id", async (c) => {
-	try {
-		const id = c.req.param("id");
-		const objective = c.req.query("objective");
-
-		if (!objective) {
-			return c.json({ error: "Missing objective query parameter" }, 400);
-		}
-
-		const deleted = await dbRepo.deleteTodo(id, objective);
-		if (!deleted) {
-			return c.json({ error: "Not found" }, 404);
-		}
-		return new Response(null, { status: 204 });
-	} catch (err: unknown) {
-		logger.error(
-			{
-				err: err instanceof Error ? err.message : String(err),
-				request_id: c.get("requestId"),
-			},
-			"Failed to delete todo",
-		);
-		return c.json({ error: "Internal Server Error" }, 500);
-	}
-});
+app.route("/", adminRoutes);
+app.route("/openai", openaiRoutes);
+app.route("/todos", todosRoutes);
 
 const port = process.env.PORT ? parseInt(process.env.PORT, 10) : 3000;
 
