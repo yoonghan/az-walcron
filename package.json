@@ -40,7 +40,7 @@
     "hono": "^4.12.14",
     "openai": "^6.48.0",
     "pino": "^10.3.1",
-    "uuid": "^14.0.0"
+    "uuid": "^14.0.1"
   },
   "devDependencies": {
     "@biomejs/biome": "2.4.16",
