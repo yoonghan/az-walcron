@@ -4,8 +4,8 @@
 ACCOUNT_NAME=walcron-cosmosdb
 APP_NAME=walcron
 RESOURCE_GROUP="walcron-rg"
-DATABASE_NAME="TodoDatabase"
-CONTAINER_NAME="Todos"
+DATABASE_NAME="StudyBuddy"
+CONTAINER_NAME="SyllabusKnowledge"
 SUB_ID="1b7354d6-a407-4b91-a72a-009aa3805317"
 
 az cosmosdb create \
@@ -14,7 +14,8 @@ az cosmosdb create \
   --kind GlobalDocumentDB \
   --locations regionName=southeastasia failoverPriority=0 isZoneRedundant=false \
   --enable-free-tier true \
-  --default-consistency-level "Session"
+  --default-consistency-level "Session" \
+  --capabilities EnableNoSQLVectorSearch
 
 echo "Creating Database: $DATABASE_NAME..."
 az cosmosdb sql database create \
@@ -22,13 +23,15 @@ az cosmosdb sql database create \
   --resource-group $RESOURCE_GROUP \
   --name $DATABASE_NAME
 
-echo "Creating Container: $CONTAINER_NAME with partition key /partitionKey..."
+echo "Creating Container: $CONTAINER_NAME with partition key /domain..."
 az cosmosdb sql container create \
   --account-name $ACCOUNT_NAME \
   --resource-group $RESOURCE_GROUP \
   --database-name $DATABASE_NAME \
   --name $CONTAINER_NAME \
-  --partition-key-path "/partitionKey"
+  --partition-key-path "/domain" \
+  --idx '{"indexingMode": "consistent", "automatic": true, "includedPaths": [{"path": "/*"}], "excludedPaths": [{ "path": "/contentVector/*"}],"vectorIndexes": [{"path": "/contentVector","type": "diskANN"}]}' \
+  --vector-embeddings '{"vectorEmbeddings": [{"path": "/contentVector", "dataType": "float32", "dimensions": 1536, "distanceFunction": "cosine" }]}'
 
 echo "Enabling System-Assigned Managed Identity for $APP_NAME..."
 az containerapp identity assign \
@@ -72,4 +75,3 @@ az cosmosdb update \
   --ip-range-filter ""
 
 echo "CosmosDB setup complete."
-echo "Your Dapr components will now handle the connection using Managed Identity."

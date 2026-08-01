@@ -1,6 +1,6 @@
 import { Hono } from "hono";
 import { v4 as uuidv4 } from "uuid";
-import { dbRepo } from "../db";
+import { dbRepo } from "../db_dapr";
 import { logger } from "../logger";
 
 type Variables = {

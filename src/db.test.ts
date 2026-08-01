@@ -1,194 +1,58 @@
-import { beforeEach, describe, expect, it, vi } from "vitest";
+import { describe, it, expect, vi, beforeEach } from 'vitest';
+import { DbRepo } from './db';
+import { CosmosClient } from '@azure/cosmos';
+import { DefaultAzureCredential } from '@azure/identity';
 
-const { mockStateSave, mockStateGet, mockStateDelete, mockStateQuery } =
-	vi.hoisted(() => {
-		return {
-			mockStateSave: vi.fn(),
-			mockStateGet: vi.fn(),
-			mockStateDelete: vi.fn(),
-			mockStateQuery: vi.fn(),
-		};
-	});
+const mockContainer = {};
+const mockDatabase = {
+    container: vi.fn().mockReturnValue(mockContainer)
+};
+const mockCosmosClientInstance = {
+    database: vi.fn().mockReturnValue(mockDatabase)
+};
 
-vi.mock("@dapr/dapr", () => {
-	return {
-		DaprClient: class {
-			state = {
-				save: mockStateSave,
-				get: mockStateGet,
-				delete: mockStateDelete,
-				query: mockStateQuery,
-			};
-		},
-	};
+vi.mock('@azure/cosmos', () => {
+    return {
+        CosmosClient: vi.fn().mockImplementation(function() { return mockCosmosClientInstance; })
+    };
 });
 
-// Import after mocks are initialized
-import { DaprRepo } from "./db";
+vi.mock('@azure/identity', () => {
+    return {
+        DefaultAzureCredential: vi.fn().mockImplementation(function() { return {}; })
+    };
+});
 
-describe("DaprRepo", () => {
-	beforeEach(() => {
-		vi.clearAllMocks();
-	});
+describe('DbRepo', () => {
+    const originalEnv = process.env;
 
-	describe("Initialization", () => {
-		it("should initialize successfully", () => {
-			const repo = new DaprRepo();
-			expect(repo).toBeDefined();
-		});
-	});
+    beforeEach(() => {
+        vi.clearAllMocks();
+        process.env = { ...originalEnv };
+        process.env.COSMOSDB_ENDPOINT = 'https://mock-endpoint.documents.azure.com:443/';
+    });
 
-	describe("listObjectives", () => {
-		it("should return objectives", async () => {
-			mockStateQuery.mockResolvedValueOnce({
-				results: [
-					{
-						data: {
-							id: "1",
-							title: "Test 1",
-							objective: "Work",
-							completed: false,
-						},
-					},
-					{
-						data: {
-							id: "2",
-							title: "Test 2",
-							objective: "Personal",
-							completed: false,
-						},
-					},
-					{
-						data: {
-							id: "3",
-							title: "Test 3",
-							objective: "Work",
-							completed: false,
-						},
-					},
-				],
-			});
-			const repo = new DaprRepo();
-			const res = await repo.listObjectives();
-			expect(res).toEqual(["Work", "Personal"]);
-			expect(mockStateQuery).toHaveBeenCalledWith("todostore", {
-				filter: {},
-				sort: [],
-				page: {
-					limit: 100,
-					token: undefined
-				}
-			});
-		});
-	});
+    it('should initialize successfully with valid configuration', () => {
+        const repo = new DbRepo();
+        
+        expect(DefaultAzureCredential).toHaveBeenCalled();
+        expect(CosmosClient).toHaveBeenCalledWith({
+            endpoint: 'https://mock-endpoint.documents.azure.com:443/',
+            aadCredentials: expect.any(Object)
+        });
+        
+        const cosmosClientInstance = vi.mocked(CosmosClient).mock.results[0].value;
+        expect(cosmosClientInstance.database).toHaveBeenCalledWith('StudyBuddy');
+        
+        const databaseInstance = cosmosClientInstance.database.mock.results[0].value;
+        expect(databaseInstance.container).toHaveBeenCalledWith('SyllabusKnowledge');
+        
+        expect(repo).toBeDefined();
+    });
 
-	describe("listTodos", () => {
-		it("should return todos", async () => {
-			const mockTodos = [
-				{ id: "1", title: "Test", objective: "Work", completed: false },
-			];
-			mockStateQuery.mockResolvedValueOnce({
-				results: [{ data: mockTodos[0] }],
-			});
-			const repo = new DaprRepo();
-			const res = await repo.listTodos();
-			expect(res).toEqual(mockTodos);
-			expect(mockStateQuery).toHaveBeenCalledWith("todostore", {
-				filter: {},
-				sort: [],
-				page: {
-					limit: 100,
-					token: undefined
-				}
-			});
-		});
-	});
-
-	describe("createTodo", () => {
-		it("should create and return todo", async () => {
-			const newTodo = {
-				id: "1",
-				title: "Test",
-				objective: "Work",
-				completed: false,
-			};
-			mockStateSave.mockResolvedValueOnce(undefined);
-
-			const repo = new DaprRepo();
-			const res = await repo.createTodo(newTodo);
-			expect(res).toEqual(newTodo);
-			expect(mockStateSave).toHaveBeenCalledWith("todostore", [
-				{
-					key: "1",
-					value: newTodo,
-					metadata: { partitionKey: "Work" },
-				},
-			]);
-		});
-	});
-
-	describe("updateTodo", () => {
-		it("should update and return todo", async () => {
-			const oldTodo = {
-				id: "1",
-				title: "Old",
-				objective: "Work",
-				completed: false,
-			};
-			const newTodo = {
-				id: "1",
-				title: "New",
-				objective: "Work",
-				completed: true,
-			};
-
-			mockStateGet.mockResolvedValueOnce(oldTodo);
-			mockStateSave.mockResolvedValueOnce(undefined);
-
-			const repo = new DaprRepo();
-			const res = await repo.updateTodo("1", "Work", "New", true);
-
-			expect(res).toEqual(newTodo);
-			expect(mockStateGet).toHaveBeenCalledWith("todostore", "1", {
-				metadata: { partitionKey: "Work" },
-			});
-			expect(mockStateSave).toHaveBeenCalledWith("todostore", [
-				{
-					key: "1",
-					value: newTodo,
-					metadata: { partitionKey: "Work" },
-				},
-			]);
-		});
-
-		it("should return null if todo not found via get", async () => {
-			mockStateGet.mockResolvedValueOnce("");
-			const repo = new DaprRepo();
-			const res = await repo.updateTodo("1", "Work", "New", true);
-			expect(res).toBeNull();
-		});
-	});
-
-	describe("deleteTodo", () => {
-		it("should delete and return true", async () => {
-			mockStateGet.mockResolvedValueOnce({ id: "1" });
-			mockStateDelete.mockResolvedValueOnce(undefined);
-			const repo = new DaprRepo();
-			const res = await repo.deleteTodo("1", "Work");
-			expect(res).toBe(true);
-			expect(mockStateGet).toHaveBeenCalledWith("todostore", "1", {
-				metadata: { partitionKey: "Work" },
-			});
-			expect(mockStateDelete).toHaveBeenCalledWith("todostore", "1", {
-				metadata: { partitionKey: "Work" },
-			});
-		});
-
-		it("should return false if item not found", async () => {
-			mockStateGet.mockResolvedValueOnce("");
-			const repo = new DaprRepo();
-			const res = await repo.deleteTodo("1", "Work");
-			expect(res).toBe(false);
-		});
-	});
+    it('should throw an error if COSMOSDB_ENDPOINT is not set', () => {
+        delete process.env.COSMOSDB_ENDPOINT;
+        
+        expect(() => new DbRepo()).toThrow('Missing CosmosDB configuration');
+    });
 });

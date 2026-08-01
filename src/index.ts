@@ -8,7 +8,6 @@ import { renderHtml } from "./html";
 import { logger } from "./logger";
 import adminRoutes from "./routes/admin";
 import openaiRoutes from "./routes/openai";
-import todosRoutes from "./routes/todos";
 
 dotenv.config();
 
@@ -73,7 +72,6 @@ app.get("/", (c) => {
 
 app.route("/", adminRoutes);
 app.route("/openai", openaiRoutes);
-app.route("/todos", todosRoutes);
 
 const port = process.env.PORT ? parseInt(process.env.PORT, 10) : 3000;
 

@@ -34,7 +34,7 @@ az appconfig kv set \
 az appconfig kv set \
   --name walcronconfig \
   --key openai:userPrompt \
-  --value "Topic: Microsoft Azure AI Cloud Developer Associate Certificate (AI-200). Focus on containers and container-orchestrated solutions. " \
+  --value "Topic: Microsoft Azure AI Cloud Developer Associate Certificate (AI-200). Randomize question and focus on containers, kubernetes and Azure container registry. " \
   --yes
 
 az appconfig kv set \
