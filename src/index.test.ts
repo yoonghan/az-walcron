@@ -5,17 +5,6 @@ vi.mock("./tracing", () => ({}));
 
 import app from "./index";
 
-// Mock dbRepo
-vi.mock("./db", () => ({
-	dbRepo: {
-		listObjectives: vi.fn(),
-		listTodos: vi.fn(),
-		createTodo: vi.fn(),
-		updateTodo: vi.fn(),
-		deleteTodo: vi.fn(),
-	},
-}));
-
 vi.hoisted(() => {
 	process.env.AZURE_OPENAI_ENDPOINT = "test-endpoint";
 	process.env.AZURE_OPENAI_API_KEY = "test-key";
@@ -56,8 +45,6 @@ vi.mock("@azure/app-configuration", () => {
 		}
 	}
 });
-
-import { dbRepo } from "./db";
 
 describe("API Routes", () => {
 	beforeEach(() => {

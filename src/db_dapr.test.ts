@@ -24,7 +24,7 @@ vi.mock("@dapr/dapr", () => {
 });
 
 // Import after mocks are initialized
-import { DaprRepo } from "./db";
+import { DaprRepo } from "./db_dapr";
 
 describe("DaprRepo", () => {
 	beforeEach(() => {
