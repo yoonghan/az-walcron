@@ -12,7 +12,7 @@ trigger: always_on
 - **Managed Identity:** When suggesting integrations, prioritize Azure Managed Identity (passwordless) over connection strings.
 - **Containerization:** Always provide multi-stage `Dockerfiles` using `alpine` or `distroless` to keep images under 30MB for fast Azure Container App cold starts.
 - Integrate with CosmosDB to perform CRUD.
-- Integration with CosmosDB is via DAPR sidecar.
+- Integration with CosmosDB is not via DAPR sidecar but direct Azure CosmosDB to enable vector use.
 
 ## Agent Behavior
 - **Explain "Why":** Before implementing, briefly explain the architectural choice.

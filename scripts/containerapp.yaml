@@ -41,6 +41,8 @@ properties:
             value: "2025-04-01-preview" #See https://learn.microsoft.com/en-us/azure/foundry/openai/api-version-lifecycle?tabs=python
           - name: AZURE_APPCONFIG_ENDPOINT
             value: "https://walcronconfig.azconfig.io"
+          - name: COSMOSDB_ENDPOINT
+            value: "https://walcron-cosmosdb.documents.azure.com:443/"
         resources:
           cpu: 0.5
           memory: 1.0Gi
