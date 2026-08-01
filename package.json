@@ -38,7 +38,7 @@
     "@opentelemetry/resources": "^2.7.1",
     "@opentelemetry/sdk-trace-base": "^2.10.0",
     "dotenv": "^17.4.2",
-    "hono": "^4.12.14",
+    "hono": "^4.12.32",
     "openai": "^6.48.0",
     "pino": "^10.3.1",
     "uuid": "^14.0.1"
