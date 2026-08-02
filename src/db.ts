@@ -38,4 +38,26 @@ export class DbRepo {
     async createItem(item: Item) {
         return await this.container.items.create(item);
     }
+
+    async queryVector(domain: string, queryVector: number[], topN = 5) {
+        const querySpec = {
+            query: `
+                SELECT TOP @topN c.content, VectorDistance(c.contentVector, @queryVector) AS Score
+                FROM c
+                WHERE c.domain = @domain
+                ORDER BY VectorDistance(c.contentVector, @queryVector)
+            `,
+            parameters: [
+                { name: "@queryVector", value: queryVector },
+                { name: "@topN", value: topN },
+                { name: "@domain", value: domain }
+            ]
+        };
+
+        const { resources: results } = await this.container.items.query(querySpec).fetchAll();
+        const retrievedContext = results.map(r => r.content).join("\n\n--- NEXT CHUNK ---\n\n");
+        return retrievedContext;
+    }
 }
+
+export const dbRepo = new DbRepo()
