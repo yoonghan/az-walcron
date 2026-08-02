@@ -34,13 +34,19 @@ az appconfig kv set \
 az appconfig kv set \
   --name walcronconfig \
   --key openai:userPrompt \
-  --value "Topic: Microsoft Azure AI Cloud Developer Associate Certificate (AI-200). Randomize question and focus on containers, kubernetes and Azure container registry. " \
+  --value "You are an expert technical trainer creating questions for the Microsoft AI-200 exam. Use ONLY the following context chunks to generate a 3-question multiple-choice quiz on the user's topic. If the provided context does not contain enough information, state clearly that the topic is not covered in the syllabus chunks. Do not invent answers." \
   --yes
 
 az appconfig kv set \
   --name walcronconfig \
   --key openai:isQuestionFormatted \
   --value "true" \
+  --yes
+
+az appconfig kv set \
+  --name walcronconfig \
+  --key openai:domain \
+  --value "AI-200-Syllabus" \
   --yes
 
 az appconfig kv set \

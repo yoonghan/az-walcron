@@ -57,7 +57,7 @@ describe("OpenApiSpec", () => {
     describe("completion", () => {
         it("should call chat completions create", async () => {
             const spec = new OpenAiSpec();
-            const stream = await spec.completion("sys-prompt", "msg-prompt", 0.5, "true") as any[];
+            const stream = await spec.completion("sys-prompt", "msg-prompt", 0.5, "true") as unknown as any[];
             expect(stream).toBeDefined();
             expect(stream[0].choices[0].delta.content).toEqual("test");
         });

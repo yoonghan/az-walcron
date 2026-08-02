@@ -1,6 +1,7 @@
 import { Hono } from "hono";
 import { openAiSpec } from "../openai";
 import { appConfig } from "../appconfig";
+import { dbRepo } from "../db";
 
 const openaiRoutes = new Hono();
 
@@ -15,11 +16,24 @@ openaiRoutes.get("/config", async (c) => {
 });
 
 openaiRoutes.get("/question", async (c) => {
+
 	const config = await appConfig.getOpenAISetting();
+
+	const topic = c.req.query("q");
+	if (!topic) return c.json({ error: "question is required" }, 400);
+
+	const queryEmbedding = (await openAiSpec.createEmbeddings(topic, 1536)).data[0].embedding
+
+	const retrievedContext = dbRepo.queryVector(config.domain, queryEmbedding, 5)
+
+	const userPrompt = `${config.userPrompt} 
+
+					CONTEXT:
+					${retrievedContext}`
 
 	const chat = await openAiSpec.completion(
 		config.systemPrompt,
-		config.userPrompt,
+		userPrompt,
 		Number(config.temperature),
 		config.isQuestionFormatted
 	);
@@ -38,5 +52,6 @@ openaiRoutes.get("/question", async (c) => {
 	}
 	return c.json(chat);
 });
+
 
 export default openaiRoutes;

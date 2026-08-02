@@ -30,6 +30,13 @@ vi.mock("openai", () => {
 					}
 				}
 			}
+			embeddings = {
+				create: vi.fn().mockResolvedValue({
+					data: [{
+						embedding: []
+					}]
+				})
+			}
 		}
 	}
 });
@@ -83,8 +90,17 @@ describe("API Routes", () => {
 	});
 
 	describe("GET /openai/question", () => {
-		it("should return question completion", async () => {
+		it("should return error if no question are asked", async () => {
 			const res = await app.request("/openai/question", {
+				method: "GET"
+			});
+			expect(res.status).toBe(400);
+			const json = await res.json();
+			expect(json).toEqual({ error: "question is required" });
+		});
+
+		it("should return question completion", async () => {
+			const res = await app.request("/openai/question?q=what is azure machine learning?", {
 				method: "GET"
 			});
 			expect(res.status).toBe(200);
@@ -93,7 +109,7 @@ describe("API Routes", () => {
 		});
 
 		it("should return question completion prettier", async () => {
-			const res = await app.request("/openai/question?pretty=1", {
+			const res = await app.request("/openai/question?q=what is azure machine learning?&pretty=1", {
 				method: "GET"
 			});
 			expect(res.status).toBe(200);
