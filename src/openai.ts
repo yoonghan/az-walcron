@@ -23,7 +23,7 @@ export class OpenAiSpec {
         const apiVersion = process.env.AZURE_OPENAI_API_VERSION;
 
         if (!endpoint || !apiKey || !deployment || !apiVersion) {
-            throw new Error("Missing Azure OpenAI configuration");
+            throw new Error(`Missing Azure OpenAI configuration, ${!!endpoint}, ${!!apiKey}, ${!!deployment}, ${!!apiVersion}`);
         }
 
         this.deployment = deployment;
@@ -51,8 +51,16 @@ export class OpenAiSpec {
         }
     }
 
-    async completion(systemPrompt: string, messagePrompt: string, temperature: number, responseFormat?: string) {
+    async createEmbeddings(input: string | string[], dimensions: number) {
+        const embeddingResponse = await this.client.embeddings.create({
+            model: this.deployment,
+            input,
+            dimensions
+        })
+        return embeddingResponse;
+    }
 
+    async completion(systemPrompt: string, messagePrompt: string, temperature: number, responseFormat?: string) {
         const formatted: { response_format: ResponseFormatJSONSchema } | {} = responseFormat === "true" ? {
             response_format: {
                 type: "json_schema",
