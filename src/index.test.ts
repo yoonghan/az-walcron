@@ -9,6 +9,7 @@ vi.hoisted(() => {
 	process.env.AZURE_OPENAI_ENDPOINT = "test-endpoint";
 	process.env.AZURE_OPENAI_API_KEY = "test-key";
 	process.env.AZURE_OPENAI_DEPLOYMENT = "test-deployment";
+	process.env.AZURE_OPENAI_EMBEDDING_DEPLOYMENT = "test-embedding-deployment";
 	process.env.AZURE_OPENAI_API_VERSION = "test-api-version";
 	process.env.AZURE_APPCONFIG_ENDPOINT = "test-connectionstring";
 	process.env.COSMOSDB_ENDPOINT = "https://mock-endpoint.documents.azure.com:443/";
