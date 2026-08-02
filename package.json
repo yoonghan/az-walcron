@@ -45,7 +45,7 @@
   },
   "devDependencies": {
     "@biomejs/biome": "2.4.16",
-    "@opentelemetry/instrumentation-undici": "^0.28.0",
+    "@opentelemetry/instrumentation-undici": "^0.31.0",
     "@opentelemetry/sdk-node": "^0.217.0",
     "@types/node": "^26.1.1",
     "@types/pino": "^7.0.5",
