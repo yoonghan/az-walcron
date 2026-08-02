@@ -118,6 +118,14 @@ describe("API Routes", () => {
 	});
 
 	describe("GET /openai/question", () => {
+		beforeEach(() => {
+			mockItems.query.mockReturnValueOnce({
+				fetchAll: vi.fn().mockResolvedValueOnce({
+					resources: []
+				})
+			});
+		});
+
 		it("should return error if no question are asked", async () => {
 			const res = await app.request("/openai/question", {
 				method: "GET"
@@ -128,11 +136,6 @@ describe("API Routes", () => {
 		});
 
 		it("should return question completion", async () => {
-			mockItems.query.mockReturnValueOnce({
-				fetchAll: vi.fn().mockResolvedValueOnce({
-					resources: []
-				})
-			});
 			const res = await app.request("/openai/question?q=what is azure machine learning?", {
 				method: "GET"
 			});
@@ -142,11 +145,6 @@ describe("API Routes", () => {
 		});
 
 		it("should return question completion prettier", async () => {
-			mockItems.query.mockReturnValueOnce({
-				fetchAll: vi.fn().mockResolvedValueOnce({
-					resources: []
-				})
-			});
 			const res = await app.request("/openai/question?q=what is azure machine learning?&pretty=1", {
 				method: "GET"
 			});
