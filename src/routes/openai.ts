@@ -24,7 +24,7 @@ openaiRoutes.get("/question", async (c) => {
 
 	const queryEmbedding = (await openAiSpec.createEmbeddings(topic, 1536)).data[0].embedding
 
-	const retrievedContext = dbRepo.queryVector(config.domain, queryEmbedding, 5)
+	const retrievedContext = await dbRepo.queryVector(config.domain, queryEmbedding, 5)
 
 	const userPrompt = `${config.userPrompt} 
 
