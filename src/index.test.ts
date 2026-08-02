@@ -55,6 +55,32 @@ vi.mock("@azure/app-configuration", () => {
 	}
 });
 
+const { mockItems, mockCosmosClientInstance } = vi.hoisted(() => {
+	process.env.COSMOSDB_ENDPOINT = 'https://mock-endpoint.documents.azure.com:443/';
+
+	const mockItems = {
+		create: vi.fn(),
+		query: vi.fn()
+	};
+	const mockContainer = {
+		items: mockItems
+	};
+	const mockDatabase = {
+		container: vi.fn().mockReturnValue(mockContainer)
+	};
+	const mockCosmosClientInstance = {
+		database: vi.fn().mockReturnValue(mockDatabase)
+	};
+	return { mockItems, mockContainer, mockDatabase, mockCosmosClientInstance };
+});
+
+vi.mock('@azure/cosmos', () => {
+	return {
+		CosmosClient: vi.fn().mockImplementation(function () { return mockCosmosClientInstance; })
+	};
+});
+
+
 describe("API Routes", () => {
 	beforeEach(() => {
 		vi.clearAllMocks();
@@ -102,6 +128,11 @@ describe("API Routes", () => {
 		});
 
 		it("should return question completion", async () => {
+			mockItems.query.mockReturnValueOnce({
+				fetchAll: vi.fn().mockResolvedValueOnce({
+					resources: []
+				})
+			});
 			const res = await app.request("/openai/question?q=what is azure machine learning?", {
 				method: "GET"
 			});
@@ -111,6 +142,11 @@ describe("API Routes", () => {
 		});
 
 		it("should return question completion prettier", async () => {
+			mockItems.query.mockReturnValueOnce({
+				fetchAll: vi.fn().mockResolvedValueOnce({
+					resources: []
+				})
+			});
 			const res = await app.request("/openai/question?q=what is azure machine learning?&pretty=1", {
 				method: "GET"
 			});

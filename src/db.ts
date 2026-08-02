@@ -56,6 +56,8 @@ export class DbRepo {
 
         const { resources: results } = await this.container.items.query(querySpec).fetchAll();
         const retrievedContext = results.map(r => r.content).join("\n\n--- NEXT CHUNK ---\n\n");
+
+        console.log("retrievedContext", retrievedContext)
         return retrievedContext;
     }
 }
