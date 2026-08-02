@@ -6,6 +6,7 @@ import pino from "pino";
 export class OpenAiSpec {
     private client: AzureOpenAI;
     private deployment: string;
+    private embeddingDeployment: string;
 
     private logger = pino({
         level: process.env.LOG_LEVEL || "info",
@@ -20,15 +21,17 @@ export class OpenAiSpec {
         const endpoint = process.env.AZURE_OPENAI_ENDPOINT;
         const apiKey = process.env.AZURE_OPENAI_API_KEY;
         const deployment = process.env.AZURE_OPENAI_DEPLOYMENT;
+        const embeddingDeployment = process.env.AZURE_OPENAI_EMBEDDING_DEPLOYMENT;
         const apiVersion = process.env.AZURE_OPENAI_API_VERSION;
 
-        if (!endpoint || !apiKey || !deployment || !apiVersion) {
-            throw new Error(`Missing Azure OpenAI configuration, ${!!endpoint}, ${!!apiKey}, ${!!deployment}, ${!!apiVersion}`);
+        if (!endpoint || !apiKey || !deployment || !embeddingDeployment || !apiVersion) {
+            throw new Error(`Missing Azure OpenAI configuration, ${!!endpoint}, ${!!apiKey}, ${!!deployment}, ${!!embeddedDeployment}, ${!!apiVersion}`);
         }
 
         this.deployment = deployment;
+        this.embeddingDeployment = embeddingDeployment;
 
-        this.logger.info(`Initializing Azure OpenAI: endpoint ${endpoint}, deployment ${this.deployment}, apiVersion ${apiVersion}`);
+        this.logger.info(`Initializing Azure OpenAI: endpoint ${endpoint}, deployment ${this.deployment}, embeddedDeployment ${this.embeddedDeployment}, apiVersion ${apiVersion}`);
         this.client = new AzureOpenAI({
             endpoint,
             apiKey,
@@ -53,7 +56,7 @@ export class OpenAiSpec {
 
     async createEmbeddings(input: string | string[], dimensions: number) {
         const embeddingResponse = await this.client.embeddings.create({
-            model: this.deployment,
+            model: this.embeddingDeployment,
             input,
             dimensions
         })
