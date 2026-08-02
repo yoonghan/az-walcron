@@ -24,6 +24,9 @@ vi.mock("@azure/app-configuration", () => {
                     case "openai:isQuestionFormatted":
                         value = "true";
                         break;
+                    case "openai:domain":
+                        value = "openai-domain";
+                        break;
                 }
                 return {
                     value
@@ -55,6 +58,7 @@ describe("AppConfig", () => {
                 userPrompt: "openai-userPrompt",
                 temperature: "openai-temperature",
                 isQuestionFormatted: "true",
+                domain: "openai-domain"
             });
         });
     });

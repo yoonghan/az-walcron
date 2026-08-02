@@ -21,12 +21,14 @@ export class AppConfig {
         const userPromptSetting = await this.client.getConfigurationSetting({ key: "openai:userPrompt" });
         const temperatureSetting = await this.client.getConfigurationSetting({ key: "openai:temperature" });
         const isQuestionFormattedSetting = await this.client.getConfigurationSetting({ key: "openai:isQuestionFormatted" });
+        const domainSettings = await this.client.getConfigurationSetting({ key: "openai:domain" });
 
         return {
             systemPrompt: systemPromptSetting.value || "",
             userPrompt: userPromptSetting.value || "",
             temperature: temperatureSetting.value || "",
             isQuestionFormatted: isQuestionFormattedSetting.value || "false",
+            domain: domainSettings.value || ""
         };
     }
 }

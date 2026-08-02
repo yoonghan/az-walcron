@@ -1,20 +1,25 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { DbRepo } from './db';
 import { CosmosClient } from '@azure/cosmos';
 import { DefaultAzureCredential } from '@azure/identity';
 
-const mockItems = {
-    create: vi.fn()
-};
-const mockContainer = {
-    items: mockItems
-};
-const mockDatabase = {
-    container: vi.fn().mockReturnValue(mockContainer)
-};
-const mockCosmosClientInstance = {
-    database: vi.fn().mockReturnValue(mockDatabase)
-};
+const { mockItems, mockCosmosClientInstance } = vi.hoisted(() => {
+    process.env.COSMOSDB_ENDPOINT = 'https://mock-endpoint.documents.azure.com:443/';
+
+    const mockItems = {
+        create: vi.fn(),
+        query: vi.fn()
+    };
+    const mockContainer = {
+        items: mockItems
+    };
+    const mockDatabase = {
+        container: vi.fn().mockReturnValue(mockContainer)
+    };
+    const mockCosmosClientInstance = {
+        database: vi.fn().mockReturnValue(mockDatabase)
+    };
+    return { mockItems, mockContainer, mockDatabase, mockCosmosClientInstance };
+});
 
 vi.mock('@azure/cosmos', () => {
     return {
@@ -27,6 +32,8 @@ vi.mock('@azure/identity', () => {
         DefaultAzureCredential: vi.fn().mockImplementation(function () { return {}; })
     };
 });
+
+import { DbRepo } from "./db";
 
 describe('DbRepo', () => {
     const originalEnv = process.env;
@@ -79,6 +86,54 @@ describe('DbRepo', () => {
         await repo.createItem(sampleItem);
 
         expect(mockItems.create).toHaveBeenCalledWith(sampleItem);
+    });
+
+    it('should be able to query successfully', async () => {
+        const repo = new DbRepo();
+
+        mockItems.query.mockReturnValueOnce({
+            fetchAll: vi.fn().mockResolvedValueOnce({
+                resources: [{
+                    id: 'ai200-syllabus-chunk-1',
+                    domain: 'AI-200-Syllabus',
+                    content: 'Sample chunk content',
+                    contentVector: [0.1, 0.2, 0.3],
+                    metadata: {
+                        source: 'Microsoft Learn',
+                        chunkIndex: 1
+                    }
+                },
+                {
+                    id: 'ai200-syllabus-chunk-2',
+                    domain: 'AI-200-Syllabus',
+                    content: 'Sample chunk content 2',
+                    contentVector: [0.1, 0.2, 0.3],
+                    metadata: {
+                        source: 'Microsoft Learn',
+                        chunkIndex: 1
+                    }
+                },
+                ]
+            })
+        });
+
+        const queryVector = [0.1, 0.2, 0.3];
+        const result = await repo.queryVector('AI-200-Syllabus', queryVector, 1);
+
+        expect(mockItems.query).toHaveBeenCalledWith({
+            query: `
+                SELECT TOP @topN c.content, VectorDistance(c.contentVector, @queryVector) AS Score
+                FROM c
+                WHERE c.domain = @domain
+                ORDER BY VectorDistance(c.contentVector, @queryVector)
+            `,
+            parameters: [
+                { name: "@queryVector", value: queryVector },
+                { name: "@topN", value: 1 },
+                { name: "@domain", value: 'AI-200-Syllabus' }
+            ]
+        });
+        expect(result).toBe('Sample chunk content\n\n--- NEXT CHUNK ---\n\nSample chunk content 2')
     });
 
 });
