@@ -11,6 +11,7 @@ vi.hoisted(() => {
 	process.env.AZURE_OPENAI_DEPLOYMENT = "test-deployment";
 	process.env.AZURE_OPENAI_API_VERSION = "test-api-version";
 	process.env.AZURE_APPCONFIG_ENDPOINT = "test-connectionstring";
+	process.env.COSMOSDB_ENDPOINT = "https://mock-endpoint.documents.azure.com:443/";
 });
 
 vi.mock("openai", () => {

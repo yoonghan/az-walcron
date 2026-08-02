@@ -3,6 +3,8 @@ import { CosmosClient } from '@azure/cosmos';
 import { DefaultAzureCredential } from '@azure/identity';
 
 const { mockItems, mockCosmosClientInstance } = vi.hoisted(() => {
+    process.env.COSMOSDB_ENDPOINT = 'https://mock-endpoint.documents.azure.com:443/';
+
     const mockItems = {
         create: vi.fn(),
         query: vi.fn()
