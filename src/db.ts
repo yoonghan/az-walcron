@@ -1,6 +1,17 @@
 import { CosmosClient, Database, Container } from "@azure/cosmos"
 import { DefaultAzureCredential } from "@azure/identity";
 
+export interface Item {
+    id: string,
+    domain: string,
+    content: string,
+    contentVector: number[],
+    metadata: {
+        source: string,
+        chunkIndex: number
+    }
+}
+
 export class DbRepo {
     private cosmosClient: CosmosClient;
     private database: Database;
@@ -22,5 +33,9 @@ export class DbRepo {
 
         this.database = this.cosmosClient.database("StudyBuddy");
         this.container = this.database.container("SyllabusKnowledge");
+    }
+
+    async createItem(item: Item) {
+        return await this.container.items.create(item);
     }
 }

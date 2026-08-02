@@ -22,6 +22,13 @@ vi.mock("openai", () => {
                     }])
                 }
             }
+            embeddings = {
+                create: vi.fn().mockResolvedValue({
+                    data: [{
+                        embedding: []
+                    }]
+                })
+            }
         }
     }
 });
@@ -53,6 +60,14 @@ describe("OpenApiSpec", () => {
             const stream = await spec.completion("sys-prompt", "msg-prompt", 0.5, "true") as any[];
             expect(stream).toBeDefined();
             expect(stream[0].choices[0].delta.content).toEqual("test");
+        });
+    });
+
+    describe("createEmbeddings", () => {
+        it("should call embeddings create", async () => {
+            const spec = new OpenAiSpec();
+            const embeddings = await spec.createEmbeddings("test", 1536);
+            expect(embeddings).toBeDefined();
         });
     });
 });

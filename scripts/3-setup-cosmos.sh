@@ -30,6 +30,7 @@ az cosmosdb sql container create \
   --database-name $DATABASE_NAME \
   --name $CONTAINER_NAME \
   --partition-key-path "/domain" \
+  --throughput 1000 \ 
   --idx '{"indexingMode": "consistent", "automatic": true, "includedPaths": [{"path": "/*"}], "excludedPaths": [{ "path": "/contentVector/*"}],"vectorIndexes": [{"path": "/contentVector","type": "diskANN"}]}' \
   --vector-embeddings '{"vectorEmbeddings": [{"path": "/contentVector", "dataType": "float32", "dimensions": 1536, "distanceFunction": "cosine" }]}'
 
