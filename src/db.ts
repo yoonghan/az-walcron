@@ -91,6 +91,22 @@ export class DbRepo {
             return "Error: Could not save progress to the database.";
         }
     }
+
+    async searchUserWeakTopic(scoreThreshold: number) {
+        const userId = "dev-user-001";
+
+        // Upsert will create it if it doesn't exist, or update the score if it does
+        const { resources: results } = await this.userProgressContainer.items.query({
+            query: `SELECT * FROM c WHERE c.userId = @userId AND c.latestScore < @scoreThreshold`,
+            parameters: [
+                { name: "@userId", value: userId },
+                { name: "@scoreThreshold", value: scoreThreshold }
+            ]
+        }).fetchAll();
+
+        // This string is what gets sent back to the LLM in the "tool" message role
+        return results.map((r) => r.topic).join(", ");
+    }
 }
 
 export const dbRepo = new DbRepo()

@@ -169,4 +169,32 @@ describe('DbRepo', () => {
 
         expect(result).toBe("Error: Could not save progress to the database.")
     });
+
+    it('should be to check for user weak topics', async () => {
+        const repo = new DbRepo();
+
+        mockItems.query.mockReturnValueOnce({
+            fetchAll: vi.fn().mockResolvedValueOnce({
+                resources: [{
+                    id: `progress-dev-user-001-keda`,
+                    userId: "dev-user-001",
+                    topic: 'KEDA',
+                    latestScore: 50,
+                    lastTestedAt: new Date().toISOString()
+                },
+                {
+                    id: `progress-dev-user-001-azure-container`,
+                    userId: "dev-user-001",
+                    topic: 'Azure Container',
+                    latestScore: 50,
+                    lastTestedAt: new Date().toISOString()
+                }
+                ]
+            })
+        });
+
+        const result = await repo.searchUserWeakTopic(79);
+
+        expect(result).toEqual('KEDA, Azure Container')
+    });
 });
