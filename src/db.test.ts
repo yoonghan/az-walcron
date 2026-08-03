@@ -44,16 +44,16 @@ import { DbRepo } from "./db";
 
 describe('DbRepo', () => {
     const originalEnv = process.env;
+    let repo: DbRepo;
 
     beforeEach(() => {
         vi.clearAllMocks();
         process.env = { ...originalEnv };
         process.env.COSMOSDB_ENDPOINT = 'https://mock-endpoint.documents.azure.com:443/';
+        repo = new DbRepo();
     });
 
     it('should initialize successfully with valid configuration', () => {
-        const repo = new DbRepo();
-
         expect(DefaultAzureCredential).toHaveBeenCalled();
         expect(CosmosClient).toHaveBeenCalledWith({
             endpoint: 'https://mock-endpoint.documents.azure.com:443/',
@@ -76,7 +76,6 @@ describe('DbRepo', () => {
     });
 
     it('should create an item successfully', async () => {
-        const repo = new DbRepo();
         const sampleItem = {
             id: 'ai200-syllabus-chunk-1',
             domain: 'AI-200-Syllabus',
@@ -96,8 +95,6 @@ describe('DbRepo', () => {
     });
 
     it('should be able to query successfully', async () => {
-        const repo = new DbRepo();
-
         mockItems.query.mockReturnValueOnce({
             fetchAll: vi.fn().mockResolvedValueOnce({
                 resources: [{
@@ -144,8 +141,6 @@ describe('DbRepo', () => {
     });
 
     it('should be able to upsert user progress successfully', async () => {
-        const repo = new DbRepo();
-
         mockItems.upsert.mockReturnValueOnce({
             resource: {},
             requestCharge: '200'
@@ -166,8 +161,6 @@ describe('DbRepo', () => {
     });
 
     it('should be able to capture user progress error', async () => {
-        const repo = new DbRepo();
-
         mockItems.upsert.mockRejectedValueOnce(new Error("Failed to save progress"))
 
         const date = new Date().toISOString()
@@ -177,8 +170,6 @@ describe('DbRepo', () => {
     });
 
     it('should be to check for user weak topics', async () => {
-        const repo = new DbRepo();
-
         mockItems.query.mockReturnValueOnce({
             fetchAll: vi.fn().mockResolvedValueOnce({
                 resources: [{
@@ -207,7 +198,6 @@ describe('DbRepo', () => {
     });
 
     it('should be able to update user chat messages', async () => {
-        const repo = new DbRepo();
         const messageResult = {
             messages: [
                 {
@@ -251,7 +241,6 @@ describe('DbRepo', () => {
     });
 
     it('should be able to insert user chat', async () => {
-        const repo = new DbRepo();
         const messages = {
             messages: [
                 {
@@ -296,8 +285,6 @@ describe('DbRepo', () => {
     });
 
     it('should be able to throw error if user chat error on retrieval', async () => {
-        const repo = new DbRepo();
-
         mockItem.read.mockRejectedValueOnce(new Error("Failed to save progress"))
 
         const result = await repo.saveChatTurn('Tell me about AI-200-Syllabus', 'AI-200-Syllabus is a course about AI.')
