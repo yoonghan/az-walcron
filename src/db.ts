@@ -16,7 +16,7 @@ export class DbRepo {
     private cosmosClient: CosmosClient;
     private database: Database;
     private container: Container;
-    private userProgressContainer: Container;
+    private userDataContainer: Container;
 
     constructor() {
 
@@ -34,7 +34,7 @@ export class DbRepo {
 
         this.database = this.cosmosClient.database("StudyBuddy");
         this.container = this.database.container("SyllabusKnowledge");
-        this.userProgressContainer = this.database.container("UserProgress");
+        this.userDataContainer = this.database.container("UserData");
     }
 
     async createItem(item: Item) {
@@ -79,7 +79,7 @@ export class DbRepo {
             };
 
             // Upsert will create it if it doesn't exist, or update the score if it does
-            const { resource } = await this.userProgressContainer.items.upsert(progressDocument);
+            const { resource } = await this.userDataContainer.items.upsert(progressDocument);
 
             console.log(`[DB] Successfully saved score of ${score} for ${topic}. RU Cost: ${resource?._requestCharge}`);
 
@@ -96,7 +96,7 @@ export class DbRepo {
         const userId = "dev-user-001";
 
         // Upsert will create it if it doesn't exist, or update the score if it does
-        const { resources: results } = await this.userProgressContainer.items.query({
+        const { resources: results } = await this.userDataContainer.items.query({
             query: `SELECT * FROM c WHERE c.userId = @userId AND c.latestScore < @scoreThreshold`,
             parameters: [
                 { name: "@userId", value: userId },

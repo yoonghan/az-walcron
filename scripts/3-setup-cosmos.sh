@@ -6,7 +6,7 @@ APP_NAME=walcron
 RESOURCE_GROUP="walcron-rg"
 DATABASE_NAME="StudyBuddy"
 CONTAINER_NAME="SyllabusKnowledge"
-CONTAINER_USER_PROGRESS="UserProgress"
+CONTAINER_USER_DATA="UserData"
 SUB_ID="1b7354d6-a407-4b91-a72a-009aa3805317"
 
 az cosmosdb create \
