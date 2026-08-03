@@ -31,12 +31,15 @@ openaiRoutes.get("/question", async (c) => {
 					CONTEXT:
 					${retrievedContext}`
 
+	const chatMessage = await dbRepo.getSavedChat(config.systemPrompt, userPrompt)
+
 	const chat = await openAiSpec.completion(
-		config.systemPrompt,
-		userPrompt,
+		chatMessage,
 		Number(config.temperature),
 		config.isQuestionFormatted
 	);
+
+	dbRepo.saveChatTurn(userPrompt, chat.choices[0].message.content!)
 
 	if (c.req.query("pretty") !== undefined) {
 		const message = chat.choices[0].message;

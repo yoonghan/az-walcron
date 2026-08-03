@@ -1,5 +1,5 @@
 import { AzureOpenAI } from "openai";
-import { ResponseFormatJSONSchema } from "openai/resources";
+import { ChatCompletionMessageParam, ResponseFormatJSONSchema } from "openai/resources";
 import pino from "pino";
 
 
@@ -63,7 +63,7 @@ export class OpenAiSpec {
         return embeddingResponse;
     }
 
-    async completion(systemPrompt: string, messagePrompt: string, temperature: number, responseFormat?: string) {
+    async completion(messages: ChatCompletionMessageParam[], temperature: number, responseFormat?: string) {
         const formatted: { response_format: ResponseFormatJSONSchema } | {} = responseFormat === "true" ? {
             response_format: {
                 type: "json_schema",
@@ -100,16 +100,7 @@ export class OpenAiSpec {
         return await this.client.chat.completions.create({
             model: this.deployment,
             temperature: temperature,
-            messages: [
-                {
-                    role: "system",
-                    content: systemPrompt,
-                },
-                {
-                    role: "user",
-                    content: messagePrompt,
-                },
-            ],
+            messages,
             ...formatted
         });
     }

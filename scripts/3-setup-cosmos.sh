@@ -6,6 +6,7 @@ APP_NAME=walcron
 RESOURCE_GROUP="walcron-rg"
 DATABASE_NAME="StudyBuddy"
 CONTAINER_NAME="SyllabusKnowledge"
+CONTAINER_USER_DATA="UserData"
 SUB_ID="1b7354d6-a407-4b91-a72a-009aa3805317"
 
 az cosmosdb create \
@@ -30,9 +31,18 @@ az cosmosdb sql container create \
   --database-name $DATABASE_NAME \
   --name $CONTAINER_NAME \
   --partition-key-path "/domain" \
-  --throughput 1000 \ 
+  --throughput 500 \
   --idx '{"indexingMode": "consistent", "automatic": true, "includedPaths": [{"path": "/*"}], "excludedPaths": [{ "path": "/contentVector/*"}],"vectorIndexes": [{"path": "/contentVector","type": "diskANN"}]}' \
   --vector-embeddings '{"vectorEmbeddings": [{"path": "/contentVector", "dataType": "float32", "dimensions": 1536, "distanceFunction": "cosine" }]}'
+
+echo "Creating Container: $CONTAINER_USER_DATA with partition key /userId..."
+az cosmosdb sql container create \
+  --account-name $ACCOUNT_NAME \
+  --resource-group $RESOURCE_GROUP \
+  --database-name $DATABASE_NAME \
+  --name $CONTAINER_USER_DATA \
+  --partition-key-path "/userId" \
+  --throughput 500 
 
 echo "Enabling System-Assigned Managed Identity for $APP_NAME..."
 az containerapp identity assign \
