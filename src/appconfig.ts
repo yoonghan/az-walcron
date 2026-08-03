@@ -1,8 +1,14 @@
-import { AppConfigurationClient } from "@azure/app-configuration";
+import { AppConfigurationClient, GetConfigurationSettingResponse } from "@azure/app-configuration";
 import { DefaultAzureCredential } from "@azure/identity";
 
 export class AppConfig {
     private client: AppConfigurationClient;
+    private systemPromptSetting: GetConfigurationSettingResponse;
+    private userPromptSetting: GetConfigurationSettingResponse;
+    private temperatureSetting: GetConfigurationSettingResponse;
+    private isQuestionFormattedSetting: GetConfigurationSettingResponse;
+    private domainSettings: GetConfigurationSettingResponse;
+
 
     constructor() {
         const connectionString = process.env.AZURE_APPCONFIG_ENDPOINT;
@@ -16,19 +22,25 @@ export class AppConfig {
         );
     }
 
+    private async initialize() {
+        this.systemPromptSetting = await this.client.getConfigurationSetting({ key: "openai:systemPrompt" });
+        this.userPromptSetting = await this.client.getConfigurationSetting({ key: "openai:userPrompt" });
+        this.temperatureSetting = await this.client.getConfigurationSetting({ key: "openai:temperature" });
+        this.isQuestionFormattedSetting = await this.client.getConfigurationSetting({ key: "openai:isQuestionFormatted" });
+        this.domainSettings = await this.client.getConfigurationSetting({ key: "openai:domain" });
+    }
+
     async getOpenAISetting() {
-        const systemPromptSetting = await this.client.getConfigurationSetting({ key: "openai:systemPrompt" });
-        const userPromptSetting = await this.client.getConfigurationSetting({ key: "openai:userPrompt" });
-        const temperatureSetting = await this.client.getConfigurationSetting({ key: "openai:temperature" });
-        const isQuestionFormattedSetting = await this.client.getConfigurationSetting({ key: "openai:isQuestionFormatted" });
-        const domainSettings = await this.client.getConfigurationSetting({ key: "openai:domain" });
+        if (!this.systemPromptSetting || !this.userPromptSetting || !this.temperatureSetting || !this.isQuestionFormattedSetting || !this.domainSettings) {
+            await this.initialize();
+        }
 
         return {
-            systemPrompt: systemPromptSetting.value || "",
-            userPrompt: userPromptSetting.value || "",
-            temperature: temperatureSetting.value || "",
-            isQuestionFormatted: isQuestionFormattedSetting.value || "false",
-            domain: domainSettings.value || ""
+            systemPrompt: this.systemPromptSetting.value || "",
+            userPrompt: this.userPromptSetting.value || "",
+            temperature: this.temperatureSetting.value || "",
+            isQuestionFormatted: this.isQuestionFormattedSetting.value || "false",
+            domain: this.domainSettings.value || ""
         };
     }
 }

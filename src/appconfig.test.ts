@@ -1,7 +1,33 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
-vi.hoisted(() => {
+const { mockedConfiguration } = vi.hoisted(() => {
     process.env.AZURE_APPCONFIG_ENDPOINT = "test-connectionstring";
+
+    const mockedConfiguration = vi.fn().mockImplementation(async ({ key }: { key: string }) => {
+        let value = "";
+        switch (key) {
+            case "openai:systemPrompt":
+                value = "openai-systemPrompt";
+                break;
+            case "openai:userPrompt":
+                value = "openai-userPrompt";
+                break;
+            case "openai:temperature":
+                value = "openai-temperature";
+                break;
+            case "openai:isQuestionFormatted":
+                value = "true";
+                break;
+            case "openai:domain":
+                value = "openai-domain";
+                break;
+        }
+        return {
+            value
+        }
+    });
+
+    return { mockedConfiguration }
 });
 
 vi.mock("@azure/app-configuration", () => {
@@ -9,29 +35,7 @@ vi.mock("@azure/app-configuration", () => {
         AppConfigurationClient: class {
             constructor() {
             }
-            getConfigurationSetting = vi.fn().mockImplementation(async ({ key }: { key: string }) => {
-                let value = "";
-                switch (key) {
-                    case "openai:systemPrompt":
-                        value = "openai-systemPrompt";
-                        break;
-                    case "openai:userPrompt":
-                        value = "openai-userPrompt";
-                        break;
-                    case "openai:temperature":
-                        value = "openai-temperature";
-                        break;
-                    case "openai:isQuestionFormatted":
-                        value = "true";
-                        break;
-                    case "openai:domain":
-                        value = "openai-domain";
-                        break;
-                }
-                return {
-                    value
-                }
-            });
+            getConfigurationSetting = mockedConfiguration;
         }
     }
 });
@@ -60,6 +64,15 @@ describe("AppConfig", () => {
                 isQuestionFormatted: "true",
                 domain: "openai-domain"
             });
+        });
+
+        it("triggering multiple times will only be called once", async () => {
+            const appConfig = new AppConfig();
+            for (let cnt = 0; cnt < 2; cnt++) {
+                await appConfig.getOpenAISetting();
+            }
+
+            expect(mockedConfiguration).toHaveBeenCalledTimes(5);
         });
     });
 });
