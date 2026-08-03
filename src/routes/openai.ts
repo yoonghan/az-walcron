@@ -38,6 +38,8 @@ openaiRoutes.get("/question", async (c) => {
 		config.isQuestionFormatted
 	);
 
+	dbRepo.saveChatTurn(userPrompt, chat.choices[0].message.content!)
+
 	if (c.req.query("pretty") !== undefined) {
 		const message = chat.choices[0].message;
 		if (message.content !== null) {

@@ -18,6 +18,8 @@ export class DbRepo {
     private container: Container;
     private userDataContainer: Container;
 
+    private userId = "dev-user-001";
+
     constructor() {
 
         const endpoint = process.env.COSMOSDB_ENDPOINT;
@@ -67,21 +69,21 @@ export class DbRepo {
         try {
 
             // Hardcoding a userId for the sandbox, but this would come from Entra ID later
-            const userId = "dev-user-001";
-            const docId = `progress-${userId}-${topic.toLowerCase().replace(/\s+/g, '-')}`;
+            const docId = `progress-${this.userId}-${topic.toLowerCase().replace(/\s+/g, '-')}`;
 
             const progressDocument = {
                 id: docId,
-                userId: userId,           // Partition Key
+                userId: this.userId,           // Partition Key
                 topic: topic,
+                type: 'progress',
                 latestScore: score,
                 lastTestedAt: date
             };
 
             // Upsert will create it if it doesn't exist, or update the score if it does
-            const { resource } = await this.userDataContainer.items.upsert(progressDocument);
+            const { resource, requestCharge } = await this.userDataContainer.items.upsert(progressDocument);
 
-            console.log(`[DB] Successfully saved score of ${score} for ${topic}. RU Cost: ${resource?._requestCharge}`);
+            console.log(`[DB] Successfully saved score of ${score} for ${topic}. RU Cost: ${requestCharge}`);
 
             // This string is what gets sent back to the LLM in the "tool" message role
             return `Success: Saved score ${score} for topic ${topic}.`;
@@ -93,19 +95,55 @@ export class DbRepo {
     }
 
     async searchUserWeakTopic(scoreThreshold: number) {
-        const userId = "dev-user-001";
 
         // Upsert will create it if it doesn't exist, or update the score if it does
         const { resources: results } = await this.userDataContainer.items.query({
-            query: `SELECT * FROM c WHERE c.userId = @userId AND c.latestScore < @scoreThreshold`,
+            query: `SELECT * FROM c WHERE c.userId = @userId AND c.type = 'progress' AND c.latestScore < @scoreThreshold`,
             parameters: [
-                { name: "@userId", value: userId },
+                { name: "@userId", value: this.userId },
                 { name: "@scoreThreshold", value: scoreThreshold }
             ]
         }).fetchAll();
 
         // This string is what gets sent back to the LLM in the "tool" message role
         return results.map((r) => r.topic).join(", ");
+    }
+
+    async saveChatTurn(userMessage: string, assistantMessage: string) {
+        const sessionId = "session-default-001";
+
+        try {
+            let chatDocument;
+
+            try {
+                const { resource } = await this.userDataContainer.item(sessionId, this.userId).read();
+                chatDocument = resource;
+            } catch (unknownError: unknown) {
+                const err = unknownError as { code?: number };
+                if (err.code === 404) {
+                    chatDocument = {
+                        id: sessionId,
+                        userId: this.userId,
+                        type: "chat",
+                        messages: []
+                    };
+                } else {
+                    throw err;
+                }
+            }
+
+            chatDocument.messages.push({ role: "user", content: userMessage });
+            chatDocument.messages.push({ role: "assistant", content: assistantMessage });
+
+            const { resource: updatedDoc, requestCharge } = await this.userDataContainer.items.upsert(chatDocument);
+
+            console.log(`Successfully saved chat turn. Cost: ${requestCharge} RUs`);
+            return updatedDoc?.messages;
+
+        } catch (error) {
+            console.error("Failed to save chat to Cosmos DB:", error);
+            return "Save chat failed."
+        }
     }
 }
 

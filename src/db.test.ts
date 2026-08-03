@@ -2,7 +2,7 @@ import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { CosmosClient } from '@azure/cosmos';
 import { DefaultAzureCredential } from '@azure/identity';
 
-const { mockItems, mockCosmosClientInstance } = vi.hoisted(() => {
+const { mockItems, mockItem, mockCosmosClientInstance } = vi.hoisted(() => {
     process.env.COSMOSDB_ENDPOINT = 'https://mock-endpoint.documents.azure.com:443/';
 
     const mockItems = {
@@ -10,8 +10,14 @@ const { mockItems, mockCosmosClientInstance } = vi.hoisted(() => {
         query: vi.fn(),
         upsert: vi.fn()
     };
+
+    const mockItem = {
+        read: vi.fn()
+    }
+
     const mockContainer = {
-        items: mockItems
+        items: mockItems,
+        item: vi.fn().mockReturnValue(mockItem)
     };
     const mockDatabase = {
         container: vi.fn().mockReturnValue(mockContainer)
@@ -19,7 +25,7 @@ const { mockItems, mockCosmosClientInstance } = vi.hoisted(() => {
     const mockCosmosClientInstance = {
         database: vi.fn().mockReturnValue(mockDatabase)
     };
-    return { mockItems, mockContainer, mockDatabase, mockCosmosClientInstance };
+    return { mockItems, mockItem, mockContainer, mockDatabase, mockCosmosClientInstance };
 });
 
 vi.mock('@azure/cosmos', () => {
@@ -137,13 +143,12 @@ describe('DbRepo', () => {
         expect(result).toBe('Sample chunk content\n\n--- NEXT CHUNK ---\n\nSample chunk content 2')
     });
 
-    it('should be able to upsert successfully', async () => {
+    it('should be able to upsert user progress successfully', async () => {
         const repo = new DbRepo();
 
         mockItems.upsert.mockReturnValueOnce({
-            resource: {
-                _requestCharge: '200'
-            }
+            resource: {},
+            requestCharge: '200'
         })
 
         const date = new Date().toISOString()
@@ -153,13 +158,14 @@ describe('DbRepo', () => {
             id: `progress-dev-user-001-ai-200-syllabus`,
             userId: "dev-user-001",
             topic: 'AI-200-Syllabus',
+            type: 'progress',
             latestScore: 100,
             lastTestedAt: date
         });
         expect(result).toBe('Success: Saved score 100 for topic AI-200-Syllabus.')
     });
 
-    it('should be able to capture error', async () => {
+    it('should be able to capture user progress error', async () => {
         const repo = new DbRepo();
 
         mockItems.upsert.mockRejectedValueOnce(new Error("Failed to save progress"))
@@ -179,6 +185,7 @@ describe('DbRepo', () => {
                     id: `progress-dev-user-001-keda`,
                     userId: "dev-user-001",
                     topic: 'KEDA',
+                    type: 'progress',
                     latestScore: 50,
                     lastTestedAt: new Date().toISOString()
                 },
@@ -186,6 +193,7 @@ describe('DbRepo', () => {
                     id: `progress-dev-user-001-azure-container`,
                     userId: "dev-user-001",
                     topic: 'Azure Container',
+                    type: 'progress',
                     latestScore: 50,
                     lastTestedAt: new Date().toISOString()
                 }
@@ -197,4 +205,104 @@ describe('DbRepo', () => {
 
         expect(result).toEqual('KEDA, Azure Container')
     });
+
+    it('should be able to update user chat messages', async () => {
+        const repo = new DbRepo();
+        const messageResult = {
+            messages: [
+                {
+                    content: "Tell me about AI-200-Syllabus",
+                    role: "user",
+                },
+                {
+                    content: "AI-200-Syllabus is a course about AI.",
+                    role: "assistant",
+                },
+            ]
+        }
+
+        mockItem.read.mockReturnValueOnce({
+            resource: {
+                id: "session-default-001",
+                userId: "dev-user-001",
+                type: "chat",
+                messages: [...messageResult.messages]
+            }
+        })
+        mockItems.upsert.mockReturnValueOnce({
+            resource: {
+                ...messageResult
+            },
+            requestCharge: '200'
+        })
+
+        const result = await repo.saveChatTurn('Tell me about AI-200-Syllabus', 'AI-200-Syllabus is a course about AI.');
+
+        expect(mockItems.upsert).toHaveBeenCalledWith({
+            id: `session-default-001`,
+            userId: "dev-user-001",
+            messages: [
+                ...messageResult.messages,
+                ...messageResult.messages
+            ],
+            type: "chat",
+        });
+        expect(result).toEqual(messageResult.messages)
+    });
+
+    it('should be able to insert user chat', async () => {
+        const repo = new DbRepo();
+        const messages = {
+            messages: [
+                {
+                    content: "Tell me about AI-200-Syllabus",
+                    role: "user",
+                },
+                {
+                    content: "AI-200-Syllabus is a course about AI.",
+                    role: "assistant",
+                },
+            ]
+        }
+
+        mockItem.read.mockRejectedValueOnce({
+            code: 404
+        })
+        mockItems.upsert.mockReturnValueOnce({
+            resource: {
+                messages
+            },
+            requestCharge: '200'
+        })
+
+        const result = await repo.saveChatTurn('Tell me about AI-200-Syllabus', 'AI-200-Syllabus is a course about AI.');
+
+        expect(mockItems.upsert).toHaveBeenCalledWith({
+            id: `session-default-001`,
+            userId: "dev-user-001",
+            messages: [
+                {
+                    "content": "Tell me about AI-200-Syllabus",
+                    "role": "user",
+                },
+                {
+                    "content": "AI-200-Syllabus is a course about AI.",
+                    "role": "assistant",
+                },
+            ],
+            type: "chat",
+        });
+        expect(result).toBe(messages)
+    });
+
+    it('should be able to throw error if user chat error on retrieval', async () => {
+        const repo = new DbRepo();
+
+        mockItem.read.mockRejectedValueOnce(new Error("Failed to save progress"))
+
+        const result = await repo.saveChatTurn('Tell me about AI-200-Syllabus', 'AI-200-Syllabus is a course about AI.')
+
+        expect(result).toEqual("Save chat failed.")
+    });
+
 });

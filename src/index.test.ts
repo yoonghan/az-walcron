@@ -55,15 +55,22 @@ vi.mock("@azure/app-configuration", () => {
 	}
 });
 
-const { mockItems, mockCosmosClientInstance } = vi.hoisted(() => {
+const { mockItems, mockItem, mockCosmosClientInstance } = vi.hoisted(() => {
 	process.env.COSMOSDB_ENDPOINT = 'https://mock-endpoint.documents.azure.com:443/';
 
 	const mockItems = {
 		create: vi.fn(),
-		query: vi.fn()
+		query: vi.fn(),
+		upsert: vi.fn()
 	};
+
+	const mockItem = {
+		read: vi.fn()
+	}
+
 	const mockContainer = {
-		items: mockItems
+		items: mockItems,
+		item: vi.fn().mockReturnValue(mockItem)
 	};
 	const mockDatabase = {
 		container: vi.fn().mockReturnValue(mockContainer)
@@ -71,7 +78,7 @@ const { mockItems, mockCosmosClientInstance } = vi.hoisted(() => {
 	const mockCosmosClientInstance = {
 		database: vi.fn().mockReturnValue(mockDatabase)
 	};
-	return { mockItems, mockContainer, mockDatabase, mockCosmosClientInstance };
+	return { mockItems, mockItem, mockContainer, mockDatabase, mockCosmosClientInstance };
 });
 
 vi.mock('@azure/cosmos', () => {
@@ -124,6 +131,13 @@ describe("API Routes", () => {
 					resources: []
 				})
 			});
+			mockItem.read.mockRejectedValueOnce({
+				code: 404
+			})
+			mockItems.upsert.mockReturnValueOnce({
+				resource: {},
+				requestCharge: '200'
+			})
 		});
 
 		it("should return error if no question are asked", async () => {
