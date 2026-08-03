@@ -126,15 +126,15 @@ describe("API Routes", () => {
 
 	describe("GET /openai/question", () => {
 		beforeEach(() => {
-			mockItems.query.mockReturnValueOnce({
+			mockItems.query.mockReturnValue({
 				fetchAll: vi.fn().mockResolvedValueOnce({
 					resources: []
 				})
 			});
-			mockItem.read.mockRejectedValueOnce({
+			mockItem.read.mockRejectedValue({
 				code: 404
 			})
-			mockItems.upsert.mockReturnValueOnce({
+			mockItems.upsert.mockReturnValue({
 				resource: {},
 				requestCharge: '200'
 			})
