@@ -19,6 +19,7 @@ export class DbRepo {
     private userDataContainer: Container;
 
     private userId = "dev-user-001";
+    private sessionId = "session-default-001";
 
     constructor() {
 
@@ -110,19 +111,17 @@ export class DbRepo {
     }
 
     async saveChatTurn(userMessage: string, assistantMessage: string) {
-        const sessionId = "session-default-001";
-
         try {
             let chatDocument;
 
             try {
-                const { resource } = await this.userDataContainer.item(sessionId, this.userId).read();
+                const { resource } = await this.userDataContainer.item(this.sessionId, this.userId).read();
                 chatDocument = resource;
             } catch (unknownError: unknown) {
                 const err = unknownError as { code?: number };
                 if (err.code === 404) {
                     chatDocument = {
-                        id: sessionId,
+                        id: this.sessionId,
                         userId: this.userId,
                         type: "chat",
                         messages: []
@@ -144,6 +143,31 @@ export class DbRepo {
             console.error("Failed to save chat to Cosmos DB:", error);
             return "Save chat failed."
         }
+    }
+
+    async getSavedChat(systemMessage: string, userPrompt: string) {
+        let chatDocument;
+        try {
+            const { resource } = await this.userDataContainer.item(this.sessionId, this.userId).read();
+            chatDocument = resource;
+        } catch (unknownError: unknown) {
+            const err = unknownError as { code?: number };
+            if (err.code === 404) {
+                chatDocument = {
+                    id: this.sessionId,
+                    userId: this.userId,
+                    type: "chat",
+                    messages: [
+                        {
+                            role: "system",
+                            content: systemMessage
+                        }
+                    ]
+                };
+            } else throw err;
+        }
+        chatDocument.messages.push({ role: "user", content: userPrompt });
+        return chatDocument
     }
 }
 
