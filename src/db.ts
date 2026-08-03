@@ -16,6 +16,7 @@ export class DbRepo {
     private cosmosClient: CosmosClient;
     private database: Database;
     private container: Container;
+    private userProgressContainer: Container;
 
     constructor() {
 
@@ -33,6 +34,7 @@ export class DbRepo {
 
         this.database = this.cosmosClient.database("StudyBuddy");
         this.container = this.database.container("SyllabusKnowledge");
+        this.userProgressContainer = this.database.container("UserProgress");
     }
 
     async createItem(item: Item) {
@@ -59,6 +61,35 @@ export class DbRepo {
 
         console.log("retrievedContext", retrievedContext)
         return retrievedContext;
+    }
+
+    async saveProgressToCosmos(topic: string, score: number, date: string) {
+        try {
+
+            // Hardcoding a userId for the sandbox, but this would come from Entra ID later
+            const userId = "dev-user-001";
+            const docId = `progress-${userId}-${topic.toLowerCase().replace(/\s+/g, '-')}`;
+
+            const progressDocument = {
+                id: docId,
+                userId: userId,           // Partition Key
+                topic: topic,
+                latestScore: score,
+                lastTestedAt: date
+            };
+
+            // Upsert will create it if it doesn't exist, or update the score if it does
+            const { resource } = await this.userProgressContainer.items.upsert(progressDocument);
+
+            console.log(`[DB] Successfully saved score of ${score} for ${topic}. RU Cost: ${resource?._requestCharge}`);
+
+            // This string is what gets sent back to the LLM in the "tool" message role
+            return `Success: Saved score ${score} for topic ${topic}.`;
+
+        } catch (error) {
+            console.error("Cosmos DB Error:", error);
+            return "Error: Could not save progress to the database.";
+        }
     }
 }
 

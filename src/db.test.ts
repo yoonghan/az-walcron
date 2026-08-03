@@ -7,7 +7,8 @@ const { mockItems, mockCosmosClientInstance } = vi.hoisted(() => {
 
     const mockItems = {
         create: vi.fn(),
-        query: vi.fn()
+        query: vi.fn(),
+        upsert: vi.fn()
     };
     const mockContainer = {
         items: mockItems
@@ -136,4 +137,36 @@ describe('DbRepo', () => {
         expect(result).toBe('Sample chunk content\n\n--- NEXT CHUNK ---\n\nSample chunk content 2')
     });
 
+    it('should be able to upsert successfully', async () => {
+        const repo = new DbRepo();
+
+        mockItems.upsert.mockReturnValueOnce({
+            resource: {
+                _requestCharge: '200'
+            }
+        })
+
+        const date = new Date().toISOString()
+        const result = await repo.saveProgressToCosmos('AI-200-Syllabus', 100, date);
+
+        expect(mockItems.upsert).toHaveBeenCalledWith({
+            id: `progress-dev-user-001-ai-200-syllabus`,
+            userId: "dev-user-001",
+            topic: 'AI-200-Syllabus',
+            latestScore: 100,
+            lastTestedAt: date
+        });
+        expect(result).toBe('Success: Saved score 100 for topic AI-200-Syllabus.')
+    });
+
+    it('should be able to capture error', async () => {
+        const repo = new DbRepo();
+
+        mockItems.upsert.mockRejectedValueOnce(new Error("Failed to save progress"))
+
+        const date = new Date().toISOString()
+        const result = await repo.saveProgressToCosmos('AI-200-Syllabus', 100, date);
+
+        expect(result).toBe("Error: Could not save progress to the database.")
+    });
 });
