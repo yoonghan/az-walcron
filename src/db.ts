@@ -117,6 +117,15 @@ export class DbRepo {
             try {
                 const { resource } = await this.userDataContainer.item(this.sessionId, this.userId).read();
                 chatDocument = resource;
+
+                if (!chatDocument || !chatDocument.messages) {
+                    chatDocument = {
+                        id: this.sessionId,
+                        userId: this.userId,
+                        type: "chat",
+                        messages: []
+                    };
+                }
             } catch (unknownError: unknown) {
                 const err = unknownError as { code?: number };
                 if (err.code === 404) {
@@ -150,11 +159,22 @@ export class DbRepo {
         try {
             const { resource } = await this.userDataContainer.item(this.sessionId, this.userId).read();
             chatDocument = resource;
-            console.log("resource", chatDocument);
+
+            if (!chatDocument || !chatDocument.messages) {
+                chatDocument = {
+                    id: this.sessionId,
+                    userId: this.userId,
+                    type: "chat",
+                    messages: [
+                        {
+                            role: "system",
+                            content: systemMessage
+                        }
+                    ]
+                };
+            }
         } catch (unknownError: unknown) {
             const err = unknownError as { code?: number };
-
-            console.log("err", err);
             if (err.code === 404) {
                 chatDocument = {
                     id: this.sessionId,
