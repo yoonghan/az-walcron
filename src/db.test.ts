@@ -254,8 +254,8 @@ describe('DbRepo', () => {
             ]
         }
 
-        mockItem.read.mockRejectedValueOnce({
-            code: 404
+        mockItem.read.mockReturnValueOnce({
+            statusCode: 404
         })
         mockItems.upsert.mockReturnValueOnce({
             resource: {
@@ -332,8 +332,8 @@ describe('DbRepo', () => {
     });
 
     it('should be create new message if not found', async () => {
-        mockItem.read.mockRejectedValueOnce({
-            code: 404
+        mockItem.read.mockReturnValueOnce({
+            statusCode: 404
         })
 
 

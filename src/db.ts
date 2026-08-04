@@ -114,30 +114,16 @@ export class DbRepo {
         try {
             let chatDocument;
 
-            try {
-                const { resource } = await this.userDataContainer.item(this.sessionId, this.userId).read();
-                chatDocument = resource;
+            const { resource, statusCode } = await this.userDataContainer.item(this.sessionId, this.userId).read();
+            chatDocument = resource;
 
-                if (!chatDocument || !chatDocument.messages) {
-                    chatDocument = {
-                        id: this.sessionId,
-                        userId: this.userId,
-                        type: "chat",
-                        messages: []
-                    };
-                }
-            } catch (unknownError: unknown) {
-                const err = unknownError as { code?: number };
-                if (err.code === 404) {
-                    chatDocument = {
-                        id: this.sessionId,
-                        userId: this.userId,
-                        type: "chat",
-                        messages: []
-                    };
-                } else {
-                    throw err;
-                }
+            if (!chatDocument || statusCode === 404) {
+                chatDocument = {
+                    id: this.sessionId,
+                    userId: this.userId,
+                    type: "chat",
+                    messages: []
+                };
             }
 
             chatDocument.messages.push({ role: "user", content: userMessage });
@@ -156,39 +142,23 @@ export class DbRepo {
 
     async getSavedChat(systemMessage: string, userPrompt: string) {
         let chatDocument;
-        try {
-            const { resource } = await this.userDataContainer.item(this.sessionId, this.userId).read();
-            chatDocument = resource;
+        const { resource, statusCode } = await this.userDataContainer.item(this.sessionId, this.userId).read();
+        chatDocument = resource;
 
-            if (!chatDocument || !chatDocument.messages) {
-                chatDocument = {
-                    id: this.sessionId,
-                    userId: this.userId,
-                    type: "chat",
-                    messages: [
-                        {
-                            role: "system",
-                            content: systemMessage
-                        }
-                    ]
-                };
-            }
-        } catch (unknownError: unknown) {
-            const err = unknownError as { code?: number };
-            if (err.code === 404) {
-                chatDocument = {
-                    id: this.sessionId,
-                    userId: this.userId,
-                    type: "chat",
-                    messages: [
-                        {
-                            role: "system",
-                            content: systemMessage
-                        }
-                    ]
-                };
-            } else throw err;
+        if (!chatDocument || statusCode === 404) {
+            chatDocument = {
+                id: this.sessionId,
+                userId: this.userId,
+                type: "chat",
+                messages: [
+                    {
+                        role: "system",
+                        content: systemMessage
+                    }
+                ]
+            };
         }
+
         console.log("result", chatDocument);
         chatDocument.messages.push({ role: "user", content: userPrompt });
         return chatDocument
