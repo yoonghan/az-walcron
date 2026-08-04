@@ -110,26 +110,14 @@ export class DbRepo {
         return results.map((r) => r.topic).join(", ");
     }
 
-    async saveChatTurn(userMessage: string, assistantMessage: string) {
+    async saveChatTurn(messages: { role: string, content: string }[]) {
         try {
-            let chatDocument;
-
-            const { resource, statusCode } = await this.userDataContainer.item(this.sessionId, this.userId).read();
-            chatDocument = resource;
-
-            if (!chatDocument || statusCode === 404) {
-                chatDocument = {
-                    id: this.sessionId,
-                    userId: this.userId,
-                    type: "chat",
-                    messages: []
-                };
-            }
-
-            chatDocument.messages.push({ role: "user", content: userMessage });
-            chatDocument.messages.push({ role: "assistant", content: assistantMessage });
-
-            const { resource: updatedDoc, requestCharge } = await this.userDataContainer.items.upsert(chatDocument);
+            const { resource: updatedDoc, requestCharge } = await this.userDataContainer.items.upsert({
+                id: this.sessionId,
+                userId: this.userId,
+                type: "chat",
+                messages
+            });
 
             console.log(`Successfully saved chat turn. Cost: ${requestCharge} RUs`);
             return updatedDoc?.messages;

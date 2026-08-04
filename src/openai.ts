@@ -1,5 +1,5 @@
 import { AzureOpenAI } from "openai";
-import { ChatCompletionMessageParam, ResponseFormatJSONSchema } from "openai/resources";
+import { ChatCompletionMessageParam, ChatCompletionTool, ResponseFormatJSONSchema } from "openai/resources";
 import pino from "pino";
 
 
@@ -25,13 +25,13 @@ export class OpenAiSpec {
         const apiVersion = process.env.AZURE_OPENAI_API_VERSION;
 
         if (!endpoint || !apiKey || !deployment || !embeddingDeployment || !apiVersion) {
-            throw new Error(`Missing Azure OpenAI configuration, ${!!endpoint}, ${!!apiKey}, ${!!deployment}, ${!!embeddedDeployment}, ${!!apiVersion}`);
+            throw new Error(`Missing Azure OpenAI configuration, ${!!endpoint}, ${!!apiKey}, ${!!deployment}, ${!!embeddingDeployment}, ${!!apiVersion}`);
         }
 
         this.deployment = deployment;
         this.embeddingDeployment = embeddingDeployment;
 
-        this.logger.info(`Initializing Azure OpenAI: endpoint ${endpoint}, deployment ${this.deployment}, embeddedDeployment ${this.embeddedDeployment}, apiVersion ${apiVersion}`);
+        this.logger.info(`Initializing Azure OpenAI: endpoint ${endpoint}, deployment ${this.deployment}, embeddedDeployment ${this.embeddingDeployment}, apiVersion ${apiVersion}`);
         this.client = new AzureOpenAI({
             endpoint,
             apiKey,
@@ -63,7 +63,7 @@ export class OpenAiSpec {
         return embeddingResponse;
     }
 
-    async completion(messages: ChatCompletionMessageParam[], temperature: number, responseFormat?: string) {
+    async completion(messages: ChatCompletionMessageParam[], temperature: number, responseFormat?: string, tools?: ChatCompletionTool[]) {
         const formatted: { response_format: ResponseFormatJSONSchema } | {} = responseFormat === "true" ? {
             response_format: {
                 type: "json_schema",
@@ -97,11 +97,14 @@ export class OpenAiSpec {
             }
         } : {}
 
+        const formattedTools: ({ tools: ChatCompletionTool[], tool_choice: "auto" } | {}) = tools ? { tools: tools, tool_choice: "auto" } : {}
+
         return await this.client.chat.completions.create({
             model: this.deployment,
             temperature: temperature,
             messages,
-            ...formatted
+            ...formatted,
+            ...formattedTools
         });
     }
 }

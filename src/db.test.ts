@@ -198,65 +198,17 @@ describe('DbRepo', () => {
     });
 
     it('should be able to update user chat messages', async () => {
-        const messageResult = {
-            messages: [
-                {
-                    content: "Tell me about AI-200-Syllabus",
-                    role: "user",
-                },
-                {
-                    content: "AI-200-Syllabus is a course about AI.",
-                    role: "assistant",
-                },
-            ]
-        }
-
-        mockItem.read.mockReturnValueOnce({
-            resource: {
-                id: "session-default-001",
-                userId: "dev-user-001",
-                type: "chat",
-                messages: [...messageResult.messages]
-            }
-        })
-        mockItems.upsert.mockReturnValueOnce({
-            resource: {
-                ...messageResult
+        const messages = [
+            {
+                content: "Tell me about AI-200-Syllabus",
+                role: "user",
             },
-            requestCharge: '200'
-        })
+            {
+                content: "AI-200-Syllabus is a course about AI.",
+                role: "assistant",
+            },
+        ]
 
-        const result = await repo.saveChatTurn('Tell me about AI-200-Syllabus', 'AI-200-Syllabus is a course about AI.');
-
-        expect(mockItems.upsert).toHaveBeenCalledWith({
-            id: `session-default-001`,
-            userId: "dev-user-001",
-            messages: [
-                ...messageResult.messages,
-                ...messageResult.messages
-            ],
-            type: "chat",
-        });
-        expect(result).toEqual(messageResult.messages)
-    });
-
-    it('should be able to insert user chat', async () => {
-        const messages = {
-            messages: [
-                {
-                    content: "Tell me about AI-200-Syllabus",
-                    role: "user",
-                },
-                {
-                    content: "AI-200-Syllabus is a course about AI.",
-                    role: "assistant",
-                },
-            ]
-        }
-
-        mockItem.read.mockReturnValueOnce({
-            statusCode: 404
-        })
         mockItems.upsert.mockReturnValueOnce({
             resource: {
                 messages
@@ -264,30 +216,21 @@ describe('DbRepo', () => {
             requestCharge: '200'
         })
 
-        const result = await repo.saveChatTurn('Tell me about AI-200-Syllabus', 'AI-200-Syllabus is a course about AI.');
+        const result = await repo.saveChatTurn(messages);
 
         expect(mockItems.upsert).toHaveBeenCalledWith({
             id: `session-default-001`,
             userId: "dev-user-001",
-            messages: [
-                {
-                    "content": "Tell me about AI-200-Syllabus",
-                    "role": "user",
-                },
-                {
-                    "content": "AI-200-Syllabus is a course about AI.",
-                    "role": "assistant",
-                },
-            ],
+            messages,
             type: "chat",
         });
-        expect(result).toBe(messages)
+        expect(result).toEqual(messages)
     });
 
     it('should be able to throw error if user chat error on retrieval', async () => {
-        mockItem.read.mockRejectedValueOnce(new Error("Failed to save progress"))
+        mockItems.upsert.mockRejectedValueOnce(new Error("Failed to save progress"))
 
-        const result = await repo.saveChatTurn('Tell me about AI-200-Syllabus', 'AI-200-Syllabus is a course about AI.')
+        const result = await repo.saveChatTurn([])
 
         expect(result).toEqual("Save chat failed.")
     });
