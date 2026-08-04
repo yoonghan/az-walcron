@@ -150,8 +150,11 @@ export class DbRepo {
         try {
             const { resource } = await this.userDataContainer.item(this.sessionId, this.userId).read();
             chatDocument = resource;
+            console.log("resource", chatDocument);
         } catch (unknownError: unknown) {
             const err = unknownError as { code?: number };
+
+            console.log("err", err);
             if (err.code === 404) {
                 chatDocument = {
                     id: this.sessionId,
@@ -166,6 +169,7 @@ export class DbRepo {
                 };
             } else throw err;
         }
+        console.log("result", chatDocument);
         chatDocument.messages.push({ role: "user", content: userPrompt });
         return chatDocument
     }

@@ -34,7 +34,7 @@ openaiRoutes.get("/question", async (c) => {
 	const chatMessage = await dbRepo.getSavedChat(config.systemPrompt, userPrompt)
 
 	const chat = await openAiSpec.completion(
-		chatMessage,
+		chatMessage.messages,
 		Number(config.temperature),
 		config.isQuestionFormatted
 	);
