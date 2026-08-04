@@ -110,40 +110,14 @@ export class DbRepo {
         return results.map((r) => r.topic).join(", ");
     }
 
-    async saveChatTurn(userMessage: string, assistantMessage: string) {
+    async saveChatTurn(messages: { role: string, content: string }[]) {
         try {
-            let chatDocument;
-
-            try {
-                const { resource } = await this.userDataContainer.item(this.sessionId, this.userId).read();
-                chatDocument = resource;
-
-                if (!chatDocument || !chatDocument.messages) {
-                    chatDocument = {
-                        id: this.sessionId,
-                        userId: this.userId,
-                        type: "chat",
-                        messages: []
-                    };
-                }
-            } catch (unknownError: unknown) {
-                const err = unknownError as { code?: number };
-                if (err.code === 404) {
-                    chatDocument = {
-                        id: this.sessionId,
-                        userId: this.userId,
-                        type: "chat",
-                        messages: []
-                    };
-                } else {
-                    throw err;
-                }
-            }
-
-            chatDocument.messages.push({ role: "user", content: userMessage });
-            chatDocument.messages.push({ role: "assistant", content: assistantMessage });
-
-            const { resource: updatedDoc, requestCharge } = await this.userDataContainer.items.upsert(chatDocument);
+            const { resource: updatedDoc, requestCharge } = await this.userDataContainer.items.upsert({
+                id: this.sessionId,
+                userId: this.userId,
+                type: "chat",
+                messages
+            });
 
             console.log(`Successfully saved chat turn. Cost: ${requestCharge} RUs`);
             return updatedDoc?.messages;
@@ -156,39 +130,23 @@ export class DbRepo {
 
     async getSavedChat(systemMessage: string, userPrompt: string) {
         let chatDocument;
-        try {
-            const { resource } = await this.userDataContainer.item(this.sessionId, this.userId).read();
-            chatDocument = resource;
+        const { resource, statusCode } = await this.userDataContainer.item(this.sessionId, this.userId).read();
+        chatDocument = resource;
 
-            if (!chatDocument || !chatDocument.messages) {
-                chatDocument = {
-                    id: this.sessionId,
-                    userId: this.userId,
-                    type: "chat",
-                    messages: [
-                        {
-                            role: "system",
-                            content: systemMessage
-                        }
-                    ]
-                };
-            }
-        } catch (unknownError: unknown) {
-            const err = unknownError as { code?: number };
-            if (err.code === 404) {
-                chatDocument = {
-                    id: this.sessionId,
-                    userId: this.userId,
-                    type: "chat",
-                    messages: [
-                        {
-                            role: "system",
-                            content: systemMessage
-                        }
-                    ]
-                };
-            } else throw err;
+        if (!chatDocument || statusCode === 404) {
+            chatDocument = {
+                id: this.sessionId,
+                userId: this.userId,
+                type: "chat",
+                messages: [
+                    {
+                        role: "system",
+                        content: systemMessage
+                    }
+                ]
+            };
         }
+
         console.log("result", chatDocument);
         chatDocument.messages.push({ role: "user", content: userPrompt });
         return chatDocument

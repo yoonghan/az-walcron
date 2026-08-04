@@ -131,8 +131,8 @@ describe("API Routes", () => {
 					resources: []
 				})
 			});
-			mockItem.read.mockRejectedValue({
-				code: 404
+			mockItem.read.mockReturnValueOnce({
+				statusCode: 404
 			})
 			mockItems.upsert.mockReturnValue({
 				resource: {},

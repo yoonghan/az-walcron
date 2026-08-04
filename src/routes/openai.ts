@@ -2,6 +2,7 @@ import { Hono } from "hono";
 import { openAiSpec } from "../openai";
 import { appConfig } from "../appconfig";
 import { dbRepo } from "../db";
+import { tutorTools } from "../openai-tools/tutorTools";
 
 const openaiRoutes = new Hono();
 
@@ -22,29 +23,74 @@ openaiRoutes.get("/question", async (c) => {
 	const topic = c.req.query("q");
 	if (!topic) return c.json({ error: "question is required" }, 400);
 
-	const queryEmbedding = (await openAiSpec.createEmbeddings(topic, 1536)).data[0].embedding
-
-	const retrievedContext = await dbRepo.queryVector(config.domain, queryEmbedding, 5)
-
-	const userPrompt = `${config.userPrompt} 
-
-					CONTEXT:
-					${retrievedContext}`
-
+	const userPrompt = `${config.userPrompt}`
 	const chatMessage = await dbRepo.getSavedChat(config.systemPrompt, userPrompt)
 
-	const chat = await openAiSpec.completion(
+	let completionResponse = await openAiSpec.completion(
 		chatMessage.messages,
 		Number(config.temperature),
-		config.isQuestionFormatted
+		"false",
+		tutorTools
 	);
 
-	dbRepo.saveChatTurn(userPrompt, chat.choices[0].message.content!)
+	let responseMessage = completionResponse.choices[0].message;
+
+	while (responseMessage.tool_calls) {
+		console.log("LLM requested tool execution!");
+
+		chatMessage.messages.push(responseMessage);
+
+		//TODO: Requires testing
+		for (const toolCall of responseMessage.tool_calls) {
+			console.log("Processing tool call: ", toolCall);
+			if (toolCall.type === "function") {
+				const functionName = toolCall.function.name
+				const args = JSON.parse(toolCall.function.arguments);
+				let toolResult = "";
+
+				if (functionName === "search_syllabus") {
+					console.log(`Executing Vector Search for: ${args.topic}`);
+					const queryEmbedding = (await openAiSpec.createEmbeddings(args.topic, 1536)).data[0].embedding
+
+					const retrievedContext = await dbRepo.queryVector(config.domain, queryEmbedding, 5)
+
+					toolResult = `${config.userPrompt}\n\nCONTEXT\n${retrievedContext}`
+				}
+				else if (functionName === "save_user_progress") {
+					console.log(`Executing Progress Save for: ${args.topic}`);
+					// Your custom function that point-writes to the UserData container
+					const saveStatus = await dbRepo.saveProgressToCosmos(args.topic, args.score, new Date().toISOString());
+					toolResult = saveStatus;
+				}
+
+				chatMessage.messages.push({
+					role: "tool",
+					tool_call_id: toolCall.id,
+					content: toolResult
+				});
+			}
+
+		}
+
+		console.log("Passing tool results back to LLM...");
+		completionResponse = await openAiSpec.completion(
+			chatMessage.messages,
+			Number(config.temperature),
+			config.isQuestionFormatted,
+			tutorTools
+		);
+	}
+
+	chatMessage.messages.push({
+		role: "assistant",
+		content: completionResponse
+	});
+
+	await dbRepo.saveChatTurn(chatMessage.messages)
 
 	if (c.req.query("pretty") !== undefined) {
-		const message = chat.choices[0].message;
-		if (message.content !== null) {
-			const content = JSON.parse(message.content);
+		if (completionResponse.choices[0].message.content !== null) {
+			const content = JSON.parse(completionResponse.choices[0].message.content);
 			return c.json({
 				ask: content["question"],
 				hint: content["hint"],
@@ -53,7 +99,7 @@ openaiRoutes.get("/question", async (c) => {
 			});
 		}
 	}
-	return c.json(chat);
+	return c.json(completionResponse);
 });
 
 
