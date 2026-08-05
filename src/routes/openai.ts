@@ -67,6 +67,13 @@ openaiRoutes.get("/question", async (c) => {
 					tool_call_id: toolCall.id,
 					content: toolResult
 				});
+			} else {
+				responseMessage = {
+					role: "assistant",
+					content: `Tool call ${toolCall.id} is invalid`,
+					refusal: "Unknown action"
+				};
+				break;
 			}
 
 		}
@@ -93,13 +100,17 @@ openaiRoutes.get("/question", async (c) => {
 
 	if (c.req.query("pretty") !== undefined) {
 		if (messageContent !== null) {
-			const content = JSON.parse(messageContent);
-			return c.json({
-				ask: content["question"],
-				hint: content["hint"],
-				explanation: content["explanation"],
-				result: content["answer"]
-			});
+			try {
+				const content = JSON.parse(messageContent);
+				return c.json({
+					ask: content["question"],
+					hint: content["hint"],
+					explanation: content["explanation"],
+					result: content["answer"]
+				});
+			} catch (e: unknown) {
+				console.error("Failed to parse JSON: ", e);
+			}
 		}
 	}
 	return c.json(completionResponse);
