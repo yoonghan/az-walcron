@@ -109,22 +109,22 @@ describe("API Routes", () => {
 		});
 	});
 
-	describe("GET /openai", () => {
+	describe("GET /genai", () => {
 		it("should return openai api spec", async () => {
-			const res = await app.request("/openai");
+			const res = await app.request("/genai");
 			expect(res.status).toBe(200);
 			expect(await res.json()).toEqual({ openai: "3.1.0", info: { title: "Walcron AI API", version: "1.0.0" }, deployment: "test-deployment", models: [{ id: "test-model" }] });
 		});
 
 		it("should return config api spec", async () => {
-			const res = await app.request("/openai/config");
+			const res = await app.request("/genai/config");
 			expect(res.status).toBe(200);
 			const json = await res.json()
 			expect(json.config.systemPrompt).toEqual("test");
 		});
 	});
 
-	describe("GET /openai/question", () => {
+	describe("GET /genai/question", () => {
 		beforeEach(() => {
 			mockItems.query.mockReturnValue({
 				fetchAll: vi.fn().mockResolvedValueOnce({
@@ -141,7 +141,7 @@ describe("API Routes", () => {
 		});
 
 		it("should return error if no question are asked", async () => {
-			const res = await app.request("/openai/question", {
+			const res = await app.request("/genai/question", {
 				method: "GET"
 			});
 			expect(res.status).toBe(400);
@@ -150,7 +150,7 @@ describe("API Routes", () => {
 		});
 
 		it("should return question completion", async () => {
-			const res = await app.request("/openai/question?q=what is azure machine learning?", {
+			const res = await app.request("/genai/question?q=what is azure machine learning?", {
 				method: "GET"
 			});
 			expect(res.status).toBe(200);
@@ -159,7 +159,7 @@ describe("API Routes", () => {
 		});
 
 		it("should return question completion prettier", async () => {
-			const res = await app.request("/openai/question?q=what is azure machine learning?&pretty=1", {
+			const res = await app.request("/genai/question?q=what is azure machine learning?&pretty=1", {
 				method: "GET"
 			});
 			expect(res.status).toBe(200);

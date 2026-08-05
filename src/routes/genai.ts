@@ -4,19 +4,19 @@ import { appConfig } from "../appconfig";
 import { dbRepo } from "../db";
 import { tutorTools } from "../openai-tools/tutorTools";
 
-const openaiRoutes = new Hono();
+const genaiRoutes = new Hono();
 
-openaiRoutes.get("/", async (c) => {
+genaiRoutes.get("/", async (c) => {
 	return c.json(await openAiSpec.getSpec());
 });
 
-openaiRoutes.get("/config", async (c) => {
+genaiRoutes.get("/config", async (c) => {
 	const openAISpecSettings = await openAiSpec.getSpec();
 	const openAIConfig = await appConfig.getOpenAISetting();
 	return c.json({ config: openAIConfig, spec: openAISpecSettings });
 });
 
-openaiRoutes.get("/question", async (c) => {
+genaiRoutes.get("/question", async (c) => {
 
 	const config = await appConfig.getOpenAISetting();
 
@@ -122,4 +122,4 @@ openaiRoutes.get("/question", async (c) => {
 });
 
 
-export default openaiRoutes;
+export default genaiRoutes;
