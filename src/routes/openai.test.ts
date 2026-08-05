@@ -664,7 +664,7 @@ describe("GET /openai/question - route handler", () => {
 
 			mockCreateCompletions.mockResolvedValueOnce(buildTextCompletion("Response 4"));
 
-			const res = await app.request("/openai/question?q=Message 4", { method: "GET" });
+			const res = await app.request("/openai/question?q=Message Q", { method: "GET" });
 			expect(res.status).toBe(200);
 
 			// 1. Check messages sent to OpenAI
@@ -673,13 +673,16 @@ describe("GET /openai/question - route handler", () => {
 			const sentMessages: Array<{ role: string; content: string }> =
 				mockCreateCompletions.mock.calls[0][0].messages;
 
-			expect(sentMessages).toHaveLength(6);
+			expect(sentMessages).toHaveLength(7);
 			expect(sentMessages[0].role).toBe("system");
-			expect(sentMessages[1].content).toBe("Response 2 with tool");
-			expect(sentMessages[2].content).toBe("Message 3");
-			expect(sentMessages[3].content).toBe("Response 3");
-			expect(sentMessages[4].content).toBe("Message 4");
-			expect(sentMessages[5].content).toBe("Response 4");
+			expect(sentMessages[1].content).toBe("Message 2");
+			expect(sentMessages[2].content).toBe("Response 2 with tool");
+			expect(sentMessages[3].content).toBe("Message 3");
+			expect(sentMessages[4].content).toBe("Response 3");
+			expect(sentMessages[5].role).toBe("user");
+			expect(sentMessages[5].content).toBe("Message Q");
+			expect(sentMessages[6].role).toBe("assistant");
+			expect(sentMessages[6].content).toBe("Response 4");
 
 			// 2. Check messages saved to DB (should include the latest assistant response, but still fit the sliding window)
 			const lastUpsertArg = mockItems.upsert.mock.calls.at(-1)[0];
@@ -689,7 +692,7 @@ describe("GET /openai/question - route handler", () => {
 			expect(savedMessages[0].role).toBe("system");
 			expect(savedMessages[1].content).toBe("Message 3");
 			expect(savedMessages[2].content).toBe("Response 3");
-			expect(savedMessages[3].content).toBe("Message 4");
+			expect(savedMessages[3].content).toBe("Message Q");
 			expect(savedMessages[4].content).toBe("Response 4");
 		});
 
