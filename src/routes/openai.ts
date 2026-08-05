@@ -97,22 +97,7 @@ openaiRoutes.get("/question", async (c) => {
 
 	await dbRepo.saveChatTurn(chatMessage.messages)
 
-	if (c.req.query("pretty") !== undefined) {
-		if (messageContent !== null) {
-			try {
-				const content = JSON.parse(messageContent);
-				return c.json({
-					ask: content["question"],
-					hint: content["hint"],
-					explanation: content["explanation"],
-					result: content["answer"]
-				});
-			} catch (e: unknown) {
-				return c.text(messageContent)
-			}
-		}
-	}
-	return c.json(completionResponse);
+	return c.html(`<pre>${messageContent}</pre>`)
 });
 
 
