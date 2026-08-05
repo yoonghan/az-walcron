@@ -46,7 +46,7 @@ openaiRoutes.get("/question", async (c) => {
 			if (toolCall.type === "function") {
 				const functionName = toolCall.function.name
 				const args = JSON.parse(toolCall.function.arguments);
-				let toolResult = "";
+				let toolResult: string = "";
 
 				if (functionName === "search_syllabus") {
 					console.log(`Executing Vector Search for: ${args.topic}`);
@@ -72,6 +72,8 @@ openaiRoutes.get("/question", async (c) => {
 
 		}
 
+		console.log("messages", chatMessage.messages)
+
 		console.log("Passing tool results back to LLM...");
 		completionResponse = await openAiSpec.completion(
 			chatMessage.messages,
@@ -81,16 +83,17 @@ openaiRoutes.get("/question", async (c) => {
 		);
 	}
 
+	const messageContent = completionResponse.choices[0].message.content
 	chatMessage.messages.push({
 		role: "assistant",
-		content: completionResponse
+		content: messageContent
 	});
 
 	await dbRepo.saveChatTurn(chatMessage.messages)
 
 	if (c.req.query("pretty") !== undefined) {
-		if (completionResponse.choices[0].message.content !== null) {
-			const content = JSON.parse(completionResponse.choices[0].message.content);
+		if (messageContent !== null) {
+			const content = JSON.parse(messageContent);
 			return c.json({
 				ask: content["question"],
 				hint: content["hint"],
