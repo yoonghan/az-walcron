@@ -66,7 +66,7 @@ vi.mock("@azure/app-configuration", () => ({
 // Mock: Azure Identity (Managed Identity – not needed in unit tests)
 // ---------------------------------------------------------------------------
 vi.mock("@azure/identity", () => ({
-	DefaultAzureCredential: class {}
+	DefaultAzureCredential: class { }
 }));
 
 // ---------------------------------------------------------------------------
@@ -273,7 +273,7 @@ describe("GET /openai/question - route handler", () => {
 			// Round 1: LLM asks to save progress for one topic
 			mockCreateCompletions.mockResolvedValueOnce(
 				buildToolCallCompletion([
-					{ id: "call_001", name: "save_user_progress", arguments: JSON.stringify({ topic: "CosmosDB Q1", score: 100 }) }
+					{ id: "call_001", name: "save_user_progress", arguments: JSON.stringify({ topic: "Cosmos DB", subtopic: "Change feed", score: 100 }) }
 				])
 			);
 
@@ -281,7 +281,7 @@ describe("GET /openai/question - route handler", () => {
 			const finalContent = JSON.stringify({
 				question: "Quiz feedback",
 				hint: "Review CosmosDB Q1.",
-				answer: "You scored 100 on CosmosDB Q1.",
+				answer: "You scored 100 on CosmosDB Change feed.",
 				explanation: "deviceId is the correct partition key."
 			});
 			mockCreateCompletions.mockResolvedValueOnce(buildTextCompletion(finalContent));
@@ -292,7 +292,7 @@ describe("GET /openai/question - route handler", () => {
 			);
 			expect(res.status).toBe(200);
 			const body = await res.json();
-			expect(body.result).toBe("You scored 100 on CosmosDB Q1.");
+			expect(body.result).toBe("You scored 100 on CosmosDB Change feed.");
 
 			// completion was called twice: initial + after tool result
 			expect(mockCreateCompletions).toHaveBeenCalledTimes(2);
@@ -303,7 +303,7 @@ describe("GET /openai/question - route handler", () => {
 				(m: { role: string }) => m.role === "tool"
 			);
 			expect(toolResultMessage).toBeDefined();
-			expect(toolResultMessage.content).toMatch(/Saved score 100 for topic CosmosDB Q1/);
+			expect(toolResultMessage.content).toMatch(/Saved score 100 for topic Cosmos DB and subtopic Change feed/);
 		});
 	});
 
@@ -317,14 +317,14 @@ describe("GET /openai/question - route handler", () => {
 
 			// Build 8 parallel tool calls matching the sample conversation
 			const parallelToolCalls = [
-				{ id: "call_001", name: "save_user_progress", arguments: JSON.stringify({ topic: "CosmosDB Q1", score: 100 }) },
-				{ id: "call_002", name: "save_user_progress", arguments: JSON.stringify({ topic: "CosmosDB Q2", score: 0 }) },
-				{ id: "call_003", name: "save_user_progress", arguments: JSON.stringify({ topic: "CosmosDB Q3", score: 0 }) },
-				{ id: "call_004", name: "save_user_progress", arguments: JSON.stringify({ topic: "CosmosDB Q4", score: 100 }) },
-				{ id: "call_005", name: "save_user_progress", arguments: JSON.stringify({ topic: "CosmosDB Q5", score: 100 }) },
-				{ id: "call_006", name: "save_user_progress", arguments: JSON.stringify({ topic: "CosmosDB Q6", score: 100 }) },
-				{ id: "call_007", name: "save_user_progress", arguments: JSON.stringify({ topic: "CosmosDB Q7", score: 100 }) },
-				{ id: "call_008", name: "save_user_progress", arguments: JSON.stringify({ topic: "CosmosDB Q8", score: 100 }) }
+				{ id: "call_001", name: "save_user_progress", arguments: JSON.stringify({ topic: "Cosmos DB", subtopic: "CosmosDB Q1", score: 100 }) },
+				{ id: "call_002", name: "save_user_progress", arguments: JSON.stringify({ topic: "Cosmos DB", subtopic: "CosmosDB Q2", score: 0 }) },
+				{ id: "call_003", name: "save_user_progress", arguments: JSON.stringify({ topic: "Cosmos DB", subtopic: "CosmosDB Q3", score: 0 }) },
+				{ id: "call_004", name: "save_user_progress", arguments: JSON.stringify({ topic: "Cosmos DB", subtopic: "CosmosDB Q4", score: 100 }) },
+				{ id: "call_005", name: "save_user_progress", arguments: JSON.stringify({ topic: "Cosmos DB", subtopic: "CosmosDB Q5", score: 100 }) },
+				{ id: "call_006", name: "save_user_progress", arguments: JSON.stringify({ topic: "Cosmos DB", subtopic: "CosmosDB Q6", score: 100 }) },
+				{ id: "call_007", name: "save_user_progress", arguments: JSON.stringify({ topic: "Cosmos DB", subtopic: "CosmosDB Q7", score: 100 }) },
+				{ id: "call_008", name: "save_user_progress", arguments: JSON.stringify({ topic: "Cosmos DB", subtopic: "CosmosDB Q8", score: 100 }) }
 			];
 
 			mockCreateCompletions.mockResolvedValueOnce(buildToolCallCompletion(parallelToolCalls));
@@ -436,7 +436,7 @@ describe("GET /openai/question - route handler", () => {
 			// Turn 2 tool call: save progress after user answers
 			mockCreateCompletions.mockResolvedValueOnce(
 				buildToolCallCompletion([
-					{ id: "call_sv1", name: "save_user_progress", arguments: JSON.stringify({ topic: "CosmosDB partitioning", score: 100 }) }
+					{ id: "call_sv1", name: "save_user_progress", arguments: JSON.stringify({ topic: "Cosmos DB", subtopic: "CosmosDB partitioning", score: 100 }) }
 				])
 			);
 
@@ -623,7 +623,7 @@ describe("GET /openai/question - route handler", () => {
 
 			mockCreateCompletions.mockResolvedValueOnce(
 				buildToolCallCompletion([
-					{ id: "call_p1", name: "save_user_progress", arguments: JSON.stringify({ topic: "CosmosDB TTL", score: 100 }) }
+					{ id: "call_p1", name: "save_user_progress", arguments: JSON.stringify({ topic: "Cosmos DB", subtopic: "CosmosDB TTL", score: 100 }) }
 				])
 			);
 			mockCreateCompletions.mockResolvedValueOnce(
@@ -641,6 +641,89 @@ describe("GET /openai/question - route handler", () => {
 			const lastMsg = messages.at(-1);
 			expect(lastMsg?.role).toBe("assistant");
 			expect(lastMsg?.content).toBe("Well done! You answered correctly about TTL.");
+		});
+	});
+	// -------------------------------------------------------------------------
+	// 13. Sliding window and filtering of tool messages
+	// -------------------------------------------------------------------------
+	describe("Sliding window and filtering of tool messages", () => {
+		it("removes past tool messages and applies sliding window before calling OpenAI and saving to DB", async () => {
+			const existingMessages = [
+				{ role: "system", content: "You are an AI exam tutor." },
+				{ role: "user", content: "Message 1" },
+				{ role: "assistant", content: "Response 1" },
+				{ role: "user", content: "Message 2" },
+				{ role: "assistant", content: null, tool_calls: [{ id: "call_t1", type: "function", function: { name: "search_syllabus", arguments: "{}" } }] },
+				{ role: "tool", tool_call_id: "call_t1", content: "tool result 1" },
+				{ role: "assistant", content: "Response 2 with tool" },
+				{ role: "user", content: "Message 3" },
+				{ role: "assistant", content: "Response 3" }
+			];
+
+			mockExistingSession(existingMessages);
+
+			mockCreateCompletions.mockResolvedValueOnce(buildTextCompletion("Response 4"));
+
+			const res = await app.request("/openai/question?q=Message 4", { method: "GET" });
+			expect(res.status).toBe(200);
+
+			// 1. Check messages sent to OpenAI
+			// Note: The array reference passed to mockCreateCompletions is mutated later
+			// in the route when the assistant response is pushed, so it will contain 6 elements here.
+			const sentMessages: Array<{ role: string; content: string }> =
+				mockCreateCompletions.mock.calls[0][0].messages;
+
+			expect(sentMessages).toHaveLength(6);
+			expect(sentMessages[0].role).toBe("system");
+			expect(sentMessages[1].content).toBe("Response 2 with tool");
+			expect(sentMessages[2].content).toBe("Message 3");
+			expect(sentMessages[3].content).toBe("Response 3");
+			expect(sentMessages[4].content).toBe("Message 4");
+			expect(sentMessages[5].content).toBe("Response 4");
+
+			// 2. Check messages saved to DB (should include the latest assistant response, but still fit the sliding window)
+			const lastUpsertArg = mockItems.upsert.mock.calls.at(-1)[0];
+			const savedMessages: Array<{ role: string; content: string }> = lastUpsertArg.messages;
+
+			expect(savedMessages).toHaveLength(5);
+			expect(savedMessages[0].role).toBe("system");
+			expect(savedMessages[1].content).toBe("Message 3");
+			expect(savedMessages[2].content).toBe("Response 3");
+			expect(savedMessages[3].content).toBe("Message 4");
+			expect(savedMessages[4].content).toBe("Response 4");
+		});
+
+		it("does not persist tool calls generated in the current turn", async () => {
+			mockNewSession();
+
+			// Round 1: LLM requests syllabus search
+			mockCreateCompletions.mockResolvedValueOnce(
+				buildToolCallCompletion([
+					{ id: "call_srch_001", name: "search_syllabus", arguments: JSON.stringify({ topic: "Cosmos DB" }) }
+				])
+			);
+
+			// Round 2: LLM generates response
+			mockCreateCompletions.mockResolvedValueOnce(buildTextCompletion("Context incorporated."));
+
+			await app.request("/openai/question?q=Tell me about Cosmos DB", { method: "GET" });
+
+			// Check DB save
+			const lastUpsertArg = mockItems.upsert.mock.calls.at(-1)[0];
+			const savedMessages: Array<{ role: string; content: string }> = lastUpsertArg.messages;
+
+			// The tool call and tool message should NOT be in the saved messages
+			const toolMessage = savedMessages.find(m => m.role === "tool");
+			const toolCallMessage = savedMessages.find(m => (m as any).tool_calls !== undefined);
+
+			expect(toolMessage).toBeUndefined();
+			expect(toolCallMessage).toBeUndefined();
+
+			// Should only contain: system, user, assistant
+			expect(savedMessages).toHaveLength(3);
+			expect(savedMessages[0].role).toBe("system");
+			expect(savedMessages[1].content).toBe("Tell me about Cosmos DB");
+			expect(savedMessages[2].content).toBe("Context incorporated.");
 		});
 	});
 });

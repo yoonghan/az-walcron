@@ -1,5 +1,6 @@
 import { CosmosClient, Database, Container } from "@azure/cosmos"
 import { DefaultAzureCredential } from "@azure/identity";
+import { ChatCompletion, ChatCompletionMessageParam } from "openai/resources";
 
 export interface Item {
     id: string,
@@ -66,16 +67,17 @@ export class DbRepo {
         return retrievedContext;
     }
 
-    async saveProgressToCosmos(topic: string, score: number, date: string) {
+    async saveProgressToCosmos(topic: string, subTopic: string, score: number, date: string) {
         try {
 
             // Hardcoding a userId for the sandbox, but this would come from Entra ID later
-            const docId = `progress-${this.userId}-${topic.toLowerCase().replace(/\s+/g, '-')}`;
+            const docId = `progress-${this.userId}-${topic.toLowerCase().replace(/\s+/g, '-')}-${subTopic.toLowerCase().replace(/\s+/g, '-')}`;
 
             const progressDocument = {
                 id: docId,
                 userId: this.userId,           // Partition Key
                 topic: topic,
+                subTopic: subTopic,
                 type: 'progress',
                 latestScore: score,
                 lastTestedAt: date
@@ -84,10 +86,10 @@ export class DbRepo {
             // Upsert will create it if it doesn't exist, or update the score if it does
             const { resource, requestCharge } = await this.userDataContainer.items.upsert(progressDocument);
 
-            console.log(`[DB] Successfully saved score of ${score} for ${topic}. RU Cost: ${requestCharge}`);
+            console.log(`[DB] Successfully saved score of ${score} for ${topic} - ${subTopic}. RU Cost: ${requestCharge}`);
 
             // This string is what gets sent back to the LLM in the "tool" message role
-            return `Success: Saved score ${score} for topic ${topic}.`;
+            return `Success: Saved score ${score} for topic ${topic} and subtopic ${subTopic}.`;
 
         } catch (error) {
             console.error("Cosmos DB Error:", error);
@@ -110,7 +112,7 @@ export class DbRepo {
         return results.map((r) => r.topic).join(", ");
     }
 
-    async saveChatTurn(messages: { role: string, content: string }[]) {
+    async saveChatTurn(messages: ChatCompletionMessageParam[]) {
         try {
             const { resource: updatedDoc, requestCharge } = await this.userDataContainer.items.upsert({
                 id: this.sessionId,

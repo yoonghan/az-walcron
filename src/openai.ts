@@ -63,6 +63,23 @@ export class OpenAiSpec {
         return embeddingResponse;
     }
 
+    formatChatHistory(messages: ChatCompletionMessageParam[]): ChatCompletionMessageParam[] {
+        const filtered = messages.filter((m: any) => {
+            // Filter out 'tool' role messages
+            if (m.role === "tool") return false;
+            // Filter out 'assistant' role messages that contain tool_calls
+            if (m.role === "assistant" && m.tool_calls) return false;
+            // Filter out 'assistant' role messages that have no content
+            if (m.role === "assistant" && !m.content) return false;
+            return true;
+        });
+        
+        if (filtered.length > 5) {
+            return [filtered[0], ...filtered.slice(-4)];
+        }
+        return filtered;
+    }
+
     async completion(messages: ChatCompletionMessageParam[], temperature: number, responseFormat?: string, tools?: ChatCompletionTool[]) {
         const formatted: { response_format: ResponseFormatJSONSchema } | {} = responseFormat === "true" ? {
             response_format: {

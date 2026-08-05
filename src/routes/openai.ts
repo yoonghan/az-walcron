@@ -25,6 +25,8 @@ openaiRoutes.get("/question", async (c) => {
 
 	const chatMessage = await dbRepo.getSavedChat(config.systemPrompt, topic)
 
+	chatMessage.messages = openAiSpec.formatChatHistory(chatMessage.messages);
+
 	let completionResponse = await openAiSpec.completion(
 		chatMessage.messages,
 		Number(config.temperature),
@@ -55,9 +57,9 @@ openaiRoutes.get("/question", async (c) => {
 					toolResult = `${config.userPrompt}\n\nCONTEXT\n${retrievedContext}`
 				}
 				else if (functionName === "save_user_progress") {
-					console.log(`Executing Progress Save for: ${args.topic}`);
+					console.log(`Executing Progress Save for: ${args.topic} - ${args.subtopic}`);
 					// Your custom function that point-writes to the UserData container
-					const saveStatus = await dbRepo.saveProgressToCosmos(args.topic, args.score, new Date().toISOString());
+					const saveStatus = await dbRepo.saveProgressToCosmos(args.topic, args.subtopic, args.score, new Date().toISOString());
 					toolResult = saveStatus;
 				}
 
@@ -95,7 +97,8 @@ openaiRoutes.get("/question", async (c) => {
 		content: messageContent
 	});
 
-	await dbRepo.saveChatTurn(chatMessage.messages)
+	const messagesToSave = openAiSpec.formatChatHistory(chatMessage.messages);
+	await dbRepo.saveChatTurn(messagesToSave)
 
 	if (c.req.query("pretty") !== undefined) {
 		if (messageContent !== null) {

@@ -23,10 +23,18 @@ export const tutorTools: ChatCompletionTool[] = [
             parameters: {
                 type: "object",
                 properties: {
-                    topic: { type: "string", description: "The topic that was tested." },
+                    topic: { 
+                        type: "string", 
+                        description: "The topic that was tested.",
+                        enum: ["Containers", "Cosmos DB", "OpenAI SDK", "PostgreSQL", "Redis", "Events", "Azure Functions", "Security", "Monitor", "Blob Storage"]
+                    },
+                    subtopic: {
+                        type: "string",
+                        description: "The specific technical feature being tested (e.g., 'Change Feed', 'RBAC', 'KEDA')."
+                    },
                     score: { type: "number", description: "100 if correct, 0 if incorrect." }
                 },
-                required: ["topic", "score"]
+                required: ["topic", "subtopic", "score"]
             }
         }
     }
