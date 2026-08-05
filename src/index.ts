@@ -7,7 +7,7 @@ import { httpInstrumentationMiddleware } from '@hono/otel';
 import { renderHtml } from "./html";
 import { logger } from "./logger";
 import adminRoutes from "./routes/admin";
-import openaiRoutes from "./routes/openai";
+import genaiRoutes from "./routes/genai";
 
 dotenv.config();
 
@@ -71,7 +71,7 @@ app.get("/", (c) => {
 });
 
 app.route("/", adminRoutes);
-app.route("/openai", openaiRoutes);
+app.route("/genai", genaiRoutes);
 
 const port = process.env.PORT ? parseInt(process.env.PORT, 10) : 3000;
 

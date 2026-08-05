@@ -1,6 +1,7 @@
 import { CosmosClient, Database, Container } from "@azure/cosmos"
 import { DefaultAzureCredential } from "@azure/identity";
-import { ChatCompletion, ChatCompletionMessageParam } from "openai/resources";
+import { ChatCompletionMessageParam } from "openai/resources";
+import { logger } from "./logger";
 
 export interface Item {
     id: string,
@@ -63,7 +64,6 @@ export class DbRepo {
         const { resources: results } = await this.container.items.query(querySpec).fetchAll();
         const retrievedContext = results.map(r => r.content).join("\n\n--- NEXT CHUNK ---\n\n");
 
-        console.log("retrievedContext", retrievedContext)
         return retrievedContext;
     }
 
@@ -86,13 +86,13 @@ export class DbRepo {
             // Upsert will create it if it doesn't exist, or update the score if it does
             const { resource, requestCharge } = await this.userDataContainer.items.upsert(progressDocument);
 
-            console.log(`[DB] Successfully saved score of ${score} for ${topic} - ${subTopic}. RU Cost: ${requestCharge}`);
+            logger.info(`[DB] Successfully saved score of ${score} for ${topic} - ${subTopic}. RU Cost: ${requestCharge}`);
 
             // This string is what gets sent back to the LLM in the "tool" message role
             return `Success: Saved score ${score} for topic ${topic} and subtopic ${subTopic}.`;
 
         } catch (error) {
-            console.error("Cosmos DB Error:", error);
+            logger.error(error, "Error saving progress to Cosmos DB");
             return "Error: Could not save progress to the database.";
         }
     }
@@ -121,11 +121,11 @@ export class DbRepo {
                 messages
             });
 
-            console.log(`Successfully saved chat turn. Cost: ${requestCharge} RUs`);
+            logger.info(`Successfully saved chat turn. Cost: ${requestCharge} RUs`);
             return updatedDoc?.messages;
 
         } catch (error) {
-            console.error("Failed to save chat to Cosmos DB:", error);
+            logger.error(error, "Failed to save chat to Cosmos DB");
             return "Save chat failed."
         }
     }

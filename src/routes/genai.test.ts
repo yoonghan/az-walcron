@@ -169,7 +169,7 @@ function mockUpsert() {
 // Test Suite
 // ---------------------------------------------------------------------------
 
-describe("GET /openai/question - route handler", () => {
+describe("GET /genai/question - route handler", () => {
 	beforeEach(() => {
 		vi.clearAllMocks();
 		// Default: vector search returns empty context
@@ -184,7 +184,7 @@ describe("GET /openai/question - route handler", () => {
 	// -------------------------------------------------------------------------
 	describe("Input validation", () => {
 		it("returns 400 when query param 'q' is missing", async () => {
-			const res = await app.request("/openai/question", { method: "GET" });
+			const res = await app.request("/genai/question", { method: "GET" });
 			expect(res.status).toBe(400);
 			const body = await res.json();
 			expect(body).toEqual({ error: "question is required" });
@@ -200,7 +200,7 @@ describe("GET /openai/question - route handler", () => {
 			const completion = buildTextCompletion("Here is some study material about CosmosDB.");
 			mockCreateCompletions.mockResolvedValueOnce(completion);
 
-			const res = await app.request("/openai/question?q=Tell me about CosmosDB", { method: "GET" });
+			const res = await app.request("/genai/question?q=Tell me about CosmosDB", { method: "GET" });
 			expect(res.status).toBe(200);
 			const body = await res.json();
 			// Returns the raw completion response object
@@ -213,7 +213,7 @@ describe("GET /openai/question - route handler", () => {
 				buildTextCompletion("CosmosDB study response.")
 			);
 
-			await app.request("/openai/question?q=CosmosDB overview", { method: "GET" });
+			await app.request("/genai/question?q=CosmosDB overview", { method: "GET" });
 			expect(mockItems.upsert).toHaveBeenCalledOnce();
 		});
 	});
@@ -234,7 +234,7 @@ describe("GET /openai/question - route handler", () => {
 			mockCreateCompletions.mockResolvedValueOnce(buildFormattedCompletion(formattedPayload));
 
 			const res = await app.request(
-				"/openai/question?q=What is strong consistency?&pretty=1",
+				"/genai/question?q=What is strong consistency?&pretty=1",
 				{ method: "GET" }
 			);
 			expect(res.status).toBe(200);
@@ -252,7 +252,7 @@ describe("GET /openai/question - route handler", () => {
 			);
 
 			const res = await app.request(
-				"/openai/question?q=Quick question&pretty",
+				"/genai/question?q=Quick question&pretty",
 				{ method: "GET" }
 			);
 			expect(res.status).toBe(200);
@@ -287,7 +287,7 @@ describe("GET /openai/question - route handler", () => {
 			mockCreateCompletions.mockResolvedValueOnce(buildTextCompletion(finalContent));
 
 			const res = await app.request(
-				"/openai/question?q=Answer: 1)C&pretty=1",
+				"/genai/question?q=Answer: 1)C&pretty=1",
 				{ method: "GET" }
 			);
 			expect(res.status).toBe(200);
@@ -338,7 +338,7 @@ describe("GET /openai/question - route handler", () => {
 			mockCreateCompletions.mockResolvedValueOnce(buildTextCompletion(finalContent));
 
 			const res = await app.request(
-				"/openai/question?q=Answer1)C and 2)B and 3)C and 4)B and 5)B and 6)B and 7)D and 8)B&pretty=1",
+				"/genai/question?q=Answer1)C and 2)B and 3)C and 4)B and 5)B and 6)B and 7)D and 8)B&pretty=1",
 				{ method: "GET" }
 			);
 			expect(res.status).toBe(200);
@@ -396,7 +396,7 @@ describe("GET /openai/question - route handler", () => {
 			mockCreateCompletions.mockResolvedValueOnce(buildTextCompletion(finalContent));
 
 			const res = await app.request(
-				"/openai/question?q=Prompt me with CosmosDB questions&pretty=1",
+				"/genai/question?q=Prompt me with CosmosDB questions&pretty=1",
 				{ method: "GET" }
 			);
 			expect(res.status).toBe(200);
@@ -453,7 +453,7 @@ describe("GET /openai/question - route handler", () => {
 			);
 
 			const res = await app.request(
-				"/openai/question?q=Answer: 1)C&pretty=1",
+				"/genai/question?q=Answer: 1)C&pretty=1",
 				{ method: "GET" }
 			);
 			expect(res.status).toBe(200);
@@ -501,7 +501,7 @@ describe("GET /openai/question - route handler", () => {
 			);
 
 			const res = await app.request(
-				"/openai/question?q=What is Cosmos?",
+				"/genai/question?q=What is Cosmos?",
 				{ method: "GET" }
 			);
 			// Route should complete (not crash)
@@ -537,7 +537,7 @@ describe("GET /openai/question - route handler", () => {
 			mockCreateCompletions.mockResolvedValueOnce(buildTextCompletion(followUpContent));
 
 			const res = await app.request(
-				"/openai/question?q=Another 4 questions on cosmosdb&pretty=1",
+				"/genai/question?q=Another 4 questions on cosmosdb&pretty=1",
 				{ method: "GET" }
 			);
 			expect(res.status).toBe(200);
@@ -568,7 +568,7 @@ describe("GET /openai/question - route handler", () => {
 				})
 			);
 
-			await app.request("/openai/question?q=First question about CosmosDB", { method: "GET" });
+			await app.request("/genai/question?q=First question about CosmosDB", { method: "GET" });
 
 			const sentMessages: Array<{ role: string; content: string }> =
 				mockCreateCompletions.mock.calls[0][0].messages;
@@ -604,7 +604,7 @@ describe("GET /openai/question - route handler", () => {
 				)
 			);
 
-			await app.request("/openai/question?q=Tell me about Synapse Link", { method: "GET" });
+			await app.request("/genai/question?q=Tell me about Synapse Link", { method: "GET" });
 
 			expect(mockEmbeddingsCreate).toHaveBeenCalledWith({
 				model: "test-embedding-deployment",
@@ -630,13 +630,13 @@ describe("GET /openai/question - route handler", () => {
 				buildTextCompletion("Well done! You answered correctly about TTL.")
 			);
 
-			await app.request("/openai/question?q=1)A", { method: "GET" });
+			await app.request("/genai/question?q=1)A", { method: "GET" });
 
 			// upsert called: 1 (save_user_progress) + 1 (saveChatTurn) = 2
 			expect(mockItems.upsert).toHaveBeenCalledTimes(2);
 
 			// Final upsert must include the assistant message
-			const lastUpsertArg = mockItems.upsert.mock.calls.at(-1)[0];
+			const lastUpsertArg = mockItems.upsert.mock.calls.at(-1)![0];
 			const messages: Array<{ role: string; content: string }> = lastUpsertArg.messages;
 			const lastMsg = messages.at(-1);
 			expect(lastMsg?.role).toBe("assistant");
@@ -664,7 +664,7 @@ describe("GET /openai/question - route handler", () => {
 
 			mockCreateCompletions.mockResolvedValueOnce(buildTextCompletion("Response 4"));
 
-			const res = await app.request("/openai/question?q=Message Q", { method: "GET" });
+			const res = await app.request("/genai/question?q=Message Q", { method: "GET" });
 			expect(res.status).toBe(200);
 
 			// 1. Check messages sent to OpenAI
@@ -685,7 +685,7 @@ describe("GET /openai/question - route handler", () => {
 			expect(sentMessages[6].content).toBe("Response 4");
 
 			// 2. Check messages saved to DB (should include the latest assistant response, but still fit the sliding window)
-			const lastUpsertArg = mockItems.upsert.mock.calls.at(-1)[0];
+			const lastUpsertArg = mockItems.upsert.mock.calls.at(-1)![0];
 			const savedMessages: Array<{ role: string; content: string }> = lastUpsertArg.messages;
 
 			expect(savedMessages).toHaveLength(5);
@@ -709,10 +709,10 @@ describe("GET /openai/question - route handler", () => {
 			// Round 2: LLM generates response
 			mockCreateCompletions.mockResolvedValueOnce(buildTextCompletion("Context incorporated."));
 
-			await app.request("/openai/question?q=Tell me about Cosmos DB", { method: "GET" });
+			await app.request("/genai/question?q=Tell me about Cosmos DB", { method: "GET" });
 
 			// Check DB save
-			const lastUpsertArg = mockItems.upsert.mock.calls.at(-1)[0];
+			const lastUpsertArg = mockItems.upsert.mock.calls.at(-1)![0];
 			const savedMessages: Array<{ role: string; content: string }> = lastUpsertArg.messages;
 
 			// The tool call and tool message should NOT be in the saved messages

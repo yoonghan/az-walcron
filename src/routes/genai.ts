@@ -3,20 +3,21 @@ import { openAiSpec } from "../openai";
 import { appConfig } from "../appconfig";
 import { dbRepo } from "../db";
 import { tutorTools } from "../openai-tools/tutorTools";
+import { logger } from "../logger";
 
-const openaiRoutes = new Hono();
+const genaiRoutes = new Hono();
 
-openaiRoutes.get("/", async (c) => {
+genaiRoutes.get("/", async (c) => {
 	return c.json(await openAiSpec.getSpec());
 });
 
-openaiRoutes.get("/config", async (c) => {
+genaiRoutes.get("/config", async (c) => {
 	const openAISpecSettings = await openAiSpec.getSpec();
 	const openAIConfig = await appConfig.getOpenAISetting();
 	return c.json({ config: openAIConfig, spec: openAISpecSettings });
 });
 
-openaiRoutes.get("/question", async (c) => {
+genaiRoutes.get("/question", async (c) => {
 
 	const config = await appConfig.getOpenAISetting();
 
@@ -28,31 +29,30 @@ openaiRoutes.get("/question", async (c) => {
 	chatMessage.messages = openAiSpec.formatChatHistory(chatMessage.messages);
 	chatMessage.messages.push({ role: "user", content: topic });
 
-	console.log("chatMessage", chatMessage)
+	logger.info({ event: "chatMessage", data: chatMessage });
 
 	let completionResponse = await openAiSpec.completion(
 		chatMessage.messages,
 		Number(config.temperature),
 		config.isQuestionFormatted,
-		tutorTools
+		{ tools: tutorTools, tool_choice: "required" }
 	);
 
 	let responseMessage = completionResponse.choices[0].message;
 
 	while (responseMessage.tool_calls) {
-		console.log("LLM requested tool execution!");
+		logger.info({ event: "toolCall", data: responseMessage.tool_calls });
 
 		chatMessage.messages.push(responseMessage);
 
 		for (const toolCall of responseMessage.tool_calls) {
-			console.log("Processing tool call: ", toolCall);
+			logger.info({ event: "processingToolCall", data: toolCall });
 			if (toolCall.type === "function") {
 				const functionName = toolCall.function.name
 				const args = JSON.parse(toolCall.function.arguments);
 				let toolResult: string = "";
 
 				if (functionName === "search_syllabus") {
-					console.log(`Executing Vector Search for: ${args.topic}`);
 					const queryEmbedding = (await openAiSpec.createEmbeddings(args.topic, 1536)).data[0].embedding
 
 					const retrievedContext = await dbRepo.queryVector(config.domain, queryEmbedding, 5)
@@ -60,8 +60,6 @@ openaiRoutes.get("/question", async (c) => {
 					toolResult = `${config.userPrompt}\n\nCONTEXT\n${retrievedContext}`
 				}
 				else if (functionName === "save_user_progress") {
-					console.log(`Executing Progress Save for: ${args.topic} - ${args.subtopic}`);
-					// Your custom function that point-writes to the UserData container
 					const saveStatus = await dbRepo.saveProgressToCosmos(args.topic, args.subtopic, args.score, new Date().toISOString());
 					toolResult = saveStatus;
 				}
@@ -82,12 +80,12 @@ openaiRoutes.get("/question", async (c) => {
 
 		}
 
-		console.log("Passing tool results back to LLM...", chatMessage.messages);
+		logger.info({ event: "toolResults", data: chatMessage.messages });
 		completionResponse = await openAiSpec.completion(
 			chatMessage.messages,
 			Number(config.temperature),
 			config.isQuestionFormatted,
-			tutorTools
+			{ tools: tutorTools, tool_choice: "auto" }
 		);
 
 		//important else there is infinite loop
@@ -122,4 +120,4 @@ openaiRoutes.get("/question", async (c) => {
 });
 
 
-export default openaiRoutes;
+export default genaiRoutes;

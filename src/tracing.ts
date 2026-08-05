@@ -6,6 +6,7 @@ import { UndiciInstrumentation } from "@opentelemetry/instrumentation-undici";
 import { resourceFromAttributes } from "@opentelemetry/resources";
 import { ATTR_SERVICE_NAME, ATTR_SERVICE_VERSION, ATTR_SERVICE_INSTANCE_ID } from '@opentelemetry/semantic-conventions';
 import { registerInstrumentations } from "@opentelemetry/instrumentation";
+import { logger } from "./logger"
 
 const resourceAttribute = resourceFromAttributes({
 	[ATTR_SERVICE_NAME]: process.env.OTEL_SERVICE_NAME || "az-walcron",
@@ -22,7 +23,7 @@ const sharedInstrumentations = [
 
 // 1. Initialize Azure Monitor (for production/cloud)
 if (process.env.APPLICATIONINSIGHTS_CONNECTION_STRING) {
-	console.log(`OTel: Application Insights connection string found. Initializing Azure Monitor with ${process.env.OTEL_SERVICE_NAME}.`);
+	logger.info(`OTel: Application Insights connection string found. Initializing Azure Monitor with ${process.env.OTEL_SERVICE_NAME}.`);
 	useAzureMonitor({
 		resource: resourceAttribute,
 		instrumentationOptions: {
@@ -49,16 +50,16 @@ if (process.env.APPLICATIONINSIGHTS_CONNECTION_STRING) {
 	// 3. Start the SDK
 	try {
 		sdk.start();
-		console.log("OTel: NodeSDK started. Logging to console enabled.");
+		logger.info("OTel: NodeSDK started. Logging to console enabled.");
 	} catch (error) {
-		console.error("Error starting OTel SDK", error);
+		logger.error(error, "Error starting OTel SDK");
 	}
 
 	// Graceful shutdown
 	process.on('SIGTERM', () => {
 		sdk.shutdown()
-			.then(() => console.log('Tracing terminated'))
-			.catch((error: unknown) => console.log('Error terminating tracing', error))
+			.then(() => logger.info('Tracing terminated'))
+			.catch((error: unknown) => logger.error(error, 'Error terminating tracing'))
 			.finally(() => process.exit(0));
 	});
 }
