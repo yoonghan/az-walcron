@@ -23,8 +23,7 @@ openaiRoutes.get("/question", async (c) => {
 	const topic = c.req.query("q");
 	if (!topic) return c.json({ error: "question is required" }, 400);
 
-	const userPrompt = `${config.userPrompt}`
-	const chatMessage = await dbRepo.getSavedChat(config.systemPrompt, userPrompt)
+	const chatMessage = await dbRepo.getSavedChat(config.systemPrompt, topic)
 
 	let completionResponse = await openAiSpec.completion(
 		chatMessage.messages,
