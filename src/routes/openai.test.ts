@@ -242,7 +242,7 @@ describe("GET /openai/question - route handler", () => {
 			mockCreateCompletions.mockResolvedValueOnce(buildTextCompletion(finalContent));
 
 			const res = await app.request(
-				"/openai/question?q=Answer: 1)C&pretty=1",
+				"/openai/question?q=Answer: 1)C",
 				{ method: "GET" }
 			);
 			expect(res.status).toBe(200);
@@ -293,7 +293,7 @@ describe("GET /openai/question - route handler", () => {
 			mockCreateCompletions.mockResolvedValueOnce(buildTextCompletion(finalContent));
 
 			const res = await app.request(
-				"/openai/question?q=Answer1)C and 2)B and 3)C and 4)B and 5)B and 6)B and 7)D and 8)B&pretty=1",
+				"/openai/question?q=Answer1)C and 2)B and 3)C and 4)B and 5)B and 6)B and 7)D and 8)B",
 				{ method: "GET" }
 			);
 			expect(res.status).toBe(200);
@@ -351,7 +351,7 @@ describe("GET /openai/question - route handler", () => {
 			mockCreateCompletions.mockResolvedValueOnce(buildTextCompletion(finalContent));
 
 			const res = await app.request(
-				"/openai/question?q=Prompt me with CosmosDB questions&pretty=1",
+				"/openai/question?q=Prompt me with CosmosDB questions",
 				{ method: "GET" }
 			);
 			expect(res.status).toBe(200);
@@ -408,7 +408,7 @@ describe("GET /openai/question - route handler", () => {
 			);
 
 			const res = await app.request(
-				"/openai/question?q=Answer: 1)C&pretty=1",
+				"/openai/question?q=Answer: 1)C",
 				{ method: "GET" }
 			);
 			expect(res.status).toBe(200);
@@ -492,7 +492,7 @@ describe("GET /openai/question - route handler", () => {
 			mockCreateCompletions.mockResolvedValueOnce(buildTextCompletion(followUpContent));
 
 			const res = await app.request(
-				"/openai/question?q=Another 4 questions on cosmosdb&pretty=1",
+				"/openai/question?q=Another 4 questions on cosmosdb",
 				{ method: "GET" }
 			);
 			expect(res.status).toBe(200);
