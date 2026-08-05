@@ -2,11 +2,11 @@ identity:
   type: SystemAssigned
 properties:
   configuration:
-    dapr:
-      enabled: true
-      appId: "az-walcron"
-      appPort: 3000
-      enableApiLogging: true
+    # dapr:
+    #   enabled: true
+    #   appId: "az-walcron"
+    #   appPort: 3000
+    #   enableApiLogging: true
     ingress:
       external: true
       allowInsecure: false
