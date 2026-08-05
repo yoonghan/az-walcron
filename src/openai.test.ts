@@ -208,5 +208,40 @@ describe("OpenApiSpec", () => {
                 { role: "assistant", content: "assistant 3" }
             ]);
         });
+        it("should explicitly remove assistant messages with tool_calls and null content", () => {
+            const spec = new OpenAiSpec();
+            const messages = [
+                { role: "system", content: "system" },
+                { role: "user", content: "user 1" },
+                {
+                    "annotations": [],
+                    "content": null,
+                    "refusal": null,
+                    "role": "assistant",
+                    "tool_calls": [
+                        {
+                            "function": {
+                                "arguments": "{\"topic\":\"CosmosDB Q1-4 (second set)\",\"score\":75}",
+                                "name": "save_user_progress"
+                            },
+                            "id": "call_0VJClpH2gLFW1FavayLECzqg",
+                            "type": "function"
+                        }
+                    ]
+                },
+                { role: "assistant", content: null }, // Null content without tool calls
+                { role: "user", content: "user 2" },
+                { role: "assistant", content: "assistant 2" }
+            ];
+            
+            const result = spec.formatChatHistory(messages as any);
+            
+            expect(result).toEqual([
+                { role: "system", content: "system" },
+                { role: "user", content: "user 1" },
+                { role: "user", content: "user 2" },
+                { role: "assistant", content: "assistant 2" }
+            ]);
+        });
     });
 });
