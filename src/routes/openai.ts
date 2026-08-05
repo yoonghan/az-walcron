@@ -71,8 +71,6 @@ openaiRoutes.get("/question", async (c) => {
 
 		}
 
-		console.log("messages", chatMessage.messages)
-
 		console.log("Passing tool results back to LLM...");
 		completionResponse = await openAiSpec.completion(
 			chatMessage.messages,
@@ -80,9 +78,12 @@ openaiRoutes.get("/question", async (c) => {
 			config.isQuestionFormatted,
 			tutorTools
 		);
+
+		//important else there is infinite loop
+		responseMessage = completionResponse.choices[0].message;
 	}
 
-	const messageContent = completionResponse.choices[0].message.content
+	const messageContent = responseMessage.content
 	chatMessage.messages.push({
 		role: "assistant",
 		content: messageContent
