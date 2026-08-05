@@ -130,7 +130,7 @@ export class DbRepo {
         }
     }
 
-    async getSavedChat(systemMessage: string, userPrompt: string) {
+    async getSavedChat(systemMessage: string) {
         let chatDocument;
         const { resource, statusCode } = await this.userDataContainer.item(this.sessionId, this.userId).read();
         chatDocument = resource;
@@ -149,8 +149,6 @@ export class DbRepo {
             };
         }
 
-        console.log("result", chatDocument);
-        chatDocument.messages.push({ role: "user", content: userPrompt });
         return chatDocument
     }
 }
