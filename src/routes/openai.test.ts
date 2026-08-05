@@ -66,7 +66,7 @@ vi.mock("@azure/app-configuration", () => ({
 // Mock: Azure Identity (Managed Identity – not needed in unit tests)
 // ---------------------------------------------------------------------------
 vi.mock("@azure/identity", () => ({
-	DefaultAzureCredential: class {}
+	DefaultAzureCredential: class { }
 }));
 
 // ---------------------------------------------------------------------------
@@ -273,7 +273,7 @@ describe("GET /openai/question - route handler", () => {
 			// Round 1: LLM asks to save progress for one topic
 			mockCreateCompletions.mockResolvedValueOnce(
 				buildToolCallCompletion([
-					{ id: "call_001", name: "save_user_progress", arguments: JSON.stringify({ topic: "CosmosDB Q1", score: 100 }) }
+					{ id: "call_001", name: "save_user_progress", arguments: JSON.stringify({ topic: "Cosmos DB", subtopic: "Change feed", score: 100 }) }
 				])
 			);
 
@@ -281,7 +281,7 @@ describe("GET /openai/question - route handler", () => {
 			const finalContent = JSON.stringify({
 				question: "Quiz feedback",
 				hint: "Review CosmosDB Q1.",
-				answer: "You scored 100 on CosmosDB Q1.",
+				answer: "You scored 100 on CosmosDB Change feed.",
 				explanation: "deviceId is the correct partition key."
 			});
 			mockCreateCompletions.mockResolvedValueOnce(buildTextCompletion(finalContent));
@@ -292,7 +292,7 @@ describe("GET /openai/question - route handler", () => {
 			);
 			expect(res.status).toBe(200);
 			const body = await res.json();
-			expect(body.result).toBe("You scored 100 on CosmosDB Q1.");
+			expect(body.result).toBe("You scored 100 on CosmosDB Change feed.");
 
 			// completion was called twice: initial + after tool result
 			expect(mockCreateCompletions).toHaveBeenCalledTimes(2);
@@ -303,7 +303,7 @@ describe("GET /openai/question - route handler", () => {
 				(m: { role: string }) => m.role === "tool"
 			);
 			expect(toolResultMessage).toBeDefined();
-			expect(toolResultMessage.content).toMatch(/Saved score 100 for topic CosmosDB Q1/);
+			expect(toolResultMessage.content).toMatch(/Saved score 100 for topic Cosmos DB and subtopic Change feed/);
 		});
 	});
 
@@ -317,14 +317,14 @@ describe("GET /openai/question - route handler", () => {
 
 			// Build 8 parallel tool calls matching the sample conversation
 			const parallelToolCalls = [
-				{ id: "call_001", name: "save_user_progress", arguments: JSON.stringify({ topic: "CosmosDB Q1", score: 100 }) },
-				{ id: "call_002", name: "save_user_progress", arguments: JSON.stringify({ topic: "CosmosDB Q2", score: 0 }) },
-				{ id: "call_003", name: "save_user_progress", arguments: JSON.stringify({ topic: "CosmosDB Q3", score: 0 }) },
-				{ id: "call_004", name: "save_user_progress", arguments: JSON.stringify({ topic: "CosmosDB Q4", score: 100 }) },
-				{ id: "call_005", name: "save_user_progress", arguments: JSON.stringify({ topic: "CosmosDB Q5", score: 100 }) },
-				{ id: "call_006", name: "save_user_progress", arguments: JSON.stringify({ topic: "CosmosDB Q6", score: 100 }) },
-				{ id: "call_007", name: "save_user_progress", arguments: JSON.stringify({ topic: "CosmosDB Q7", score: 100 }) },
-				{ id: "call_008", name: "save_user_progress", arguments: JSON.stringify({ topic: "CosmosDB Q8", score: 100 }) }
+				{ id: "call_001", name: "save_user_progress", arguments: JSON.stringify({ topic: "Cosmos DB", subtopic: "CosmosDB Q1", score: 100 }) },
+				{ id: "call_002", name: "save_user_progress", arguments: JSON.stringify({ topic: "Cosmos DB", subtopic: "CosmosDB Q2", score: 0 }) },
+				{ id: "call_003", name: "save_user_progress", arguments: JSON.stringify({ topic: "Cosmos DB", subtopic: "CosmosDB Q3", score: 0 }) },
+				{ id: "call_004", name: "save_user_progress", arguments: JSON.stringify({ topic: "Cosmos DB", subtopic: "CosmosDB Q4", score: 100 }) },
+				{ id: "call_005", name: "save_user_progress", arguments: JSON.stringify({ topic: "Cosmos DB", subtopic: "CosmosDB Q5", score: 100 }) },
+				{ id: "call_006", name: "save_user_progress", arguments: JSON.stringify({ topic: "Cosmos DB", subtopic: "CosmosDB Q6", score: 100 }) },
+				{ id: "call_007", name: "save_user_progress", arguments: JSON.stringify({ topic: "Cosmos DB", subtopic: "CosmosDB Q7", score: 100 }) },
+				{ id: "call_008", name: "save_user_progress", arguments: JSON.stringify({ topic: "Cosmos DB", subtopic: "CosmosDB Q8", score: 100 }) }
 			];
 
 			mockCreateCompletions.mockResolvedValueOnce(buildToolCallCompletion(parallelToolCalls));
@@ -436,7 +436,7 @@ describe("GET /openai/question - route handler", () => {
 			// Turn 2 tool call: save progress after user answers
 			mockCreateCompletions.mockResolvedValueOnce(
 				buildToolCallCompletion([
-					{ id: "call_sv1", name: "save_user_progress", arguments: JSON.stringify({ topic: "CosmosDB partitioning", score: 100 }) }
+					{ id: "call_sv1", name: "save_user_progress", arguments: JSON.stringify({ topic: "Cosmos DB", subtopic: "CosmosDB partitioning", score: 100 }) }
 				])
 			);
 
@@ -623,7 +623,7 @@ describe("GET /openai/question - route handler", () => {
 
 			mockCreateCompletions.mockResolvedValueOnce(
 				buildToolCallCompletion([
-					{ id: "call_p1", name: "save_user_progress", arguments: JSON.stringify({ topic: "CosmosDB TTL", score: 100 }) }
+					{ id: "call_p1", name: "save_user_progress", arguments: JSON.stringify({ topic: "Cosmos DB", subtopic: "CosmosDB TTL", score: 100 }) }
 				])
 			);
 			mockCreateCompletions.mockResolvedValueOnce(

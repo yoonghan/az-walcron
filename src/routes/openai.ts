@@ -57,9 +57,9 @@ openaiRoutes.get("/question", async (c) => {
 					toolResult = `${config.userPrompt}\n\nCONTEXT\n${retrievedContext}`
 				}
 				else if (functionName === "save_user_progress") {
-					console.log(`Executing Progress Save for: ${args.topic}`);
+					console.log(`Executing Progress Save for: ${args.topic} - ${args.subtopic}`);
 					// Your custom function that point-writes to the UserData container
-					const saveStatus = await dbRepo.saveProgressToCosmos(args.topic, args.score, new Date().toISOString());
+					const saveStatus = await dbRepo.saveProgressToCosmos(args.topic, args.subtopic, args.score, new Date().toISOString());
 					toolResult = saveStatus;
 				}
 
