@@ -101,6 +101,7 @@ openaiRoutes.get("/question", async (c) => {
 	if (c.req.query("pretty") !== undefined) {
 		if (messageContent !== null) {
 			try {
+				console.log("messageContent", messageContent)
 				const content = JSON.parse(messageContent);
 				return c.json({
 					ask: content["question"],
