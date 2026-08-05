@@ -5,7 +5,7 @@ export const tutorTools: ChatCompletionTool[] = [
         type: "function",
         function: {
             name: "search_syllabus",
-            description: "Call this to search the AI-200 exam syllabus when the user wants to learn a topic or needs a quiz generated.",
+            description: "REQUIRED: You MUST call this to search the AI-200 exam syllabus before generating any quiz questions or teaching a topic. Do not generate questions without calling this first.",
             parameters: {
                 type: "object",
                 properties: {
@@ -23,8 +23,8 @@ export const tutorTools: ChatCompletionTool[] = [
             parameters: {
                 type: "object",
                 properties: {
-                    topic: { 
-                        type: "string", 
+                    topic: {
+                        type: "string",
                         description: "The topic that was tested.",
                         enum: ["Containers", "Cosmos DB", "OpenAI SDK", "PostgreSQL", "Redis", "Events", "Azure Functions", "Security", "Monitor", "Blob Storage"]
                     },
