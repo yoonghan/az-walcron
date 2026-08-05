@@ -67,11 +67,16 @@ openaiRoutes.get("/question", async (c) => {
 					tool_call_id: toolCall.id,
 					content: toolResult
 				});
+			} else {
+				responseMessage = {
+					role: "assistant",
+					content: `Tool call ${toolCall.id} is invalid`,
+					refusal: "Unknown action"
+				};
+				break;
 			}
 
 		}
-
-		console.log("messages", chatMessage.messages)
 
 		console.log("Passing tool results back to LLM...");
 		completionResponse = await openAiSpec.completion(
@@ -80,9 +85,12 @@ openaiRoutes.get("/question", async (c) => {
 			config.isQuestionFormatted,
 			tutorTools
 		);
+
+		//important else there is infinite loop
+		responseMessage = completionResponse.choices[0].message;
 	}
 
-	const messageContent = completionResponse.choices[0].message.content
+	const messageContent = responseMessage.content
 	chatMessage.messages.push({
 		role: "assistant",
 		content: messageContent
@@ -92,13 +100,17 @@ openaiRoutes.get("/question", async (c) => {
 
 	if (c.req.query("pretty") !== undefined) {
 		if (messageContent !== null) {
-			const content = JSON.parse(messageContent);
-			return c.json({
-				ask: content["question"],
-				hint: content["hint"],
-				explanation: content["explanation"],
-				result: content["answer"]
-			});
+			try {
+				const content = JSON.parse(messageContent);
+				return c.json({
+					ask: content["question"],
+					hint: content["hint"],
+					explanation: content["explanation"],
+					result: content["answer"]
+				});
+			} catch (e: unknown) {
+				console.error("Failed to parse JSON: ", e);
+			}
 		}
 	}
 	return c.json(completionResponse);
