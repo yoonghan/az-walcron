@@ -63,6 +63,14 @@ export class OpenAiSpec {
         return embeddingResponse;
     }
 
+    formatChatHistory(messages: ChatCompletionMessageParam[]): ChatCompletionMessageParam[] {
+        const filtered = messages.filter((m: any) => m.role !== "tool" && !m.tool_calls);
+        if (filtered.length > 5) {
+            return [filtered[0], ...filtered.slice(-4)];
+        }
+        return filtered;
+    }
+
     async completion(messages: ChatCompletionMessageParam[], temperature: number, responseFormat?: string, tools?: ChatCompletionTool[]) {
         const formatted: { response_format: ResponseFormatJSONSchema } | {} = responseFormat === "true" ? {
             response_format: {

@@ -164,4 +164,49 @@ describe("OpenApiSpec", () => {
             expect(embeddings).toBeDefined();
         });
     });
+
+    describe("formatChatHistory", () => {
+        it("should return the original array if less than or equal to 5 elements without tool roles", () => {
+            const spec = new OpenAiSpec();
+            const messages = [
+                { role: "system", content: "system" },
+                { role: "user", content: "user 1" },
+                { role: "assistant", content: "assistant 1" }
+            ];
+            const result = spec.formatChatHistory(messages as any);
+            expect(result).toEqual(messages);
+        });
+
+        it("should handle only 1 message without out of index error", () => {
+            const spec = new OpenAiSpec();
+            const messages = [
+                { role: "system", content: "system" }
+            ];
+            const result = spec.formatChatHistory(messages as any);
+            expect(result).toEqual(messages);
+        });
+
+        it("should remove tools and tool_calls and retain max 4 messages plus system", () => {
+            const spec = new OpenAiSpec();
+            const messages = [
+                { role: "system", content: "system" },
+                { role: "user", content: "user 1" },
+                { role: "assistant", content: "assistant 1" },
+                { role: "user", content: "user 2" },
+                { role: "assistant", tool_calls: [{}] },
+                { role: "tool", content: "tool result" },
+                { role: "assistant", content: "assistant 2" },
+                { role: "user", content: "user 3" },
+                { role: "assistant", content: "assistant 3" }
+            ];
+            const result = spec.formatChatHistory(messages as any);
+            expect(result).toEqual([
+                { role: "system", content: "system" },
+                { role: "user", content: "user 2" },
+                { role: "assistant", content: "assistant 2" },
+                { role: "user", content: "user 3" },
+                { role: "assistant", content: "assistant 3" }
+            ]);
+        });
+    });
 });

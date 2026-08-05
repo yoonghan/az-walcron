@@ -1,5 +1,6 @@
 import { CosmosClient, Database, Container } from "@azure/cosmos"
 import { DefaultAzureCredential } from "@azure/identity";
+import { ChatCompletion, ChatCompletionMessageParam } from "openai/resources";
 
 export interface Item {
     id: string,
@@ -110,7 +111,7 @@ export class DbRepo {
         return results.map((r) => r.topic).join(", ");
     }
 
-    async saveChatTurn(messages: { role: string, content: string }[]) {
+    async saveChatTurn(messages: ChatCompletionMessageParam[]) {
         try {
             const { resource: updatedDoc, requestCharge } = await this.userDataContainer.items.upsert({
                 id: this.sessionId,

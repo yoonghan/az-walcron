@@ -643,4 +643,87 @@ describe("GET /openai/question - route handler", () => {
 			expect(lastMsg?.content).toBe("Well done! You answered correctly about TTL.");
 		});
 	});
+	// -------------------------------------------------------------------------
+	// 13. Sliding window and filtering of tool messages
+	// -------------------------------------------------------------------------
+	describe("Sliding window and filtering of tool messages", () => {
+		it("removes past tool messages and applies sliding window before calling OpenAI and saving to DB", async () => {
+			const existingMessages = [
+				{ role: "system", content: "You are an AI exam tutor." },
+				{ role: "user", content: "Message 1" },
+				{ role: "assistant", content: "Response 1" },
+				{ role: "user", content: "Message 2" },
+				{ role: "assistant", content: null, tool_calls: [{ id: "call_t1", type: "function", function: { name: "search_syllabus", arguments: "{}" } }] },
+				{ role: "tool", tool_call_id: "call_t1", content: "tool result 1" },
+				{ role: "assistant", content: "Response 2 with tool" },
+				{ role: "user", content: "Message 3" },
+				{ role: "assistant", content: "Response 3" }
+			];
+
+			mockExistingSession(existingMessages);
+
+			mockCreateCompletions.mockResolvedValueOnce(buildTextCompletion("Response 4"));
+
+			const res = await app.request("/openai/question?q=Message 4", { method: "GET" });
+			expect(res.status).toBe(200);
+
+			// 1. Check messages sent to OpenAI
+			// Note: The array reference passed to mockCreateCompletions is mutated later
+			// in the route when the assistant response is pushed, so it will contain 6 elements here.
+			const sentMessages: Array<{ role: string; content: string }> =
+				mockCreateCompletions.mock.calls[0][0].messages;
+
+			expect(sentMessages).toHaveLength(6);
+			expect(sentMessages[0].role).toBe("system");
+			expect(sentMessages[1].content).toBe("Response 2 with tool");
+			expect(sentMessages[2].content).toBe("Message 3");
+			expect(sentMessages[3].content).toBe("Response 3");
+			expect(sentMessages[4].content).toBe("Message 4");
+			expect(sentMessages[5].content).toBe("Response 4");
+
+			// 2. Check messages saved to DB (should include the latest assistant response, but still fit the sliding window)
+			const lastUpsertArg = mockItems.upsert.mock.calls.at(-1)[0];
+			const savedMessages: Array<{ role: string; content: string }> = lastUpsertArg.messages;
+
+			expect(savedMessages).toHaveLength(5);
+			expect(savedMessages[0].role).toBe("system");
+			expect(savedMessages[1].content).toBe("Message 3");
+			expect(savedMessages[2].content).toBe("Response 3");
+			expect(savedMessages[3].content).toBe("Message 4");
+			expect(savedMessages[4].content).toBe("Response 4");
+		});
+
+		it("does not persist tool calls generated in the current turn", async () => {
+			mockNewSession();
+
+			// Round 1: LLM requests syllabus search
+			mockCreateCompletions.mockResolvedValueOnce(
+				buildToolCallCompletion([
+					{ id: "call_srch_001", name: "search_syllabus", arguments: JSON.stringify({ topic: "Cosmos DB" }) }
+				])
+			);
+
+			// Round 2: LLM generates response
+			mockCreateCompletions.mockResolvedValueOnce(buildTextCompletion("Context incorporated."));
+
+			await app.request("/openai/question?q=Tell me about Cosmos DB", { method: "GET" });
+
+			// Check DB save
+			const lastUpsertArg = mockItems.upsert.mock.calls.at(-1)[0];
+			const savedMessages: Array<{ role: string; content: string }> = lastUpsertArg.messages;
+
+			// The tool call and tool message should NOT be in the saved messages
+			const toolMessage = savedMessages.find(m => m.role === "tool");
+			const toolCallMessage = savedMessages.find(m => (m as any).tool_calls !== undefined);
+
+			expect(toolMessage).toBeUndefined();
+			expect(toolCallMessage).toBeUndefined();
+
+			// Should only contain: system, user, assistant
+			expect(savedMessages).toHaveLength(3);
+			expect(savedMessages[0].role).toBe("system");
+			expect(savedMessages[1].content).toBe("Tell me about Cosmos DB");
+			expect(savedMessages[2].content).toBe("Context incorporated.");
+		});
+	});
 });

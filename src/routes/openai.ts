@@ -25,6 +25,8 @@ openaiRoutes.get("/question", async (c) => {
 
 	const chatMessage = await dbRepo.getSavedChat(config.systemPrompt, topic)
 
+	chatMessage.messages = openAiSpec.formatChatHistory(chatMessage.messages);
+
 	let completionResponse = await openAiSpec.completion(
 		chatMessage.messages,
 		Number(config.temperature),
@@ -95,7 +97,8 @@ openaiRoutes.get("/question", async (c) => {
 		content: messageContent
 	});
 
-	await dbRepo.saveChatTurn(chatMessage.messages)
+	const messagesToSave = openAiSpec.formatChatHistory(chatMessage.messages);
+	await dbRepo.saveChatTurn(messagesToSave)
 
 	if (c.req.query("pretty") !== undefined) {
 		if (messageContent !== null) {
