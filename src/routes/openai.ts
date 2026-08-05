@@ -39,7 +39,6 @@ openaiRoutes.get("/question", async (c) => {
 
 		chatMessage.messages.push(responseMessage);
 
-		//TODO: Requires testing
 		for (const toolCall of responseMessage.tool_calls) {
 			console.log("Processing tool call: ", toolCall);
 			if (toolCall.type === "function") {
