@@ -66,7 +66,7 @@ vi.mock("@azure/app-configuration", () => ({
 // Mock: Azure Identity (Managed Identity – not needed in unit tests)
 // ---------------------------------------------------------------------------
 vi.mock("@azure/identity", () => ({
-	DefaultAzureCredential: class { }
+	DefaultAzureCredential: class {}
 }));
 
 // ---------------------------------------------------------------------------
@@ -192,19 +192,19 @@ describe("GET /openai/question - route handler", () => {
 	});
 
 	// -------------------------------------------------------------------------
-	// 2. Happy-path: plain text response (no tool calls)
+	// 2. Happy-path: plain text response (no tool calls, no pretty flag)
 	// -------------------------------------------------------------------------
 	describe("Plain text completion (no tool calls)", () => {
-		it("returns raw completion JSON when no tool calls", async () => {
+		it("returns raw completion JSON when no tool calls and no ?pretty flag", async () => {
 			mockNewSession();
 			const completion = buildTextCompletion("Here is some study material about CosmosDB.");
 			mockCreateCompletions.mockResolvedValueOnce(completion);
 
 			const res = await app.request("/openai/question?q=Tell me about CosmosDB", { method: "GET" });
 			expect(res.status).toBe(200);
-			const body = await res.text();
+			const body = await res.json();
 			// Returns the raw completion response object
-			expect(body).toContain("Here is some study material about CosmosDB.");
+			expect(body.choices[0].message.content).toBe("Here is some study material about CosmosDB.");
 		});
 
 		it("saves the assistant reply back to CosmosDB chat turn", async () => {
@@ -219,7 +219,52 @@ describe("GET /openai/question - route handler", () => {
 	});
 
 	// -------------------------------------------------------------------------
-	// 3. Tool-call loop: save_user_progress (single call)
+	// 3. Happy-path: pretty=1 with JSON-formatted response
+	// -------------------------------------------------------------------------
+	describe("?pretty flag - formatted JSON response", () => {
+		const formattedPayload = {
+			question: "Which Cosmos DB consistency level guarantees linearizability?",
+			hint: "Only one level provides single-copy semantics.",
+			answer: "A. Strong",
+			explanation: "Strong consistency ensures clients always read the most recent committed write."
+		};
+
+		it("returns parsed question fields when ?pretty is present and content is valid JSON", async () => {
+			mockNewSession();
+			mockCreateCompletions.mockResolvedValueOnce(buildFormattedCompletion(formattedPayload));
+
+			const res = await app.request(
+				"/openai/question?q=What is strong consistency?&pretty=1",
+				{ method: "GET" }
+			);
+			expect(res.status).toBe(200);
+			const body = await res.json();
+			expect(body.ask).toBe(formattedPayload.question);
+			expect(body.hint).toBe(formattedPayload.hint);
+			expect(body.result).toBe(formattedPayload.answer);
+			expect(body.explanation).toBe(formattedPayload.explanation);
+		});
+
+		it("falls back to plain text when ?pretty is set but content is not valid JSON", async () => {
+			mockNewSession();
+			mockCreateCompletions.mockResolvedValueOnce(
+				buildTextCompletion("Not a JSON string - just plain text.")
+			);
+
+			const res = await app.request(
+				"/openai/question?q=Quick question&pretty",
+				{ method: "GET" }
+			);
+			expect(res.status).toBe(200);
+			// c.text() sets content-type to text/plain
+			expect(res.headers.get("content-type")).toMatch(/text\/plain/);
+			const body = await res.text();
+			expect(body).toBe("Not a JSON string - just plain text.");
+		});
+	});
+
+	// -------------------------------------------------------------------------
+	// 4. Tool-call loop: save_user_progress (single call)
 	// -------------------------------------------------------------------------
 	describe("Tool-call loop - save_user_progress (single)", () => {
 		it("executes save_user_progress tool, returns tool result to LLM, and yields final response", async () => {
@@ -246,8 +291,8 @@ describe("GET /openai/question - route handler", () => {
 				{ method: "GET" }
 			);
 			expect(res.status).toBe(200);
-			const body = await res.text();
-			expect(body).toContain("You scored 100 on CosmosDB Q1.");
+			const body = await res.json();
+			expect(body.result).toBe("You scored 100 on CosmosDB Q1.");
 
 			// completion was called twice: initial + after tool result
 			expect(mockCreateCompletions).toHaveBeenCalledTimes(2);
@@ -297,8 +342,8 @@ describe("GET /openai/question - route handler", () => {
 				{ method: "GET" }
 			);
 			expect(res.status).toBe(200);
-			const body = await res.text();
-			expect(body).toContain("You got 6 out of 8 correct.");
+			const body = await res.json();
+			expect(body.result).toBe("You got 6 out of 8 correct.");
 
 			// upsert called once per tool call (8 times) + once for final chat save = 9
 			expect(mockItems.upsert).toHaveBeenCalledTimes(8 + 1);
@@ -355,9 +400,9 @@ describe("GET /openai/question - route handler", () => {
 				{ method: "GET" }
 			);
 			expect(res.status).toBe(200);
-			const body = await res.text();
+			const body = await res.json();
 			// The final LLM response question field contains "Change Feed" topic
-			expect(body).toContain("ordered stream of changes");
+			expect(body.ask).toContain("ordered stream of changes");
 
 			// Embeddings must have been called to create the query vector
 			expect(mockEmbeddingsCreate).toHaveBeenCalledOnce();
@@ -496,8 +541,8 @@ describe("GET /openai/question - route handler", () => {
 				{ method: "GET" }
 			);
 			expect(res.status).toBe(200);
-			const body = await res.text();
-			expect(body).toContain("Another 4 questions on CosmosDB");
+			const body = await res.json();
+			expect(body.ask).toBe("Another 4 questions on CosmosDB");
 
 			// The messages sent to LLM must include the full existing history
 			const sentMessages: Array<{ role: string }> =

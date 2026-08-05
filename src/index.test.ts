@@ -154,8 +154,17 @@ describe("API Routes", () => {
 				method: "GET"
 			});
 			expect(res.status).toBe(200);
-			const text = await res.text();
-			expect(text).toContain('</pre>');
+			const json = await res.json();
+			expect(json).toEqual({ choices: [{ message: { content: "{\"question\":\"You must deploy a deep-learning inference container that requires NVIDIA GPUs, must serve low-latency real-time requests at production scale, pull private images securely, and automatically scale both pods and nodes as demand changes. Which deployment architecture is the best choice?\\n\\nA) Deploy the container to Azure Container Instances (ACI) using images from Docker Hub, fronted by Azure Traffic Manager.\\n\\nB) Deploy to Azure Kubernetes Service (AKS) with a GPU-enabled node pool, store images in Azure Container Registry (ACR) with managed identity access, configure a Horizontal Pod Autoscaler and Cluster Autoscaler, and expose via an NGINX ingress controller and Azure Load Balancer.\\n\\nC) Deploy to AKS on CPU node pools, deploy multiple replicas, and use Azure App Service for Containers to balance traffic.\\n\\nD) Deploy to ACI for simplicity and use Azure Front Door for global traffic distribution.\",\"hint\":\"Choose a production-grade, GPU-capable, container-orchestrated solution that supports secure private registries and both pod and node autoscaling.\",\"answer\":\"B\",\"explanation\":\"AKS with a GPU-enabled node pool is the appropriate production-grade orchestrator for GPU inference and low-latency workloads. Storing images in ACR with managed identity lets AKS pull images securely. Horizontal Pod Autoscaler handles pod-level scaling, Cluster Autoscaler adjusts node count for GPU capacity, and an ingress controller + Azure Load Balancer provides stable, low-latency external access. ACI is simpler but not ideal for production-scale GPU orchestration and fine-grained autoscaling.\"}" } }] });
+		});
+
+		it("should return question completion prettier", async () => {
+			const res = await app.request("/openai/question?q=what is azure machine learning?&pretty=1", {
+				method: "GET"
+			});
+			expect(res.status).toBe(200);
+			const json = await res.json();
+			expect(json.result).toBe("B");
 		});
 	});
 });
