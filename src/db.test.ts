@@ -259,16 +259,12 @@ describe('DbRepo', () => {
             }
         })
 
-        const result = await repo.getSavedChat("Exam tutor", "I do not know.");
+        const result = await repo.getSavedChat("Exam tutor");
 
         expect(result).toEqual({
             id: "session-default-001",
             messages: [
-                ...messageResult.messages,
-                {
-                    content: "I do not know.",
-                    role: "user",
-                },
+                ...messageResult.messages
             ],
             type: "chat",
             userId: "dev-user-001",
@@ -281,18 +277,14 @@ describe('DbRepo', () => {
         })
 
 
-        const result = await repo.getSavedChat("Exam tutor", "I do not know.");
+        const result = await repo.getSavedChat("Exam tutor");
         expect(result).toEqual({
             id: "session-default-001",
             messages: [
                 {
                     content: "Exam tutor",
                     role: "system"
-                },
-                {
-                    content: "I do not know.",
-                    role: "user",
-                },
+                }
             ],
             type: "chat",
             userId: "dev-user-001",
