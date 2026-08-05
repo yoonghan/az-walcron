@@ -73,14 +73,14 @@ export class OpenAiSpec {
             if (m.role === "assistant" && !m.content) return false;
             return true;
         });
-        
+
         if (filtered.length > 5) {
             return [filtered[0], ...filtered.slice(-4)];
         }
         return filtered;
     }
 
-    async completion(messages: ChatCompletionMessageParam[], temperature: number, responseFormat?: string, tools?: ChatCompletionTool[]) {
+    async completion(messages: ChatCompletionMessageParam[], temperature: number, responseFormat?: string, tools?: { tools: ChatCompletionTool[], tool_choice: "required" | "auto" }) {
         const formatted: { response_format: ResponseFormatJSONSchema } | {} = responseFormat === "true" ? {
             response_format: {
                 type: "json_schema",
@@ -114,7 +114,7 @@ export class OpenAiSpec {
             }
         } : {}
 
-        const formattedTools: ({ tools: ChatCompletionTool[], tool_choice: "auto" } | {}) = tools ? { tools: tools, tool_choice: "auto" } : {}
+        const formattedTools = tools || {}
 
         return await this.client.chat.completions.create({
             model: this.deployment,

@@ -34,7 +34,7 @@ openaiRoutes.get("/question", async (c) => {
 		chatMessage.messages,
 		Number(config.temperature),
 		config.isQuestionFormatted,
-		tutorTools
+		{ tools: tutorTools, tool_choice: "required" }
 	);
 
 	let responseMessage = completionResponse.choices[0].message;
@@ -87,7 +87,7 @@ openaiRoutes.get("/question", async (c) => {
 			chatMessage.messages,
 			Number(config.temperature),
 			config.isQuestionFormatted,
-			tutorTools
+			{ tools: tutorTools, tool_choice: "auto" }
 		);
 
 		//important else there is infinite loop

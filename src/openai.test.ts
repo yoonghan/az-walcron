@@ -39,6 +39,7 @@ vi.mock("openai", () => {
 });
 
 import { OpenAiSpec } from "./openai";
+import { ChatCompletionTool } from "openai/resources";
 
 describe("OpenApiSpec", () => {
     beforeEach(() => {
@@ -120,7 +121,7 @@ describe("OpenApiSpec", () => {
         });
 
         it("should call can trigger with tools", async () => {
-            const tool = [
+            const tools: ChatCompletionTool[] = [
                 {
                     type: "function",
                     function: {
@@ -139,20 +140,20 @@ describe("OpenApiSpec", () => {
             const spec = new OpenAiSpec();
             const stream = await spec.completion([
                 { role: "user", content: "message" }
-            ], 0.5, undefined, tool) as unknown as any[];
+            ], 0.5, undefined, { tools, tool_choice: "auto" }) as unknown as any[];
             expect(stream).toBeDefined();
             expect(stream[0].choices[0].delta.content).toEqual("test");
             expect(mockCreateCompletions).toHaveBeenCalledWith({
-                "messages": [
+                messages: [
                     {
                         "content": "message",
                         "role": "user",
                     },
                 ],
-                "model": "test-deployment",
-                "temperature": 0.5,
-                "tool_choice": "auto",
-                "tools": tool,
+                model: "test-deployment",
+                temperature: 0.5,
+                tool_choice: "auto",
+                tools,
             },);
         });
     });
@@ -233,9 +234,9 @@ describe("OpenApiSpec", () => {
                 { role: "user", content: "user 2" },
                 { role: "assistant", content: "assistant 2" }
             ];
-            
+
             const result = spec.formatChatHistory(messages as any);
-            
+
             expect(result).toEqual([
                 { role: "system", content: "system" },
                 { role: "user", content: "user 1" },
