@@ -27,6 +27,8 @@ openaiRoutes.get("/question", async (c) => {
 
 	chatMessage.messages = openAiSpec.formatChatHistory(chatMessage.messages);
 
+	console.log("user question: ", topic)
+
 	let completionResponse = await openAiSpec.completion(
 		chatMessage.messages,
 		Number(config.temperature),
@@ -79,7 +81,7 @@ openaiRoutes.get("/question", async (c) => {
 
 		}
 
-		console.log("Passing tool results back to LLM...");
+		console.log("Passing tool results back to LLM...", chatMessage.messages);
 		completionResponse = await openAiSpec.completion(
 			chatMessage.messages,
 			Number(config.temperature),
