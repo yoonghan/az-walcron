@@ -28,7 +28,7 @@ openaiRoutes.get("/question", async (c) => {
 	let completionResponse = await openAiSpec.completion(
 		chatMessage.messages,
 		Number(config.temperature),
-		"false",
+		config.isQuestionFormatted,
 		tutorTools
 	);
 
@@ -101,7 +101,6 @@ openaiRoutes.get("/question", async (c) => {
 	if (c.req.query("pretty") !== undefined) {
 		if (messageContent !== null) {
 			try {
-				console.log("messageContent", messageContent)
 				const content = JSON.parse(messageContent);
 				return c.json({
 					ask: content["question"],
@@ -110,7 +109,7 @@ openaiRoutes.get("/question", async (c) => {
 					result: content["answer"]
 				});
 			} catch (e: unknown) {
-				console.error("Failed to parse JSON: ", e);
+				return c.text(messageContent)
 			}
 		}
 	}
