@@ -1,43 +1,35 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
-const { mockedConfiguration } = vi.hoisted(() => {
-    process.env.AZURE_APPCONFIG_ENDPOINT = "test-connectionstring";
-
-    const mockedConfiguration = vi.fn().mockImplementation(async ({ key }: { key: string }) => {
-        let value = "";
-        switch (key) {
-            case "openai:systemPrompt":
-                value = "openai-systemPrompt";
-                break;
-            case "openai:userPrompt":
-                value = "openai-userPrompt";
-                break;
-            case "openai:temperature":
-                value = "openai-temperature";
-                break;
-            case "openai:isQuestionFormatted":
-                value = "true";
-                break;
-            case "openai:domain":
-                value = "openai-domain";
-                break;
-        }
+const { mockLoad } = vi.hoisted(() => {
+    const mockLoad = vi.fn().mockImplementation(async () => {
         return {
-            value
-        }
+            get: (key: string) => {
+                switch (key) {
+                    case "openai:systemPrompt":
+                        return "openai-systemPrompt";
+                    case "openai:userPrompt":
+                        return "openai-userPrompt";
+                    case "openai:temperature":
+                        return "openai-temperature";
+                    case "openai:isQuestionFormatted":
+                        return "true";
+                    case "openai:domain":
+                        return "openai-domain";
+                    default:
+                        return "";
+                }
+            },
+            refresh: vi.fn()
+        };
     });
 
-    return { mockedConfiguration }
+    return { mockLoad };
 });
 
-vi.mock("@azure/app-configuration", () => {
+vi.mock("@azure/app-configuration-provider", () => {
     return {
-        AppConfigurationClient: class {
-            constructor() {
-            }
-            getConfigurationSetting = mockedConfiguration;
-        }
-    }
+        load: mockLoad
+    };
 });
 
 import { AppConfig } from "./appconfig";
@@ -45,12 +37,13 @@ import { AppConfig } from "./appconfig";
 describe("AppConfig", () => {
     beforeEach(() => {
         vi.clearAllMocks();
+        process.env.AZURE_APPCONFIG_ENDPOINT = "test-connectionstring";
     });
 
     describe("Initialization", () => {
-        it("should initialize successfully", () => {
-            const config = new AppConfig();
-            expect(config).toBeDefined();
+        it("should fail to initialize when endpoint is missing", async () => {
+            delete process.env.AZURE_APPCONFIG_ENDPOINT;
+            await expect(new AppConfig().getOpenAISetting()).rejects.toThrow("Missing Azure App Configuration connection string or endpoint");
         });
     });
 
@@ -72,7 +65,18 @@ describe("AppConfig", () => {
                 await appConfig.getOpenAISetting();
             }
 
-            expect(mockedConfiguration).toHaveBeenCalledTimes(5);
+            expect(mockLoad).toHaveBeenCalledTimes(1);
+        });
+
+        it("it should be not be able to refresh when calling refresh the first time", async () => {
+            const appConfig = new AppConfig();
+            expect(await appConfig.refresh()).toBeFalsy();
+        });
+
+        it("it should be able to refresh when calling refresh the second time", async () => {
+            const appConfig = new AppConfig();
+            await appConfig.getOpenAISetting()
+            expect(await appConfig.refresh()).toBeTruthy();
         });
     });
 });

@@ -43,15 +43,12 @@ vi.mock("openai", () => {
 	}
 });
 
-vi.mock("@azure/app-configuration", () => {
+vi.mock("@azure/app-configuration-provider", () => {
 	return {
-		AppConfigurationClient: class {
-			constructor() {
-			}
-			getConfigurationSetting = vi.fn().mockImplementation(async ({ key }: { key: string }) => {
-				return { key, value: "test" }
-			});
-		}
+		load: vi.fn().mockImplementation(async () => ({
+			get: (key: string) => "test",
+			refresh: vi.fn().mockResolvedValue(undefined)
+		}))
 	}
 });
 

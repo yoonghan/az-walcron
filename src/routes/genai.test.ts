@@ -47,19 +47,22 @@ vi.mock("openai", () => ({
 // ---------------------------------------------------------------------------
 // Mock: Azure App Configuration
 // ---------------------------------------------------------------------------
-vi.mock("@azure/app-configuration", () => ({
-	AppConfigurationClient: class {
-		getConfigurationSetting = vi.fn().mockImplementation(async ({ key }: { key: string }) => {
-			const values: Record<string, string> = {
-				"openai:systemPrompt": "You are an expert AI exam tutor.",
-				"openai:userPrompt": "Answer the following question to the best of your ability.",
-				"openai:temperature": "0.7",
-				"openai:isQuestionFormatted": "true",
-				"openai:domain": "AI-200"
-			};
-			return { key, value: values[key] ?? "test" };
-		});
-	}
+vi.mock("@azure/app-configuration-provider", () => ({
+	load: vi.fn().mockImplementation(async () => {
+		return {
+			get: (key: string) => {
+				const values: Record<string, string> = {
+					"openai:systemPrompt": "You are an expert AI exam tutor.",
+					"openai:userPrompt": "Answer the following question to the best of your ability.",
+					"openai:temperature": "0.7",
+					"openai:isQuestionFormatted": "true",
+					"openai:domain": "AI-200"
+				};
+				return values[key] ?? "test";
+			},
+			refresh: vi.fn()
+		};
+	})
 }));
 
 // ---------------------------------------------------------------------------
