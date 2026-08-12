@@ -34,6 +34,7 @@ az cosmosdb sql container create \
   --throughput 500 \
   --idx '{"indexingMode": "consistent", "automatic": true, "includedPaths": [{"path": "/*"}], "excludedPaths": [{ "path": "/contentVector/*"}],"vectorIndexes": [{"path": "/contentVector","type": "diskANN"}]}' \
   --vector-embeddings '{"vectorEmbeddings": [{"path": "/contentVector", "dataType": "float32", "dimensions": 1536, "distanceFunction": "cosine" }]}'
+## SHOULD USE dotproduct not cosine!
 
 echo "Creating Container: $CONTAINER_USER_DATA with partition key /userId..."
 az cosmosdb sql container create \

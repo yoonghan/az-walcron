@@ -43,15 +43,12 @@ vi.mock("openai", () => {
 	}
 });
 
-vi.mock("@azure/app-configuration", () => {
+vi.mock("@azure/app-configuration-provider", () => {
 	return {
-		AppConfigurationClient: class {
-			constructor() {
-			}
-			getConfigurationSetting = vi.fn().mockImplementation(async ({ key }: { key: string }) => {
-				return { key, value: "test" }
-			});
-		}
+		load: vi.fn().mockImplementation(async () => ({
+			get: (key: string) => "test",
+			refresh: vi.fn().mockResolvedValue(undefined)
+		}))
 	}
 });
 
@@ -106,6 +103,22 @@ describe("API Routes", () => {
 			const res = await app.request("/");
 			expect(res.status).toBe(200);
 			expect(res.headers.get("content-type")).toContain("text/html");
+		});
+	});
+
+	describe("GET /admin/config", () => {
+		it("should return config api spec", async () => {
+			const res = await app.request("/admin/config");
+			expect(res.status).toBe(200);
+			const json = await res.json()
+			expect(json.config.systemPrompt).toEqual("test");
+		});
+
+		it("should return config api spec", async () => {
+			const res = await app.request("/admin/config/refresh");
+			expect(res.status).toBe(200);
+			const json = await res.json()
+			expect(json.refresh).toEqual(true);
 		});
 	});
 
