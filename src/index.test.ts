@@ -109,6 +109,22 @@ describe("API Routes", () => {
 		});
 	});
 
+	describe("GET /admin/config", () => {
+		it("should return config api spec", async () => {
+			const res = await app.request("/admin/config");
+			expect(res.status).toBe(200);
+			const json = await res.json()
+			expect(json.config.systemPrompt).toEqual("test");
+		});
+
+		it("should return config api spec", async () => {
+			const res = await app.request("/admin/config/refresh");
+			expect(res.status).toBe(200);
+			const json = await res.json()
+			expect(json.refresh).toEqual(true);
+		});
+	});
+
 	describe("GET /genai", () => {
 		it("should return openai api spec", async () => {
 			const res = await app.request("/genai");

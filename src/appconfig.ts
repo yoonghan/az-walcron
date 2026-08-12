@@ -30,6 +30,10 @@ export class AppConfig {
         this.domainSettings = await this.client.getConfigurationSetting({ key: "openai:domain" });
     }
 
+    async refresh() {
+        return true
+    }
+
     async getOpenAISetting() {
         if (!this.systemPromptSetting || !this.userPromptSetting || !this.temperatureSetting || !this.isQuestionFormattedSetting || !this.domainSettings) {
             await this.initialize();
