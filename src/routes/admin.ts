@@ -19,8 +19,25 @@ adminRoutes.get("/admin/config", async (c) => {
 });
 
 
-adminRoutes.get("/admin/config/refresh", async (c) => {
-	return c.json({ refresh: await appConfig.refresh() });
-});
+async function handleConfigRefresh(c: any) {
+	if (c.req.method === "POST") {
+		try {
+			const body = await c.req.json();
+			// Event Grid Subscription Validation Handshake
+			if (Array.isArray(body) && body[0]?.eventType === "Microsoft.EventGrid.SubscriptionValidationEvent") {
+				const validationCode = body[0]?.data?.validationCode;
+				return c.json({ validationResponse: validationCode });
+			}
+		} catch {
+			// Ignore JSON parsing errors for empty POST bodies
+		}
+	}
+
+	const refreshed = await appConfig.refresh();
+	return c.json({ refresh: refreshed });
+}
+
+adminRoutes.get("/admin/config/refresh", handleConfigRefresh);
+adminRoutes.post("/admin/config/refresh", handleConfigRefresh);
 
 export default adminRoutes;

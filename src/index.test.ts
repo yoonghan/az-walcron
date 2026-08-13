@@ -114,10 +114,40 @@ describe("API Routes", () => {
 			expect(json.config.systemPrompt).toEqual("test");
 		});
 
-		it("should return config api spec", async () => {
+		it("should return config refresh status for GET", async () => {
 			const res = await app.request("/admin/config/refresh");
 			expect(res.status).toBe(200);
 			const json = await res.json()
+			expect(json.refresh).toEqual(true);
+		});
+
+		it("should handle Event Grid subscription validation handshake on POST", async () => {
+			const res = await app.request("/admin/config/refresh", {
+				method: "POST",
+				headers: { "content-type": "application/json" },
+				body: JSON.stringify([{
+					id: "test-id",
+					eventType: "Microsoft.EventGrid.SubscriptionValidationEvent",
+					data: { validationCode: "test-code-123" }
+				}])
+			});
+			expect(res.status).toBe(200);
+			const json = await res.json();
+			expect(json).toEqual({ validationResponse: "test-code-123" });
+		});
+
+		it("should trigger refresh on POST for Event Grid notification", async () => {
+			const res = await app.request("/admin/config/refresh", {
+				method: "POST",
+				headers: { "content-type": "application/json" },
+				body: JSON.stringify([{
+					id: "test-id",
+					eventType: "Microsoft.AppConfiguration.KeyValueModified",
+					data: { key: "Sentinel" }
+				}])
+			});
+			expect(res.status).toBe(200);
+			const json = await res.json();
 			expect(json.refresh).toEqual(true);
 		});
 	});
