@@ -15,6 +15,7 @@ export class AppConfig {
         this.settings = await load(endpoint, new DefaultAzureCredential(), {
             selectors: [
                 { keyFilter: "openai*", labelFilter: undefined },
+                { keyFilter: "Sentinel", labelFilter: undefined },
             ],
             refreshOptions: {
                 enabled: true,
