@@ -57,7 +57,7 @@ az appconfig kv set \
 
 az appconfig kv set \
   --name walcronconfig \
-  --key Sentinal \
+  --key Sentinel \
   --value "v1" \
   --yes
 
