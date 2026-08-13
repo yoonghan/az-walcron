@@ -40,7 +40,7 @@
     "@opentelemetry/resources": "^2.7.1",
     "@opentelemetry/sdk-trace-base": "^2.10.0",
     "dotenv": "^17.4.2",
-    "hono": "^4.12.32",
+    "hono": "^4.13.1",
     "openai": "^7.3.0",
     "pdf-parse": "^2.4.5",
     "pino": "^10.3.1",
