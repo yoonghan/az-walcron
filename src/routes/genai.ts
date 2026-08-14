@@ -40,7 +40,7 @@ genaiRoutes.get("/question", async (c) => {
 
 	let responseMessage = completionResponse.choices[0].message;
 
-	while (responseMessage.tool_calls) {
+	for (let i = 0; i < 10 && responseMessage.tool_calls; i++) {
 		logger.info({ event: "toolCall", data: responseMessage.tool_calls });
 
 		chatMessage.messages.push(responseMessage);

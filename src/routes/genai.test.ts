@@ -517,6 +517,36 @@ describe("GET /genai/question - route handler", () => {
 	});
 
 	// -------------------------------------------------------------------------
+	// 8b. Tool-call loop: max 10 iterations limit
+	// -------------------------------------------------------------------------
+	describe("Tool-call loop - max 10 iterations limit", () => {
+		it("limits tool call executions to maximum 10 iterations", async () => {
+			mockNewSession();
+
+			mockItems.query.mockReturnValue({
+				fetchAll: vi.fn().mockResolvedValue({
+					resources: [{ content: "Some context" }]
+				})
+			});
+
+			mockCreateCompletions.mockResolvedValue(
+				buildToolCallCompletion([
+					{ id: "call_infinite", name: "search_syllabus", arguments: JSON.stringify({ topic: "Loop" }) }
+				])
+			);
+
+			const res = await app.request(
+				"/genai/question?q=Infinite loop test",
+				{ method: "GET" }
+			);
+			expect(res.status).toBe(200);
+
+			// Initial call + 10 loop iterations = 11 completion calls max
+			expect(mockCreateCompletions).toHaveBeenCalledTimes(11);
+		});
+	});
+
+	// -------------------------------------------------------------------------
 	// 9. Multi-turn conversation: existing chat history is preserved
 	// -------------------------------------------------------------------------
 	describe("Multi-turn conversation continuity", () => {
