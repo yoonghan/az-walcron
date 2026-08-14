@@ -105,17 +105,25 @@ genaiRoutes.get("/question", async (c) => {
 		if (messageContent !== null) {
 			try {
 				const content = JSON.parse(messageContent);
-				return c.json({
-					ask: content["question"],
-					hint: content["hint"],
-					explanation: content["explanation"],
-					result: content["answer"]
-				});
+				const markdown = [
+					`### QUESTION`,
+					content["question"],
+					``,
+					`**ANSWER:** ${content["answer"]}`,
+					``,
+					`**HINT:** ${content["hint"]}`,
+					``,
+					`**EXPLANATION:**`,
+					content["explanation"]
+				].join("\n");
+
+				return c.text(markdown, 200, { "Content-Type": "text/plain; charset=utf-8" });
 			} catch (e: unknown) {
-				return c.text(messageContent)
+				return c.text(messageContent);
 			}
 		}
 	}
+
 	return c.json(completionResponse);
 });
 
