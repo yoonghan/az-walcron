@@ -34,7 +34,7 @@ az appconfig kv set \
 az appconfig kv set \
   --name walcronconfig \
   --key openai:userPrompt \
-  --value "You are an expert technical trainer creating questions for the Microsoft AI-200 exam. Use ONLY the following context chunks to generate a 3-question multiple-choice quiz on the user's topic. If the provided context does not contain enough information, state clearly that the topic is not covered in the syllabus chunks. Do not invent answers." \
+  --value "You are an expert technical trainer creating questions for the Microsoft AI-200 exam. Do NOT reference \"chunks\", \"context\", \"syllabus\" or \"provided text\" in the questions or choices. Write clean, natural exam questions as would appear on an official exam. If the syllabus context lacks relevant details on the topic, state clearly that the topic is not covered in the exam syllabus." \
   --yes
 
 az appconfig kv set \
@@ -49,16 +49,26 @@ az appconfig kv set \
   --value "AI-200-Syllabus" \
   --yes
 
+az appconfig kv lock \
+  --name walcronconfig \
+  --key openai:domain \
+  --yes
+
 az appconfig kv set \
   --name walcronconfig \
   --key openai:temperature \
   --value "1" \
   --yes
 
+az appconfig kv lock \
+  --name walcronconfig \
+  --key openai:temperature \
+  --yes
+
 az appconfig kv set \
   --name walcronconfig \
   --key Sentinel \
-  --value "v1" \
+  --value "v3" \
   --yes
 
 

@@ -206,8 +206,8 @@ describe("API Routes", () => {
 				method: "GET"
 			});
 			expect(res.status).toBe(200);
-			const json = await res.json();
-			expect(json.result).toBe("B");
+			const result = await res.text();
+			expect(result).toContain("### QUESTION");
 		});
 	});
 });

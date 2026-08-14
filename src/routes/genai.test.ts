@@ -241,11 +241,13 @@ describe("GET /genai/question - route handler", () => {
 				{ method: "GET" }
 			);
 			expect(res.status).toBe(200);
-			const body = await res.json();
-			expect(body.ask).toBe(formattedPayload.question);
-			expect(body.hint).toBe(formattedPayload.hint);
-			expect(body.result).toBe(formattedPayload.answer);
-			expect(body.explanation).toBe(formattedPayload.explanation);
+			const body = await res.text();
+
+			expect(body).toContain("### QUESTION");
+			expect(body).toContain("**ANSWER");
+			expect(body).toContain("**HINT");
+			expect(body).toContain("**EXPLANATION");
+			expect(body).toBe(`### QUESTION\n${formattedPayload.question}\n\n**ANSWER:** ${formattedPayload.answer}\n\n**HINT:** ${formattedPayload.hint}\n\n**EXPLANATION:**\n${formattedPayload.explanation}`);
 		});
 
 		it("falls back to plain text when ?pretty is set but content is not valid JSON", async () => {
@@ -294,8 +296,8 @@ describe("GET /genai/question - route handler", () => {
 				{ method: "GET" }
 			);
 			expect(res.status).toBe(200);
-			const body = await res.json();
-			expect(body.result).toBe("You scored 100 on CosmosDB Change feed.");
+			const body = await res.text();
+			expect(body).toContain("You scored 100 on CosmosDB Change feed.");
 
 			// completion was called twice: initial + after tool result
 			expect(mockCreateCompletions).toHaveBeenCalledTimes(2);
@@ -345,8 +347,8 @@ describe("GET /genai/question - route handler", () => {
 				{ method: "GET" }
 			);
 			expect(res.status).toBe(200);
-			const body = await res.json();
-			expect(body.result).toBe("You got 6 out of 8 correct.");
+			const body = await res.text();
+			expect(body).toContain("You got 6 out of 8 correct.");
 
 			// upsert called once per tool call (8 times) + once for final chat save = 9
 			expect(mockItems.upsert).toHaveBeenCalledTimes(8 + 1);
@@ -403,9 +405,9 @@ describe("GET /genai/question - route handler", () => {
 				{ method: "GET" }
 			);
 			expect(res.status).toBe(200);
-			const body = await res.json();
+			const body = await res.text();
 			// The final LLM response question field contains "Change Feed" topic
-			expect(body.ask).toContain("ordered stream of changes");
+			expect(body).toContain("ordered stream of changes");
 
 			// Embeddings must have been called to create the query vector
 			expect(mockEmbeddingsCreate).toHaveBeenCalledOnce();
@@ -515,6 +517,36 @@ describe("GET /genai/question - route handler", () => {
 	});
 
 	// -------------------------------------------------------------------------
+	// 8b. Tool-call loop: max 10 iterations limit
+	// -------------------------------------------------------------------------
+	describe("Tool-call loop - max 10 iterations limit", () => {
+		it("limits tool call executions to maximum 10 iterations", async () => {
+			mockNewSession();
+
+			mockItems.query.mockReturnValue({
+				fetchAll: vi.fn().mockResolvedValue({
+					resources: [{ content: "Some context" }]
+				})
+			});
+
+			mockCreateCompletions.mockResolvedValue(
+				buildToolCallCompletion([
+					{ id: "call_infinite", name: "search_syllabus", arguments: JSON.stringify({ topic: "Loop" }) }
+				])
+			);
+
+			const res = await app.request(
+				"/genai/question?q=Infinite loop test",
+				{ method: "GET" }
+			);
+			expect(res.status).toBe(200);
+
+			// Initial call + 10 loop iterations = 11 completion calls max
+			expect(mockCreateCompletions).toHaveBeenCalledTimes(11);
+		});
+	});
+
+	// -------------------------------------------------------------------------
 	// 9. Multi-turn conversation: existing chat history is preserved
 	// -------------------------------------------------------------------------
 	describe("Multi-turn conversation continuity", () => {
@@ -544,8 +576,8 @@ describe("GET /genai/question - route handler", () => {
 				{ method: "GET" }
 			);
 			expect(res.status).toBe(200);
-			const body = await res.json();
-			expect(body.ask).toBe("Another 4 questions on CosmosDB");
+			const body = await res.text();
+			expect(body).toContain("Another 4 questions on CosmosDB");
 
 			// The messages sent to LLM must include the full existing history
 			const sentMessages: Array<{ role: string }> =
