@@ -20,4 +20,5 @@ az eventgrid event-subscription create \
   --endpoint $WEBHOOK_ENDPOINT \
   --endpoint-type webhook \
   --included-event-types Microsoft.AppConfiguration.KeyValueModified \
-  --subject-ends-with "Sentinel"
+  --advanced-filter data.key StringIn Sentinel
+
