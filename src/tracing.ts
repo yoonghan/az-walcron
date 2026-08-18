@@ -1,7 +1,8 @@
 import { useAzureMonitor } from "@azure/monitor-opentelemetry";
 import { ZipkinExporter } from '@opentelemetry/exporter-zipkin';
 import { NodeSDK } from "@opentelemetry/sdk-node";
-import { HttpInstrumentation } from "@opentelemetry/instrumentation-http";
+// REMOVED - Using Azure to track http calls.request calls
+// import { HttpInstrumentation } from "@opentelemetry/instrumentation-http";
 import { UndiciInstrumentation } from "@opentelemetry/instrumentation-undici";
 import { resourceFromAttributes } from "@opentelemetry/resources";
 import { ATTR_SERVICE_NAME, ATTR_SERVICE_VERSION, ATTR_SERVICE_INSTANCE_ID } from '@opentelemetry/semantic-conventions';
@@ -14,9 +15,13 @@ const resourceAttribute = resourceFromAttributes({
 	[ATTR_SERVICE_INSTANCE_ID]: process.env.OTEL_SERVICE_INSTANCE_ID || "walcron-instance",
 })
 
+/** 
+ * HttpInstrumentation works via monkey-patching — it patches Node.js's built-in http and https modules at the global level. After this, any code in the process that uses http.request() / http.get() (including @hono/node-server's serve()) automatically gets traced. Hono doesn't "know" about it — the patching happens underneath it.
+ * UndiciInstrumentation does the same for fetch() / undici — so outgoing calls from your Hono handlers (e.g., to Dapr or other services) also get traced.
+ * **/
 const sharedInstrumentations = [
-	// No special config needed for basic propagation!
-	new HttpInstrumentation(),
+	// REMOVED - Using Azure to track http.request calls
+	// new HttpInstrumentation(),
 	// Essential for linking Hono -> Dapr or Hono -> Hono calls
 	new UndiciInstrumentation(),
 ];
@@ -31,9 +36,10 @@ if (process.env.APPLICATIONINSIGHTS_CONNECTION_STRING) {
 			mongoDb: {
 				enabled: true
 			},
-			http: {
-				enabled: false // Disabled because we register HttpInstrumentation globally below
-			}
+			// REMOVED - Using Azure to track http calls.request calls
+			// http: {
+			// 	enabled: false // Disabled because we register HttpInstrumentation globally below
+			// }
 		},
 		azureMonitorExporterOptions: {
 			connectionString: process.env.APPLICATIONINSIGHTS_CONNECTION_STRING

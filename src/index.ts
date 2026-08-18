@@ -19,6 +19,7 @@ const app = new Hono<{ Variables: Variables }>();
 
 app.use("*", cors());
 
+/* Extract headers, context and send to global opentelemetry tracer provided in tracing.ts */
 app.use('*', httpInstrumentationMiddleware());
 
 /*
