@@ -21,7 +21,15 @@ const resourceAttribute = resourceFromAttributes({
  * **/
 const sharedInstrumentations = [
 	// REMOVED - Using Azure to track http.request calls
-	// new HttpInstrumentation(),
+	// new HttpInstrumentation({
+	// 	ignoreIncomingRequestHook: (request) => {
+	// 		// Drop any incoming request where the URL matches the health probe
+	// 		if (request.url && request.url.includes('/healthz')) {
+	// 			return true; // True means "ignore this request"
+	// 		}
+	// 		return false;
+	// 	},
+	// }),
 	// Essential for linking Hono -> Dapr or Hono -> Hono calls
 	new UndiciInstrumentation(),
 ];
@@ -36,10 +44,16 @@ if (process.env.APPLICATIONINSIGHTS_CONNECTION_STRING) {
 			mongoDb: {
 				enabled: true
 			},
-			// REMOVED - Using Azure to track http calls.request calls
-			// http: {
-			// 	enabled: false // Disabled because we register HttpInstrumentation globally below
-			// }
+			http: {
+				// The underlying HTTP instrumentation natively supports this, 
+				// we are just bypassing the Azure wrapper's strict typing.
+				ignoreIncomingRequestHook: (request: any) => {
+					if (request.url && request.url.includes('/healthz')) {
+						return true; // Ignore this trace
+					}
+					return false;
+				},
+			} as any, // <-- The TypeScript escape hatch
 		},
 		azureMonitorExporterOptions: {
 			connectionString: process.env.APPLICATIONINSIGHTS_CONNECTION_STRING
