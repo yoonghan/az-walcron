@@ -45,6 +45,10 @@ properties:
             value: "https://walcronconfig.azconfig.io"
           - name: COSMOSDB_ENDPOINT
             value: "https://walcron-cosmosdb.documents.azure.com:443/"
+          - name: OTEL_TRACES_SAMPLER
+            value: "microsoft.fixed_percentage"
+          - name: OTEL_TRACES_SAMPLER_ARG
+            value: "0.5"
         resources:
           cpu: 0.5
           memory: 1.0Gi
