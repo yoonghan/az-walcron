@@ -18,4 +18,4 @@ JSON:
 }
 
 Search: Workspace Purge - Purge
-Go https://learn.microsoft.com/en-us/rest/api/loganalytics/workspace-purge/purge?view=rest-loganalytics-2026-03-01&tabs=HTTP&tryIt=true&source=docs#code-try-0
+Go https://learn.microsoft.com/en-us/rest/api/loganalytics/workspace-purge/purge?view=rest-loganalytics-2025-07-01&tabs=HTTP&tryIt=true&source=docs#code-try-0
