@@ -7,11 +7,11 @@ API_VERSION=2015-03-20
 
 JSON: 
 {
-  "filters": [
+    "filters": [
     {
-      "column": "TimeGenerated",
-      "operator": ">",
-      "value": "2017-09-01T00:00:00"
+      "column": "_ResourceId",
+      "operator": "==",
+      "value": "/subscriptions/1b7354d6-a407-4b91-a72a-009aa3805317/resourcegroups/walcron-rg/providers/microsoft.insights/components/walcron-application-insight"
     }
   ],
   "table": "AppDependencies"
