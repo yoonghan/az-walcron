@@ -1,0 +1,2562 @@
+├─ @azure-rest/core-client@2.8.0
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/Azure/azure-sdk-for-js
+│  ├─ publisher: Microsoft Corporation
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/@azure-rest/core-client
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/@azure-rest/core-client/LICENSE
+├─ @azure/abort-controller@2.2.0
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/Azure/azure-sdk-for-js
+│  ├─ publisher: Microsoft Corporation
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/@azure/abort-controller
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/@azure/abort-controller/LICENSE
+├─ @azure/app-configuration-provider@2.6.0
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/Azure/AppConfiguration-JavaScriptProvider
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/@azure/app-configuration-provider
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/@azure/app-configuration-provider/LICENSE
+├─ @azure/app-configuration@1.12.1
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/Azure/azure-sdk-for-js
+│  ├─ publisher: Microsoft Corporation
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/@azure/app-configuration
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/@azure/app-configuration/LICENSE
+├─ @azure/core-auth@1.11.0
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/Azure/azure-sdk-for-js
+│  ├─ publisher: Microsoft Corporation
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/@azure/core-auth
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/@azure/core-auth/LICENSE
+├─ @azure/core-client@1.11.0
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/Azure/azure-sdk-for-js
+│  ├─ publisher: Microsoft Corporation
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/@azure/core-client
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/@azure/core-client/LICENSE
+├─ @azure/core-http-compat@2.5.0
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/Azure/azure-sdk-for-js
+│  ├─ publisher: Microsoft Corporation
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/@azure/core-http-compat
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/@azure/core-http-compat/LICENSE
+├─ @azure/core-lro@2.7.2
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/Azure/azure-sdk-for-js
+│  ├─ publisher: Microsoft Corporation
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/@azure/keyvault-secrets/node_modules/@azure/core-lro
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/@azure/keyvault-secrets/node_modules/@azure/core-lro/LICENSE
+├─ @azure/core-lro@3.4.0
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/Azure/azure-sdk-for-js
+│  ├─ publisher: Microsoft Corporation
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/@azure/core-lro
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/@azure/core-lro/LICENSE
+├─ @azure/core-paging@1.7.0
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/Azure/azure-sdk-for-js
+│  ├─ publisher: Microsoft Corporation
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/@azure/core-paging
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/@azure/core-paging/LICENSE
+├─ @azure/core-rest-pipeline@1.25.0
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/Azure/azure-sdk-for-js
+│  ├─ publisher: Microsoft Corporation
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/@azure/core-rest-pipeline
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/@azure/core-rest-pipeline/LICENSE
+├─ @azure/core-tracing@1.4.0
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/Azure/azure-sdk-for-js
+│  ├─ publisher: Microsoft Corporation
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/@azure/core-tracing
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/@azure/core-tracing/LICENSE
+├─ @azure/core-util@1.14.0
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/Azure/azure-sdk-for-js
+│  ├─ publisher: Microsoft Corporation
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/@azure/core-util
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/@azure/core-util/LICENSE
+├─ @azure/cosmos@4.10.0
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/Azure/azure-sdk-for-js
+│  ├─ publisher: Microsoft Corporation
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/@azure/cosmos
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/@azure/cosmos/LICENSE
+├─ @azure/identity@4.13.1
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/Azure/azure-sdk-for-js
+│  ├─ publisher: Microsoft Corporation
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/@azure/identity
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/@azure/identity/LICENSE
+├─ @azure/keyvault-common@2.1.0
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/Azure/azure-sdk-for-js
+│  ├─ publisher: Microsoft Corporation
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/@azure/keyvault-common
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/@azure/keyvault-common/LICENSE
+├─ @azure/keyvault-keys@4.10.2
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/Azure/azure-sdk-for-js
+│  ├─ publisher: Microsoft Corporation
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/@azure/keyvault-keys
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/@azure/keyvault-keys/LICENSE
+├─ @azure/keyvault-secrets@4.11.2
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/Azure/azure-sdk-for-js
+│  ├─ publisher: Microsoft Corporation
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/@azure/keyvault-secrets
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/@azure/keyvault-secrets/LICENSE
+├─ @azure/logger@1.4.0
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/Azure/azure-sdk-for-js
+│  ├─ publisher: Microsoft Corporation
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/@azure/logger
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/@azure/logger/LICENSE
+├─ @azure/monitor-opentelemetry-exporter@1.0.0-beta.43
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/Azure/azure-sdk-for-js
+│  ├─ publisher: Microsoft Corporation
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/@azure/monitor-opentelemetry-exporter
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/@azure/monitor-opentelemetry-exporter/LICENSE
+├─ @azure/monitor-opentelemetry@1.18.2
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/Azure/azure-sdk-for-js
+│  ├─ publisher: Microsoft Corporation
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/@azure/monitor-opentelemetry
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/@azure/monitor-opentelemetry/LICENSE
+├─ @azure/msal-browser@5.17.1
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/AzureAD/microsoft-authentication-library-for-js
+│  ├─ publisher: Microsoft
+│  ├─ email: nugetaad@microsoft.com
+│  ├─ url: https://www.microsoft.com
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/@azure/msal-browser
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/@azure/msal-browser/LICENSE
+├─ @azure/msal-common@16.11.2
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/AzureAD/microsoft-authentication-library-for-js
+│  ├─ publisher: Microsoft
+│  ├─ email: nugetaad@microsoft.com
+│  ├─ url: https://www.microsoft.com
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/@azure/msal-common
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/@azure/msal-common/LICENSE
+├─ @azure/msal-node@5.4.1
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/AzureAD/microsoft-authentication-library-for-js
+│  ├─ publisher: Microsoft
+│  ├─ email: nugetaad@microsoft.com
+│  ├─ url: https://www.microsoft.com
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/@azure/msal-node
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/@azure/msal-node/LICENSE
+├─ @azure/opentelemetry-instrumentation-azure-sdk@1.1.0-beta.1
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/Azure/azure-sdk-for-js
+│  ├─ publisher: Microsoft Corporation
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/@azure/opentelemetry-instrumentation-azure-sdk
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/@azure/opentelemetry-instrumentation-azure-sdk/LICENSE
+├─ @babel/helper-string-parser@7.27.1
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/babel/babel
+│  ├─ publisher: The Babel Team
+│  ├─ url: https://babel.dev/team
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/@babel/helper-string-parser
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/@babel/helper-string-parser/LICENSE
+├─ @babel/helper-validator-identifier@7.28.5
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/babel/babel
+│  ├─ publisher: The Babel Team
+│  ├─ url: https://babel.dev/team
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/@babel/helper-validator-identifier
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/@babel/helper-validator-identifier/LICENSE
+├─ @babel/parser@7.29.2
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/babel/babel
+│  ├─ publisher: The Babel Team
+│  ├─ url: https://babel.dev/team
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/@babel/parser
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/@babel/parser/LICENSE
+├─ @babel/types@7.29.0
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/babel/babel
+│  ├─ publisher: The Babel Team
+│  ├─ url: https://babel.dev/team
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/@babel/types
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/@babel/types/LICENSE
+├─ @bcoe/v8-coverage@1.0.2
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/bcoe/v8-coverage
+│  ├─ publisher: Charles Samborski
+│  ├─ email: demurgos@demurgos.net
+│  ├─ url: https://demurgos.net
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/@bcoe/v8-coverage
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/@bcoe/v8-coverage/LICENSE.md
+├─ @biomejs/biome@2.5.6
+│  ├─ licenses: MIT OR Apache-2.0
+│  ├─ repository: https://github.com/biomejs/biome
+│  ├─ publisher: Emanuele Stoppa
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/@biomejs/biome
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/@biomejs/biome/LICENSE-APACHE
+├─ @biomejs/cli-darwin-arm64@2.5.6
+│  ├─ licenses: MIT OR Apache-2.0
+│  ├─ repository: https://github.com/biomejs/biome
+│  └─ path: /Users/hayo/work/az-walcron/node_modules/@biomejs/cli-darwin-arm64
+├─ @bufbuild/protobuf@2.12.0
+│  ├─ licenses: (Apache-2.0 AND BSD-3-Clause)
+│  ├─ repository: https://github.com/bufbuild/protobuf-es
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/@bufbuild/protobuf
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/@bufbuild/protobuf/README.md
+├─ @colors/colors@1.6.0
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/DABH/colors.js
+│  ├─ publisher: DABH
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/@colors/colors
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/@colors/colors/LICENSE
+├─ @connectrpc/connect-node@2.1.1
+│  ├─ licenses: Apache-2.0
+│  ├─ repository: https://github.com/connectrpc/connect-es
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/@connectrpc/connect-node
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/@connectrpc/connect-node/README.md
+├─ @connectrpc/connect-web@2.1.1
+│  ├─ licenses: Apache-2.0
+│  ├─ repository: https://github.com/connectrpc/connect-es
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/@connectrpc/connect-web
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/@connectrpc/connect-web/README.md
+├─ @connectrpc/connect@2.1.1
+│  ├─ licenses: Apache-2.0
+│  ├─ repository: https://github.com/connectrpc/connect-es
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/@connectrpc/connect
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/@connectrpc/connect/README.md
+├─ @dapr/dapr@3.18.0
+│  ├─ licenses: Custom: https://img.shields.io/npm/v/
+│  ├─ repository: https://github.com/dapr/js-sdk
+│  ├─ publisher: Dapr Authors
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/@dapr/dapr
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/@dapr/dapr/README.md
+├─ @dapr/durabletask-js@1.0.0
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/dapr/durabletask-js
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/@dapr/durabletask-js
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/@dapr/durabletask-js/README.md
+├─ @esbuild/darwin-arm64@0.28.2
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/evanw/esbuild
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/@esbuild/darwin-arm64
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/@esbuild/darwin-arm64/README.md
+├─ @grpc/grpc-js@1.14.3
+│  ├─ licenses: Apache-2.0
+│  ├─ repository: https://github.com/grpc/grpc-node/tree/master/packages/grpc-js
+│  ├─ publisher: Google Inc.
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/@grpc/grpc-js
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/@grpc/grpc-js/LICENSE
+├─ @grpc/proto-loader@0.8.0
+│  ├─ licenses: Apache-2.0
+│  ├─ repository: https://github.com/grpc/grpc-node
+│  ├─ publisher: Google Inc.
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/@grpc/proto-loader
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/@grpc/proto-loader/LICENSE
+├─ @hono/node-server@2.0.12
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/honojs/node-server
+│  ├─ publisher: Yusuke Wada
+│  ├─ email: yusuke@kamawada.com
+│  ├─ url: https://github.com/yusukebe
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/@hono/node-server
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/@hono/node-server/LICENSE
+├─ @hono/otel@1.1.2
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/honojs/middleware
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/@hono/otel
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/@hono/otel/README.md
+├─ @jridgewell/resolve-uri@3.1.2
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/jridgewell/resolve-uri
+│  ├─ publisher: Justin Ridgewell
+│  ├─ email: justin@ridgewell.name
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/@jridgewell/resolve-uri
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/@jridgewell/resolve-uri/LICENSE
+├─ @jridgewell/sourcemap-codec@1.5.5
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/jridgewell/sourcemaps
+│  ├─ publisher: Justin Ridgewell
+│  ├─ email: justin@ridgewell.name
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/@jridgewell/sourcemap-codec
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/@jridgewell/sourcemap-codec/LICENSE
+├─ @jridgewell/trace-mapping@0.3.31
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/jridgewell/sourcemaps
+│  ├─ publisher: Justin Ridgewell
+│  ├─ email: justin@ridgewell.name
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/@jridgewell/trace-mapping
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/@jridgewell/trace-mapping/LICENSE
+├─ @js-sdsl/ordered-map@4.4.2
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/js-sdsl/js-sdsl
+│  ├─ publisher: ZLY201
+│  ├─ email: 951711127@qq.com
+│  ├─ url: https://github.com/js-sdsl/js-sdsl
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/@js-sdsl/ordered-map
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/@js-sdsl/ordered-map/LICENSE
+├─ @js-temporal/polyfill@0.3.0
+│  ├─ licenses: ISC
+│  ├─ repository: https://github.com/js-temporal/temporal-polyfill
+│  ├─ publisher: Philipp Dunkel
+│  ├─ email: pip@pipobscure.com
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/@js-temporal/polyfill
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/@js-temporal/polyfill/LICENSE
+├─ @microsoft/applicationinsights-web-snippet@1.2.3
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/microsoft/ApplicationInsights-JS/tree/main/tools/applicationinsights-web-snippet
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/@microsoft/applicationinsights-web-snippet
+│  ├─ licenseFile: /Users/hayo/work/az-walcron/node_modules/@microsoft/applicationinsights-web-snippet/LICENSE
+│  └─ noticeFile: /Users/hayo/work/az-walcron/node_modules/@microsoft/applicationinsights-web-snippet/NOTICE
+├─ @napi-rs/canvas-darwin-arm64@0.1.80
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/Brooooooklyn/canvas
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/@napi-rs/canvas-darwin-arm64
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/@napi-rs/canvas-darwin-arm64/README.md
+├─ @napi-rs/canvas@0.1.80
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/Brooooooklyn/canvas
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/@napi-rs/canvas
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/@napi-rs/canvas/LICENSE
+├─ @opentelemetry/api-logs@0.211.0
+│  ├─ licenses: Apache-2.0
+│  ├─ repository: https://github.com/open-telemetry/opentelemetry-js
+│  ├─ publisher: OpenTelemetry Authors
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/@azure/opentelemetry-instrumentation-azure-sdk/node_modules/@opentelemetry/api-logs
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/@azure/opentelemetry-instrumentation-azure-sdk/node_modules/@opentelemetry/api-logs/LICENSE
+├─ @opentelemetry/api-logs@0.217.0
+│  ├─ licenses: Apache-2.0
+│  ├─ repository: https://github.com/open-telemetry/opentelemetry-js
+│  ├─ publisher: OpenTelemetry Authors
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/@opentelemetry/api-logs
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/@opentelemetry/api-logs/LICENSE
+├─ @opentelemetry/api-logs@0.219.0
+│  ├─ licenses: Apache-2.0
+│  ├─ repository: https://github.com/open-telemetry/opentelemetry-js
+│  ├─ publisher: OpenTelemetry Authors
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/@azure/monitor-opentelemetry-exporter/node_modules/@opentelemetry/api-logs
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/@azure/monitor-opentelemetry-exporter/node_modules/@opentelemetry/api-logs/LICENSE
+├─ @opentelemetry/api-logs@0.221.0
+│  ├─ licenses: Apache-2.0
+│  ├─ repository: https://github.com/open-telemetry/opentelemetry-js
+│  ├─ publisher: OpenTelemetry Authors
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/@opentelemetry/instrumentation/node_modules/@opentelemetry/api-logs
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/@opentelemetry/instrumentation/node_modules/@opentelemetry/api-logs/LICENSE
+├─ @opentelemetry/api@1.9.1
+│  ├─ licenses: Apache-2.0
+│  ├─ repository: https://github.com/open-telemetry/opentelemetry-js
+│  ├─ publisher: OpenTelemetry Authors
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/@opentelemetry/api
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/@opentelemetry/api/LICENSE
+├─ @opentelemetry/configuration@0.219.0
+│  ├─ licenses: Apache-2.0
+│  ├─ repository: https://github.com/open-telemetry/opentelemetry-js
+│  ├─ publisher: OpenTelemetry Authors
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/@azure/monitor-opentelemetry/node_modules/@opentelemetry/configuration
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/@azure/monitor-opentelemetry/node_modules/@opentelemetry/configuration/LICENSE
+├─ @opentelemetry/configuration@0.221.0
+│  ├─ licenses: Apache-2.0
+│  ├─ repository: https://github.com/open-telemetry/opentelemetry-js
+│  ├─ publisher: OpenTelemetry Authors
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/@opentelemetry/configuration
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/@opentelemetry/configuration/LICENSE
+├─ @opentelemetry/context-async-hooks@2.10.0
+│  ├─ licenses: Apache-2.0
+│  ├─ repository: https://github.com/open-telemetry/opentelemetry-js
+│  ├─ publisher: OpenTelemetry Authors
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/@opentelemetry/context-async-hooks
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/@opentelemetry/context-async-hooks/LICENSE
+├─ @opentelemetry/context-async-hooks@2.8.0
+│  ├─ licenses: Apache-2.0
+│  ├─ repository: https://github.com/open-telemetry/opentelemetry-js
+│  ├─ publisher: OpenTelemetry Authors
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/@azure/monitor-opentelemetry/node_modules/@opentelemetry/context-async-hooks
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/@azure/monitor-opentelemetry/node_modules/@opentelemetry/context-async-hooks/LICENSE
+├─ @opentelemetry/core@2.10.0
+│  ├─ licenses: Apache-2.0
+│  ├─ repository: https://github.com/open-telemetry/opentelemetry-js
+│  ├─ publisher: OpenTelemetry Authors
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/@opentelemetry/sdk-metrics/node_modules/@opentelemetry/core
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/@opentelemetry/sdk-metrics/node_modules/@opentelemetry/core/LICENSE
+├─ @opentelemetry/core@2.8.0
+│  ├─ licenses: Apache-2.0
+│  ├─ repository: https://github.com/open-telemetry/opentelemetry-js
+│  ├─ publisher: OpenTelemetry Authors
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/@azure/monitor-opentelemetry-exporter/node_modules/@opentelemetry/sdk-logs/node_modules/@opentelemetry/core
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/@azure/monitor-opentelemetry-exporter/node_modules/@opentelemetry/sdk-logs/node_modules/@opentelemetry/core/LICENSE
+├─ @opentelemetry/core@2.9.0
+│  ├─ licenses: Apache-2.0
+│  ├─ repository: https://github.com/open-telemetry/opentelemetry-js
+│  ├─ publisher: OpenTelemetry Authors
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/@opentelemetry/core
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/@opentelemetry/core/LICENSE
+├─ @opentelemetry/exporter-logs-otlp-grpc@0.219.0
+│  ├─ licenses: Apache-2.0
+│  ├─ repository: https://github.com/open-telemetry/opentelemetry-js
+│  ├─ publisher: OpenTelemetry Authors
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/@azure/monitor-opentelemetry/node_modules/@opentelemetry/exporter-logs-otlp-grpc
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/@azure/monitor-opentelemetry/node_modules/@opentelemetry/exporter-logs-otlp-grpc/LICENSE
+├─ @opentelemetry/exporter-logs-otlp-grpc@0.221.0
+│  ├─ licenses: Apache-2.0
+│  ├─ repository: https://github.com/open-telemetry/opentelemetry-js
+│  ├─ publisher: OpenTelemetry Authors
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/@opentelemetry/exporter-logs-otlp-grpc
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/@opentelemetry/exporter-logs-otlp-grpc/LICENSE
+├─ @opentelemetry/exporter-logs-otlp-http@0.219.0
+│  ├─ licenses: Apache-2.0
+│  ├─ repository: https://github.com/open-telemetry/opentelemetry-js
+│  ├─ publisher: OpenTelemetry Authors
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/@azure/monitor-opentelemetry/node_modules/@opentelemetry/exporter-logs-otlp-http
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/@azure/monitor-opentelemetry/node_modules/@opentelemetry/exporter-logs-otlp-http/LICENSE
+├─ @opentelemetry/exporter-logs-otlp-http@0.221.0
+│  ├─ licenses: Apache-2.0
+│  ├─ repository: https://github.com/open-telemetry/opentelemetry-js
+│  ├─ publisher: OpenTelemetry Authors
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/@opentelemetry/exporter-logs-otlp-http
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/@opentelemetry/exporter-logs-otlp-http/LICENSE
+├─ @opentelemetry/exporter-logs-otlp-proto@0.219.0
+│  ├─ licenses: Apache-2.0
+│  ├─ repository: https://github.com/open-telemetry/opentelemetry-js
+│  ├─ publisher: OpenTelemetry Authors
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/@azure/monitor-opentelemetry/node_modules/@opentelemetry/exporter-logs-otlp-proto
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/@azure/monitor-opentelemetry/node_modules/@opentelemetry/exporter-logs-otlp-proto/LICENSE
+├─ @opentelemetry/exporter-logs-otlp-proto@0.221.0
+│  ├─ licenses: Apache-2.0
+│  ├─ repository: https://github.com/open-telemetry/opentelemetry-js
+│  ├─ publisher: OpenTelemetry Authors
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/@opentelemetry/exporter-logs-otlp-proto
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/@opentelemetry/exporter-logs-otlp-proto/LICENSE
+├─ @opentelemetry/exporter-metrics-otlp-grpc@0.219.0
+│  ├─ licenses: Apache-2.0
+│  ├─ repository: https://github.com/open-telemetry/opentelemetry-js
+│  ├─ publisher: OpenTelemetry Authors
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/@azure/monitor-opentelemetry/node_modules/@opentelemetry/exporter-metrics-otlp-grpc
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/@azure/monitor-opentelemetry/node_modules/@opentelemetry/exporter-metrics-otlp-grpc/LICENSE
+├─ @opentelemetry/exporter-metrics-otlp-grpc@0.221.0
+│  ├─ licenses: Apache-2.0
+│  ├─ repository: https://github.com/open-telemetry/opentelemetry-js
+│  ├─ publisher: OpenTelemetry Authors
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/@opentelemetry/exporter-metrics-otlp-grpc
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/@opentelemetry/exporter-metrics-otlp-grpc/LICENSE
+├─ @opentelemetry/exporter-metrics-otlp-http@0.219.0
+│  ├─ licenses: Apache-2.0
+│  ├─ repository: https://github.com/open-telemetry/opentelemetry-js
+│  ├─ publisher: OpenTelemetry Authors
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/@azure/monitor-opentelemetry/node_modules/@opentelemetry/exporter-metrics-otlp-http
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/@azure/monitor-opentelemetry/node_modules/@opentelemetry/exporter-metrics-otlp-http/LICENSE
+├─ @opentelemetry/exporter-metrics-otlp-http@0.221.0
+│  ├─ licenses: Apache-2.0
+│  ├─ repository: https://github.com/open-telemetry/opentelemetry-js
+│  ├─ publisher: OpenTelemetry Authors
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/@opentelemetry/exporter-metrics-otlp-http
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/@opentelemetry/exporter-metrics-otlp-http/LICENSE
+├─ @opentelemetry/exporter-metrics-otlp-proto@0.219.0
+│  ├─ licenses: Apache-2.0
+│  ├─ repository: https://github.com/open-telemetry/opentelemetry-js
+│  ├─ publisher: OpenTelemetry Authors
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/@azure/monitor-opentelemetry/node_modules/@opentelemetry/exporter-metrics-otlp-proto
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/@azure/monitor-opentelemetry/node_modules/@opentelemetry/exporter-metrics-otlp-proto/LICENSE
+├─ @opentelemetry/exporter-metrics-otlp-proto@0.221.0
+│  ├─ licenses: Apache-2.0
+│  ├─ repository: https://github.com/open-telemetry/opentelemetry-js
+│  ├─ publisher: OpenTelemetry Authors
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/@opentelemetry/exporter-metrics-otlp-proto
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/@opentelemetry/exporter-metrics-otlp-proto/LICENSE
+├─ @opentelemetry/exporter-prometheus@0.219.0
+│  ├─ licenses: Apache-2.0
+│  ├─ repository: https://github.com/open-telemetry/opentelemetry-js
+│  ├─ publisher: OpenTelemetry Authors
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/@azure/monitor-opentelemetry/node_modules/@opentelemetry/exporter-prometheus
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/@azure/monitor-opentelemetry/node_modules/@opentelemetry/exporter-prometheus/LICENSE
+├─ @opentelemetry/exporter-prometheus@0.221.0
+│  ├─ licenses: Apache-2.0
+│  ├─ repository: https://github.com/open-telemetry/opentelemetry-js
+│  ├─ publisher: OpenTelemetry Authors
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/@opentelemetry/exporter-prometheus
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/@opentelemetry/exporter-prometheus/LICENSE
+├─ @opentelemetry/exporter-trace-otlp-grpc@0.219.0
+│  ├─ licenses: Apache-2.0
+│  ├─ repository: https://github.com/open-telemetry/opentelemetry-js
+│  ├─ publisher: OpenTelemetry Authors
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/@azure/monitor-opentelemetry/node_modules/@opentelemetry/exporter-trace-otlp-grpc
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/@azure/monitor-opentelemetry/node_modules/@opentelemetry/exporter-trace-otlp-grpc/LICENSE
+├─ @opentelemetry/exporter-trace-otlp-grpc@0.221.0
+│  ├─ licenses: Apache-2.0
+│  ├─ repository: https://github.com/open-telemetry/opentelemetry-js
+│  ├─ publisher: OpenTelemetry Authors
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/@opentelemetry/exporter-trace-otlp-grpc
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/@opentelemetry/exporter-trace-otlp-grpc/LICENSE
+├─ @opentelemetry/exporter-trace-otlp-http@0.219.0
+│  ├─ licenses: Apache-2.0
+│  ├─ repository: https://github.com/open-telemetry/opentelemetry-js
+│  ├─ publisher: OpenTelemetry Authors
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/@azure/monitor-opentelemetry/node_modules/@opentelemetry/exporter-trace-otlp-http
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/@azure/monitor-opentelemetry/node_modules/@opentelemetry/exporter-trace-otlp-http/LICENSE
+├─ @opentelemetry/exporter-trace-otlp-http@0.221.0
+│  ├─ licenses: Apache-2.0
+│  ├─ repository: https://github.com/open-telemetry/opentelemetry-js
+│  ├─ publisher: OpenTelemetry Authors
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/@opentelemetry/exporter-trace-otlp-http
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/@opentelemetry/exporter-trace-otlp-http/LICENSE
+├─ @opentelemetry/exporter-trace-otlp-proto@0.219.0
+│  ├─ licenses: Apache-2.0
+│  ├─ repository: https://github.com/open-telemetry/opentelemetry-js
+│  ├─ publisher: OpenTelemetry Authors
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/@azure/monitor-opentelemetry/node_modules/@opentelemetry/exporter-trace-otlp-proto
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/@azure/monitor-opentelemetry/node_modules/@opentelemetry/exporter-trace-otlp-proto/LICENSE
+├─ @opentelemetry/exporter-trace-otlp-proto@0.221.0
+│  ├─ licenses: Apache-2.0
+│  ├─ repository: https://github.com/open-telemetry/opentelemetry-js
+│  ├─ publisher: OpenTelemetry Authors
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/@opentelemetry/exporter-trace-otlp-proto
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/@opentelemetry/exporter-trace-otlp-proto/LICENSE
+├─ @opentelemetry/exporter-zipkin@2.10.0
+│  ├─ licenses: Apache-2.0
+│  ├─ repository: https://github.com/open-telemetry/opentelemetry-js
+│  ├─ publisher: OpenTelemetry Authors
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/@opentelemetry/exporter-zipkin
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/@opentelemetry/exporter-zipkin/LICENSE
+├─ @opentelemetry/exporter-zipkin@2.8.0
+│  ├─ licenses: Apache-2.0
+│  ├─ repository: https://github.com/open-telemetry/opentelemetry-js
+│  ├─ publisher: OpenTelemetry Authors
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/@azure/monitor-opentelemetry/node_modules/@opentelemetry/exporter-zipkin
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/@azure/monitor-opentelemetry/node_modules/@opentelemetry/exporter-zipkin/LICENSE
+├─ @opentelemetry/instrumentation-bunyan@0.62.0
+│  ├─ licenses: Apache-2.0
+│  ├─ repository: https://github.com/open-telemetry/opentelemetry-js-contrib
+│  ├─ publisher: OpenTelemetry Authors
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/@opentelemetry/instrumentation-bunyan
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/@opentelemetry/instrumentation-bunyan/LICENSE
+├─ @opentelemetry/instrumentation-http@0.219.0
+│  ├─ licenses: Apache-2.0
+│  ├─ repository: https://github.com/open-telemetry/opentelemetry-js
+│  ├─ publisher: OpenTelemetry Authors
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/@opentelemetry/instrumentation-http
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/@opentelemetry/instrumentation-http/LICENSE
+├─ @opentelemetry/instrumentation-mongodb@0.70.0
+│  ├─ licenses: Apache-2.0
+│  ├─ repository: https://github.com/open-telemetry/opentelemetry-js-contrib
+│  ├─ publisher: OpenTelemetry Authors
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/@opentelemetry/instrumentation-mongodb
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/@opentelemetry/instrumentation-mongodb/LICENSE
+├─ @opentelemetry/instrumentation-mysql@0.63.0
+│  ├─ licenses: Apache-2.0
+│  ├─ repository: https://github.com/open-telemetry/opentelemetry-js-contrib
+│  ├─ publisher: OpenTelemetry Authors
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/@opentelemetry/instrumentation-mysql
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/@opentelemetry/instrumentation-mysql/LICENSE
+├─ @opentelemetry/instrumentation-pg@0.69.0
+│  ├─ licenses: Apache-2.0
+│  ├─ repository: https://github.com/open-telemetry/opentelemetry-js-contrib
+│  ├─ publisher: OpenTelemetry Authors
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/@opentelemetry/instrumentation-pg
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/@opentelemetry/instrumentation-pg/LICENSE
+├─ @opentelemetry/instrumentation-redis@0.65.0
+│  ├─ licenses: Apache-2.0
+│  ├─ repository: https://github.com/open-telemetry/opentelemetry-js-contrib
+│  ├─ publisher: OpenTelemetry Authors
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/@opentelemetry/instrumentation-redis
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/@opentelemetry/instrumentation-redis/LICENSE
+├─ @opentelemetry/instrumentation-undici@0.31.0
+│  ├─ licenses: Apache-2.0
+│  ├─ repository: https://github.com/open-telemetry/opentelemetry-js-contrib
+│  ├─ publisher: OpenTelemetry Authors
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/@opentelemetry/instrumentation-undici
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/@opentelemetry/instrumentation-undici/LICENSE
+├─ @opentelemetry/instrumentation-winston@0.61.0
+│  ├─ licenses: Apache-2.0
+│  ├─ repository: https://github.com/open-telemetry/opentelemetry-js-contrib
+│  ├─ publisher: OpenTelemetry Authors
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/@opentelemetry/instrumentation-winston
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/@opentelemetry/instrumentation-winston/LICENSE
+├─ @opentelemetry/instrumentation@0.211.0
+│  ├─ licenses: Apache-2.0
+│  ├─ repository: https://github.com/open-telemetry/opentelemetry-js
+│  ├─ publisher: OpenTelemetry Authors
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/@azure/opentelemetry-instrumentation-azure-sdk/node_modules/@opentelemetry/instrumentation
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/@azure/opentelemetry-instrumentation-azure-sdk/node_modules/@opentelemetry/instrumentation/LICENSE
+├─ @opentelemetry/instrumentation@0.217.0
+│  ├─ licenses: Apache-2.0
+│  ├─ repository: https://github.com/open-telemetry/opentelemetry-js
+│  ├─ publisher: OpenTelemetry Authors
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/@opentelemetry/instrumentation-bunyan/node_modules/@opentelemetry/instrumentation
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/@opentelemetry/instrumentation-bunyan/node_modules/@opentelemetry/instrumentation/LICENSE
+├─ @opentelemetry/instrumentation@0.219.0
+│  ├─ licenses: Apache-2.0
+│  ├─ repository: https://github.com/open-telemetry/opentelemetry-js
+│  ├─ publisher: OpenTelemetry Authors
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/@azure/monitor-opentelemetry/node_modules/@opentelemetry/instrumentation
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/@azure/monitor-opentelemetry/node_modules/@opentelemetry/instrumentation/LICENSE
+├─ @opentelemetry/instrumentation@0.221.0
+│  ├─ licenses: Apache-2.0
+│  ├─ repository: https://github.com/open-telemetry/opentelemetry-js
+│  ├─ publisher: OpenTelemetry Authors
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/@opentelemetry/instrumentation
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/@opentelemetry/instrumentation/LICENSE
+├─ @opentelemetry/otlp-exporter-base@0.219.0
+│  ├─ licenses: Apache-2.0
+│  ├─ repository: https://github.com/open-telemetry/opentelemetry-js
+│  ├─ publisher: OpenTelemetry Authors
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/@azure/monitor-opentelemetry/node_modules/@opentelemetry/otlp-exporter-base
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/@azure/monitor-opentelemetry/node_modules/@opentelemetry/otlp-exporter-base/LICENSE
+├─ @opentelemetry/otlp-exporter-base@0.221.0
+│  ├─ licenses: Apache-2.0
+│  ├─ repository: https://github.com/open-telemetry/opentelemetry-js
+│  ├─ publisher: OpenTelemetry Authors
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/@opentelemetry/otlp-exporter-base
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/@opentelemetry/otlp-exporter-base/LICENSE
+├─ @opentelemetry/otlp-grpc-exporter-base@0.219.0
+│  ├─ licenses: Apache-2.0
+│  ├─ repository: https://github.com/open-telemetry/opentelemetry-js
+│  ├─ publisher: OpenTelemetry Authors
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/@azure/monitor-opentelemetry/node_modules/@opentelemetry/otlp-grpc-exporter-base
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/@azure/monitor-opentelemetry/node_modules/@opentelemetry/otlp-grpc-exporter-base/LICENSE
+├─ @opentelemetry/otlp-grpc-exporter-base@0.221.0
+│  ├─ licenses: Apache-2.0
+│  ├─ repository: https://github.com/open-telemetry/opentelemetry-js
+│  ├─ publisher: OpenTelemetry Authors
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/@opentelemetry/otlp-grpc-exporter-base
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/@opentelemetry/otlp-grpc-exporter-base/LICENSE
+├─ @opentelemetry/otlp-transformer@0.219.0
+│  ├─ licenses: Apache-2.0
+│  ├─ repository: https://github.com/open-telemetry/opentelemetry-js
+│  ├─ publisher: OpenTelemetry Authors
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/@azure/monitor-opentelemetry/node_modules/@opentelemetry/otlp-transformer
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/@azure/monitor-opentelemetry/node_modules/@opentelemetry/otlp-transformer/LICENSE
+├─ @opentelemetry/otlp-transformer@0.221.0
+│  ├─ licenses: Apache-2.0
+│  ├─ repository: https://github.com/open-telemetry/opentelemetry-js
+│  ├─ publisher: OpenTelemetry Authors
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/@opentelemetry/otlp-transformer
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/@opentelemetry/otlp-transformer/LICENSE
+├─ @opentelemetry/propagator-b3@2.10.0
+│  ├─ licenses: Apache-2.0
+│  ├─ repository: https://github.com/open-telemetry/opentelemetry-js
+│  ├─ publisher: OpenTelemetry Authors
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/@opentelemetry/propagator-b3
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/@opentelemetry/propagator-b3/LICENSE
+├─ @opentelemetry/propagator-b3@2.8.0
+│  ├─ licenses: Apache-2.0
+│  ├─ repository: https://github.com/open-telemetry/opentelemetry-js
+│  ├─ publisher: OpenTelemetry Authors
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/@azure/monitor-opentelemetry/node_modules/@opentelemetry/propagator-b3
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/@azure/monitor-opentelemetry/node_modules/@opentelemetry/propagator-b3/LICENSE
+├─ @opentelemetry/propagator-jaeger@2.10.0
+│  ├─ licenses: Apache-2.0
+│  ├─ repository: https://github.com/open-telemetry/opentelemetry-js
+│  ├─ publisher: OpenTelemetry Authors
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/@opentelemetry/propagator-jaeger
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/@opentelemetry/propagator-jaeger/LICENSE
+├─ @opentelemetry/propagator-jaeger@2.8.0
+│  ├─ licenses: Apache-2.0
+│  ├─ repository: https://github.com/open-telemetry/opentelemetry-js
+│  ├─ publisher: OpenTelemetry Authors
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/@azure/monitor-opentelemetry/node_modules/@opentelemetry/propagator-jaeger
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/@azure/monitor-opentelemetry/node_modules/@opentelemetry/propagator-jaeger/LICENSE
+├─ @opentelemetry/redis-common@0.38.3
+│  ├─ licenses: Apache-2.0
+│  ├─ repository: https://github.com/open-telemetry/opentelemetry-js-contrib
+│  ├─ publisher: OpenTelemetry Authors
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/@opentelemetry/redis-common
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/@opentelemetry/redis-common/LICENSE
+├─ @opentelemetry/resource-detector-azure@0.25.0
+│  ├─ licenses: Apache-2.0
+│  ├─ repository: https://github.com/open-telemetry/opentelemetry-js-contrib
+│  ├─ publisher: OpenTelemetry Authors
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/@opentelemetry/resource-detector-azure
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/@opentelemetry/resource-detector-azure/LICENSE
+├─ @opentelemetry/resources@2.10.0
+│  ├─ licenses: Apache-2.0
+│  ├─ repository: https://github.com/open-telemetry/opentelemetry-js
+│  ├─ publisher: OpenTelemetry Authors
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/@opentelemetry/resources
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/@opentelemetry/resources/LICENSE
+├─ @opentelemetry/resources@2.8.0
+│  ├─ licenses: Apache-2.0
+│  ├─ repository: https://github.com/open-telemetry/opentelemetry-js
+│  ├─ publisher: OpenTelemetry Authors
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/@azure/monitor-opentelemetry-exporter/node_modules/@opentelemetry/sdk-logs/node_modules/@opentelemetry/resources
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/@azure/monitor-opentelemetry-exporter/node_modules/@opentelemetry/sdk-logs/node_modules/@opentelemetry/resources/LICENSE
+├─ @opentelemetry/resources@2.9.0
+│  ├─ licenses: Apache-2.0
+│  ├─ repository: https://github.com/open-telemetry/opentelemetry-js
+│  ├─ publisher: OpenTelemetry Authors
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/@azure/monitor-opentelemetry-exporter/node_modules/@opentelemetry/resources
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/@azure/monitor-opentelemetry-exporter/node_modules/@opentelemetry/resources/LICENSE
+├─ @opentelemetry/sdk-logs@0.219.0
+│  ├─ licenses: Apache-2.0
+│  ├─ repository: https://github.com/open-telemetry/opentelemetry-js
+│  ├─ publisher: OpenTelemetry Authors
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/@azure/monitor-opentelemetry-exporter/node_modules/@opentelemetry/sdk-logs
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/@azure/monitor-opentelemetry-exporter/node_modules/@opentelemetry/sdk-logs/LICENSE
+├─ @opentelemetry/sdk-logs@0.221.0
+│  ├─ licenses: Apache-2.0
+│  ├─ repository: https://github.com/open-telemetry/opentelemetry-js
+│  ├─ publisher: OpenTelemetry Authors
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/@opentelemetry/sdk-logs
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/@opentelemetry/sdk-logs/LICENSE
+├─ @opentelemetry/sdk-metrics@2.10.0
+│  ├─ licenses: Apache-2.0
+│  ├─ repository: https://github.com/open-telemetry/opentelemetry-js
+│  ├─ publisher: OpenTelemetry Authors
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/@opentelemetry/sdk-metrics
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/@opentelemetry/sdk-metrics/LICENSE
+├─ @opentelemetry/sdk-metrics@2.8.0
+│  ├─ licenses: Apache-2.0
+│  ├─ repository: https://github.com/open-telemetry/opentelemetry-js
+│  ├─ publisher: OpenTelemetry Authors
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/@azure/monitor-opentelemetry/node_modules/@opentelemetry/otlp-transformer/node_modules/@opentelemetry/sdk-metrics
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/@azure/monitor-opentelemetry/node_modules/@opentelemetry/otlp-transformer/node_modules/@opentelemetry/sdk-metrics/LICENSE
+├─ @opentelemetry/sdk-node@0.219.0
+│  ├─ licenses: Apache-2.0
+│  ├─ repository: https://github.com/open-telemetry/opentelemetry-js
+│  ├─ publisher: OpenTelemetry Authors
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/@azure/monitor-opentelemetry/node_modules/@opentelemetry/sdk-node
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/@azure/monitor-opentelemetry/node_modules/@opentelemetry/sdk-node/LICENSE
+├─ @opentelemetry/sdk-node@0.221.0
+│  ├─ licenses: Apache-2.0
+│  ├─ repository: https://github.com/open-telemetry/opentelemetry-js
+│  ├─ publisher: OpenTelemetry Authors
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/@opentelemetry/sdk-node
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/@opentelemetry/sdk-node/LICENSE
+├─ @opentelemetry/sdk-trace-base@2.10.0
+│  ├─ licenses: Apache-2.0
+│  ├─ repository: https://github.com/open-telemetry/opentelemetry-js
+│  ├─ publisher: OpenTelemetry Authors
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/@opentelemetry/sdk-trace-base
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/@opentelemetry/sdk-trace-base/LICENSE
+├─ @opentelemetry/sdk-trace-base@2.8.0
+│  ├─ licenses: Apache-2.0
+│  ├─ repository: https://github.com/open-telemetry/opentelemetry-js
+│  ├─ publisher: OpenTelemetry Authors
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/@azure/monitor-opentelemetry/node_modules/@opentelemetry/otlp-transformer/node_modules/@opentelemetry/sdk-trace-base
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/@azure/monitor-opentelemetry/node_modules/@opentelemetry/otlp-transformer/node_modules/@opentelemetry/sdk-trace-base/LICENSE
+├─ @opentelemetry/sdk-trace-base@2.9.0
+│  ├─ licenses: Apache-2.0
+│  ├─ repository: https://github.com/open-telemetry/opentelemetry-js
+│  ├─ publisher: OpenTelemetry Authors
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/@opentelemetry/sdk-trace-web/node_modules/@opentelemetry/sdk-trace-base
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/@opentelemetry/sdk-trace-web/node_modules/@opentelemetry/sdk-trace-base/LICENSE
+├─ @opentelemetry/sdk-trace-node@2.10.0
+│  ├─ licenses: Apache-2.0
+│  ├─ repository: https://github.com/open-telemetry/opentelemetry-js
+│  ├─ publisher: OpenTelemetry Authors
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/@opentelemetry/sdk-trace-node
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/@opentelemetry/sdk-trace-node/LICENSE
+├─ @opentelemetry/sdk-trace-node@2.8.0
+│  ├─ licenses: Apache-2.0
+│  ├─ repository: https://github.com/open-telemetry/opentelemetry-js
+│  ├─ publisher: OpenTelemetry Authors
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/@azure/monitor-opentelemetry/node_modules/@opentelemetry/sdk-node/node_modules/@opentelemetry/sdk-trace-node
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/@azure/monitor-opentelemetry/node_modules/@opentelemetry/sdk-node/node_modules/@opentelemetry/sdk-trace-node/LICENSE
+├─ @opentelemetry/sdk-trace-web@2.9.0
+│  ├─ licenses: Apache-2.0
+│  ├─ repository: https://github.com/open-telemetry/opentelemetry-js
+│  ├─ publisher: OpenTelemetry Authors
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/@opentelemetry/sdk-trace-web
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/@opentelemetry/sdk-trace-web/LICENSE
+├─ @opentelemetry/sdk-trace@2.10.0
+│  ├─ licenses: Apache-2.0
+│  ├─ repository: https://github.com/open-telemetry/opentelemetry-js
+│  ├─ publisher: OpenTelemetry Authors
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/@opentelemetry/sdk-trace-base/node_modules/@opentelemetry/sdk-trace
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/@opentelemetry/sdk-trace-base/node_modules/@opentelemetry/sdk-trace/LICENSE
+├─ @opentelemetry/sdk-trace@2.9.0
+│  ├─ licenses: Apache-2.0
+│  ├─ repository: https://github.com/open-telemetry/opentelemetry-js
+│  ├─ publisher: OpenTelemetry Authors
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/@opentelemetry/sdk-trace
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/@opentelemetry/sdk-trace/LICENSE
+├─ @opentelemetry/semantic-conventions@1.40.0
+│  ├─ licenses: Apache-2.0
+│  ├─ repository: https://github.com/open-telemetry/opentelemetry-js
+│  ├─ publisher: OpenTelemetry Authors
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/@opentelemetry/semantic-conventions
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/@opentelemetry/semantic-conventions/LICENSE
+├─ @opentelemetry/sql-common@0.41.2
+│  ├─ licenses: Apache-2.0
+│  ├─ repository: https://github.com/open-telemetry/opentelemetry-js-contrib
+│  ├─ publisher: OpenTelemetry Authors
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/@opentelemetry/sql-common
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/@opentelemetry/sql-common/LICENSE
+├─ @opentelemetry/winston-transport@0.27.0
+│  ├─ licenses: Apache-2.0
+│  ├─ repository: https://github.com/open-telemetry/opentelemetry-js-contrib
+│  ├─ publisher: OpenTelemetry Authors
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/@opentelemetry/winston-transport
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/@opentelemetry/winston-transport/LICENSE
+├─ @oxc-project/types@0.139.0
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/oxc-project/oxc
+│  ├─ publisher: Boshen and oxc contributors
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/@oxc-project/types
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/@oxc-project/types/LICENSE
+├─ @pinojs/redact@0.4.0
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/pinojs/redact
+│  ├─ publisher: Matteo Collina
+│  ├─ email: hello@matteocollina.com
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/@pinojs/redact
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/@pinojs/redact/LICENSE
+├─ @protobufjs/aspromise@1.1.2
+│  ├─ licenses: BSD-3-Clause
+│  ├─ repository: https://github.com/dcodeIO/protobuf.js
+│  ├─ publisher: Daniel Wirtz
+│  ├─ email: dcode+protobufjs@dcode.io
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/@protobufjs/aspromise
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/@protobufjs/aspromise/LICENSE
+├─ @protobufjs/base64@1.1.2
+│  ├─ licenses: BSD-3-Clause
+│  ├─ repository: https://github.com/dcodeIO/protobuf.js
+│  ├─ publisher: Daniel Wirtz
+│  ├─ email: dcode+protobufjs@dcode.io
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/@protobufjs/base64
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/@protobufjs/base64/LICENSE
+├─ @protobufjs/codegen@2.0.4
+│  ├─ licenses: BSD-3-Clause
+│  ├─ repository: https://github.com/dcodeIO/protobuf.js
+│  ├─ publisher: Daniel Wirtz
+│  ├─ email: dcode+protobufjs@dcode.io
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/@protobufjs/codegen
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/@protobufjs/codegen/LICENSE
+├─ @protobufjs/eventemitter@1.1.0
+│  ├─ licenses: BSD-3-Clause
+│  ├─ repository: https://github.com/dcodeIO/protobuf.js
+│  ├─ publisher: Daniel Wirtz
+│  ├─ email: dcode+protobufjs@dcode.io
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/@protobufjs/eventemitter
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/@protobufjs/eventemitter/LICENSE
+├─ @protobufjs/fetch@1.1.0
+│  ├─ licenses: BSD-3-Clause
+│  ├─ repository: https://github.com/dcodeIO/protobuf.js
+│  ├─ publisher: Daniel Wirtz
+│  ├─ email: dcode+protobufjs@dcode.io
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/@protobufjs/fetch
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/@protobufjs/fetch/LICENSE
+├─ @protobufjs/float@1.0.2
+│  ├─ licenses: BSD-3-Clause
+│  ├─ repository: https://github.com/dcodeIO/protobuf.js
+│  ├─ publisher: Daniel Wirtz
+│  ├─ email: dcode+protobufjs@dcode.io
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/@protobufjs/float
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/@protobufjs/float/LICENSE
+├─ @protobufjs/inquire@1.1.0
+│  ├─ licenses: BSD-3-Clause
+│  ├─ repository: https://github.com/dcodeIO/protobuf.js
+│  ├─ publisher: Daniel Wirtz
+│  ├─ email: dcode+protobufjs@dcode.io
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/@protobufjs/inquire
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/@protobufjs/inquire/LICENSE
+├─ @protobufjs/path@1.1.2
+│  ├─ licenses: BSD-3-Clause
+│  ├─ repository: https://github.com/dcodeIO/protobuf.js
+│  ├─ publisher: Daniel Wirtz
+│  ├─ email: dcode+protobufjs@dcode.io
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/@protobufjs/path
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/@protobufjs/path/LICENSE
+├─ @protobufjs/pool@1.1.0
+│  ├─ licenses: BSD-3-Clause
+│  ├─ repository: https://github.com/dcodeIO/protobuf.js
+│  ├─ publisher: Daniel Wirtz
+│  ├─ email: dcode+protobufjs@dcode.io
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/@protobufjs/pool
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/@protobufjs/pool/LICENSE
+├─ @protobufjs/utf8@1.1.0
+│  ├─ licenses: BSD-3-Clause
+│  ├─ repository: https://github.com/dcodeIO/protobuf.js
+│  ├─ publisher: Daniel Wirtz
+│  ├─ email: dcode+protobufjs@dcode.io
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/@protobufjs/utf8
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/@protobufjs/utf8/LICENSE
+├─ @rolldown/binding-darwin-arm64@1.1.5
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/rolldown/rolldown
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/@rolldown/binding-darwin-arm64
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/@rolldown/binding-darwin-arm64/README.md
+├─ @rolldown/pluginutils@1.0.1
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/rolldown/plugins
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/@rolldown/pluginutils
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/@rolldown/pluginutils/LICENSE
+├─ @standard-schema/spec@1.1.0
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/standard-schema/standard-schema
+│  ├─ publisher: Colin McDonnell
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/@standard-schema/spec
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/@standard-schema/spec/LICENSE
+├─ @types/bunyan@1.8.11
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/DefinitelyTyped/DefinitelyTyped
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/@types/bunyan
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/@types/bunyan/LICENSE
+├─ @types/chai@5.2.3
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/DefinitelyTyped/DefinitelyTyped
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/@types/chai
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/@types/chai/LICENSE
+├─ @types/deep-eql@4.0.2
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/DefinitelyTyped/DefinitelyTyped
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/@types/deep-eql
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/@types/deep-eql/LICENSE
+├─ @types/estree@1.0.8
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/DefinitelyTyped/DefinitelyTyped
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/@types/estree
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/@types/estree/LICENSE
+├─ @types/google-protobuf@3.15.12
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/DefinitelyTyped/DefinitelyTyped
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/@types/google-protobuf
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/@types/google-protobuf/LICENSE
+├─ @types/mysql@2.15.27
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/DefinitelyTyped/DefinitelyTyped
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/@types/mysql
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/@types/mysql/LICENSE
+├─ @types/node-fetch@2.6.13
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/DefinitelyTyped/DefinitelyTyped
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/@types/node-fetch
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/@types/node-fetch/LICENSE
+├─ @types/node@26.2.0
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/DefinitelyTyped/DefinitelyTyped
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/@types/node
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/@types/node/LICENSE
+├─ @types/pg-pool@2.0.7
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/DefinitelyTyped/DefinitelyTyped
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/@types/pg-pool
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/@types/pg-pool/LICENSE
+├─ @types/pg@8.15.6
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/DefinitelyTyped/DefinitelyTyped
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/@types/pg
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/@types/pg/LICENSE
+├─ @types/pino@7.0.5
+│  ├─ licenses: MIT
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/@types/pino
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/@types/pino/LICENSE
+├─ @types/triple-beam@1.3.5
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/DefinitelyTyped/DefinitelyTyped
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/@types/triple-beam
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/@types/triple-beam/LICENSE
+├─ @types/uuid@11.0.0
+│  ├─ licenses: MIT
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/@types/uuid
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/@types/uuid/LICENSE
+├─ @typescript/typescript-darwin-arm64@7.0.2
+│  ├─ licenses: Apache-2.0
+│  ├─ repository: https://github.com/microsoft/TypeScript
+│  ├─ publisher: Microsoft Corp.
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/@typescript/typescript-darwin-arm64
+│  ├─ licenseFile: /Users/hayo/work/az-walcron/node_modules/@typescript/typescript-darwin-arm64/LICENSE
+│  └─ noticeFile: /Users/hayo/work/az-walcron/node_modules/@typescript/typescript-darwin-arm64/NOTICE.txt
+├─ @typespec/ts-http-runtime@0.3.7
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/Azure/azure-sdk-for-js
+│  ├─ publisher: Microsoft Corporation
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/@typespec/ts-http-runtime
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/@typespec/ts-http-runtime/LICENSE
+├─ @vitest/coverage-v8@4.1.10
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/vitest-dev/vitest
+│  ├─ publisher: Anthony Fu
+│  ├─ email: anthonyfu117@hotmail.com
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/@vitest/coverage-v8
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/@vitest/coverage-v8/LICENSE
+├─ @vitest/expect@4.1.10
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/vitest-dev/vitest
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/@vitest/expect
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/@vitest/expect/LICENSE
+├─ @vitest/mocker@4.1.10
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/vitest-dev/vitest
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/@vitest/mocker
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/@vitest/mocker/LICENSE
+├─ @vitest/pretty-format@4.1.10
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/vitest-dev/vitest
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/@vitest/pretty-format
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/@vitest/pretty-format/LICENSE
+├─ @vitest/runner@4.1.10
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/vitest-dev/vitest
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/@vitest/runner
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/@vitest/runner/LICENSE
+├─ @vitest/snapshot@4.1.10
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/vitest-dev/vitest
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/@vitest/snapshot
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/@vitest/snapshot/LICENSE
+├─ @vitest/spy@4.1.10
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/vitest-dev/vitest
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/@vitest/spy
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/@vitest/spy/LICENSE
+├─ @vitest/utils@4.1.10
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/vitest-dev/vitest
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/@vitest/utils
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/@vitest/utils/LICENSE
+├─ accepts@1.3.8
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/jshttp/accepts
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/accepts
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/accepts/LICENSE
+├─ acorn-import-attributes@1.9.5
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/xtuc/acorn-import-attributes
+│  ├─ publisher: Sven Sauleau
+│  ├─ email: sven@sauleau.com
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/acorn-import-attributes
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/acorn-import-attributes/LICENSE
+├─ acorn@8.16.0
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/acornjs/acorn
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/acorn
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/acorn/LICENSE
+├─ agent-base@7.1.4
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/TooTallNate/proxy-agents
+│  ├─ publisher: Nathan Rajlich
+│  ├─ email: nathan@tootallnate.net
+│  ├─ url: http://n8.io/
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/agent-base
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/agent-base/LICENSE
+├─ ansi-regex@5.0.1
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/chalk/ansi-regex
+│  ├─ publisher: Sindre Sorhus
+│  ├─ email: sindresorhus@gmail.com
+│  ├─ url: sindresorhus.com
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/ansi-regex
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/ansi-regex/license
+├─ ansi-styles@4.3.0
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/chalk/ansi-styles
+│  ├─ publisher: Sindre Sorhus
+│  ├─ email: sindresorhus@gmail.com
+│  ├─ url: sindresorhus.com
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/ansi-styles
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/ansi-styles/license
+├─ array-flatten@1.1.1
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/blakeembrey/array-flatten
+│  ├─ publisher: Blake Embrey
+│  ├─ email: hello@blakeembrey.com
+│  ├─ url: http://blakeembrey.me
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/array-flatten
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/array-flatten/LICENSE
+├─ assertion-error@2.0.1
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/chaijs/assertion-error
+│  ├─ publisher: Jake Luer
+│  ├─ email: jake@qualiancy.com
+│  ├─ url: http://qualiancy.com
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/assertion-error
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/assertion-error/LICENSE
+├─ ast-v8-to-istanbul@1.0.0
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/AriPerkkio/ast-v8-to-istanbul
+│  ├─ publisher: Ari Perkkiö
+│  ├─ email: ari.perkkio@gmail.com
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/ast-v8-to-istanbul
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/ast-v8-to-istanbul/LICENSE
+├─ asynckit@0.4.0
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/alexindigo/asynckit
+│  ├─ publisher: Alex Indigo
+│  ├─ email: iam@alexindigo.com
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/asynckit
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/asynckit/LICENSE
+├─ atomic-sleep@1.0.0
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/davidmarkclements/atomic-sleep
+│  ├─ publisher: David Mark Clements
+│  ├─ url: @davidmarkclem
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/atomic-sleep
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/atomic-sleep/LICENSE
+├─ az-walcron@1.0.0
+│  ├─ licenses: ISC
+│  ├─ repository: https://github.com/yoonghan/az-walcron
+│  ├─ path: /Users/hayo/work/az-walcron
+│  └─ licenseFile: /Users/hayo/work/az-walcron/README.md
+├─ big-integer@1.6.52
+│  ├─ licenses: Unlicense
+│  ├─ repository: https://github.com/peterolson/BigInteger.js
+│  ├─ publisher: Peter Olson
+│  ├─ email: peter.e.c.olson+npm@gmail.com
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/big-integer
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/big-integer/LICENSE
+├─ body-parser@1.20.5
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/expressjs/body-parser
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/body-parser
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/body-parser/LICENSE
+├─ buffer-equal-constant-time@1.0.1
+│  ├─ licenses: BSD-3-Clause
+│  ├─ repository: https://github.com/goinstant/buffer-equal-constant-time
+│  ├─ publisher: GoInstant Inc., a salesforce.com company
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/buffer-equal-constant-time
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/buffer-equal-constant-time/LICENSE.txt
+├─ bundle-name@4.1.0
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/sindresorhus/bundle-name
+│  ├─ publisher: Sindre Sorhus
+│  ├─ email: sindresorhus@gmail.com
+│  ├─ url: https://sindresorhus.com
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/bundle-name
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/bundle-name/license
+├─ bytes@3.1.2
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/visionmedia/bytes.js
+│  ├─ publisher: TJ Holowaychuk
+│  ├─ email: tj@vision-media.ca
+│  ├─ url: http://tjholowaychuk.com
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/bytes
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/bytes/LICENSE
+├─ call-bind-apply-helpers@1.0.2
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/ljharb/call-bind-apply-helpers
+│  ├─ publisher: Jordan Harband
+│  ├─ email: ljharb@gmail.com
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/call-bind-apply-helpers
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/call-bind-apply-helpers/LICENSE
+├─ call-bound@1.0.4
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/ljharb/call-bound
+│  ├─ publisher: Jordan Harband
+│  ├─ email: ljharb@gmail.com
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/call-bound
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/call-bound/LICENSE
+├─ chai@6.2.2
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/chaijs/chai
+│  ├─ publisher: Jake Luer
+│  ├─ email: jake@alogicalparadox.com
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/chai
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/chai/LICENSE
+├─ cjs-module-lexer@2.2.0
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/nodejs/cjs-module-lexer
+│  ├─ publisher: Guy Bedford
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/cjs-module-lexer
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/cjs-module-lexer/LICENSE
+├─ cliui@8.0.1
+│  ├─ licenses: ISC
+│  ├─ repository: https://github.com/yargs/cliui
+│  ├─ publisher: Ben Coe
+│  ├─ email: ben@npmjs.com
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/cliui
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/cliui/LICENSE.txt
+├─ color-convert@2.0.1
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/Qix-/color-convert
+│  ├─ publisher: Heather Arthur
+│  ├─ email: fayearthur@gmail.com
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/color-convert
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/color-convert/LICENSE
+├─ color-name@1.1.4
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/colorjs/color-name
+│  ├─ publisher: DY
+│  ├─ email: dfcreative@gmail.com
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/color-name
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/color-name/LICENSE
+├─ combined-stream@1.0.8
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/felixge/node-combined-stream
+│  ├─ publisher: Felix Geisendörfer
+│  ├─ email: felix@debuggable.com
+│  ├─ url: http://debuggable.com/
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/combined-stream
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/combined-stream/License
+├─ content-disposition@0.5.4
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/jshttp/content-disposition
+│  ├─ publisher: Douglas Christopher Wilson
+│  ├─ email: doug@somethingdoug.com
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/content-disposition
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/content-disposition/LICENSE
+├─ content-type@1.0.5
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/jshttp/content-type
+│  ├─ publisher: Douglas Christopher Wilson
+│  ├─ email: doug@somethingdoug.com
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/content-type
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/content-type/LICENSE
+├─ convert-source-map@2.0.0
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/thlorenz/convert-source-map
+│  ├─ publisher: Thorsten Lorenz
+│  ├─ email: thlorenz@gmx.de
+│  ├─ url: http://thlorenz.com
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/convert-source-map
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/convert-source-map/LICENSE
+├─ cookie-signature@1.0.7
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/visionmedia/node-cookie-signature
+│  ├─ publisher: TJ Holowaychuk
+│  ├─ email: tj@learnboost.com
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/cookie-signature
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/cookie-signature/Readme.md
+├─ cookie@0.7.2
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/jshttp/cookie
+│  ├─ publisher: Roman Shtylman
+│  ├─ email: shtylman@gmail.com
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/cookie
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/cookie/LICENSE
+├─ debug@2.6.9
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/visionmedia/debug
+│  ├─ publisher: TJ Holowaychuk
+│  ├─ email: tj@vision-media.ca
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/body-parser/node_modules/debug
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/body-parser/node_modules/debug/LICENSE
+├─ debug@4.4.3
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/debug-js/debug
+│  ├─ publisher: Josh Junon
+│  ├─ url: https://github.com/qix-
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/debug
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/debug/LICENSE
+├─ default-browser-id@5.0.1
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/sindresorhus/default-browser-id
+│  ├─ publisher: Sindre Sorhus
+│  ├─ email: sindresorhus@gmail.com
+│  ├─ url: https://sindresorhus.com
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/default-browser-id
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/default-browser-id/license
+├─ default-browser@5.5.0
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/sindresorhus/default-browser
+│  ├─ publisher: Sindre Sorhus
+│  ├─ email: sindresorhus@gmail.com
+│  ├─ url: https://sindresorhus.com
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/default-browser
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/default-browser/license
+├─ define-lazy-prop@3.0.0
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/sindresorhus/define-lazy-prop
+│  ├─ publisher: Sindre Sorhus
+│  ├─ email: sindresorhus@gmail.com
+│  ├─ url: https://sindresorhus.com
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/define-lazy-prop
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/define-lazy-prop/license
+├─ delay@5.0.0
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/sindresorhus/delay
+│  ├─ publisher: Sindre Sorhus
+│  ├─ email: sindresorhus@gmail.com
+│  ├─ url: https://sindresorhus.com
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/delay
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/delay/license
+├─ delayed-stream@1.0.0
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/felixge/node-delayed-stream
+│  ├─ publisher: Felix Geisendörfer
+│  ├─ email: felix@debuggable.com
+│  ├─ url: http://debuggable.com/
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/delayed-stream
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/delayed-stream/License
+├─ depd@2.0.0
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/dougwilson/nodejs-depd
+│  ├─ publisher: Douglas Christopher Wilson
+│  ├─ email: doug@somethingdoug.com
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/depd
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/depd/LICENSE
+├─ destroy@1.2.0
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/stream-utils/destroy
+│  ├─ publisher: Jonathan Ong
+│  ├─ email: me@jongleberry.com
+│  ├─ url: http://jongleberry.com
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/destroy
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/destroy/LICENSE
+├─ detect-libc@2.1.2
+│  ├─ licenses: Apache-2.0
+│  ├─ repository: https://github.com/lovell/detect-libc
+│  ├─ publisher: Lovell Fuller
+│  ├─ email: npm@lovell.info
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/detect-libc
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/detect-libc/LICENSE
+├─ dotenv@17.4.2
+│  ├─ licenses: BSD-2-Clause
+│  ├─ repository: https://github.com/motdotla/dotenv
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/dotenv
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/dotenv/LICENSE
+├─ dunder-proto@1.0.1
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/es-shims/dunder-proto
+│  ├─ publisher: Jordan Harband
+│  ├─ email: ljharb@gmail.com
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/dunder-proto
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/dunder-proto/LICENSE
+├─ ecdsa-sig-formatter@1.0.11
+│  ├─ licenses: Apache-2.0
+│  ├─ repository: https://github.com/Brightspace/node-ecdsa-sig-formatter
+│  ├─ publisher: D2L Corporation
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/ecdsa-sig-formatter
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/ecdsa-sig-formatter/LICENSE
+├─ ee-first@1.1.1
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/jonathanong/ee-first
+│  ├─ publisher: Jonathan Ong
+│  ├─ email: me@jongleberry.com
+│  ├─ url: http://jongleberry.com
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/ee-first
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/ee-first/LICENSE
+├─ emoji-regex@8.0.0
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/mathiasbynens/emoji-regex
+│  ├─ publisher: Mathias Bynens
+│  ├─ url: https://mathiasbynens.be/
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/emoji-regex
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/emoji-regex/LICENSE-MIT.txt
+├─ encodeurl@2.0.0
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/pillarjs/encodeurl
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/encodeurl
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/encodeurl/LICENSE
+├─ es-define-property@1.0.1
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/ljharb/es-define-property
+│  ├─ publisher: Jordan Harband
+│  ├─ email: ljharb@gmail.com
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/es-define-property
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/es-define-property/LICENSE
+├─ es-errors@1.3.0
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/ljharb/es-errors
+│  ├─ publisher: Jordan Harband
+│  ├─ email: ljharb@gmail.com
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/es-errors
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/es-errors/LICENSE
+├─ es-module-lexer@2.0.0
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/guybedford/es-module-lexer
+│  ├─ publisher: Guy Bedford
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/es-module-lexer
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/es-module-lexer/LICENSE
+├─ es-object-atoms@1.1.1
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/ljharb/es-object-atoms
+│  ├─ publisher: Jordan Harband
+│  ├─ email: ljharb@gmail.com
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/es-object-atoms
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/es-object-atoms/LICENSE
+├─ es-set-tostringtag@2.1.0
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/es-shims/es-set-tostringtag
+│  ├─ publisher: Jordan Harband
+│  ├─ email: ljharb@gmail.com
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/es-set-tostringtag
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/es-set-tostringtag/LICENSE
+├─ esbuild@0.28.2
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/evanw/esbuild
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/esbuild
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/esbuild/LICENSE.md
+├─ escalade@3.2.0
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/lukeed/escalade
+│  ├─ publisher: Luke Edwards
+│  ├─ email: luke.edwards05@gmail.com
+│  ├─ url: https://lukeed.com
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/escalade
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/escalade/license
+├─ escape-html@1.0.3
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/component/escape-html
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/escape-html
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/escape-html/LICENSE
+├─ estree-walker@3.0.3
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/Rich-Harris/estree-walker
+│  ├─ publisher: Rich Harris
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/estree-walker
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/estree-walker/LICENSE
+├─ etag@1.8.1
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/jshttp/etag
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/etag
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/etag/LICENSE
+├─ expect-type@1.3.0
+│  ├─ licenses: Apache-2.0
+│  ├─ repository: https://github.com/mmkal/expect-type
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/expect-type
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/expect-type/LICENSE
+├─ express@4.22.1
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/expressjs/express
+│  ├─ publisher: TJ Holowaychuk
+│  ├─ email: tj@vision-media.ca
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/express
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/express/LICENSE
+├─ fast-json-stable-stringify@2.1.0
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/epoberezkin/fast-json-stable-stringify
+│  ├─ publisher: James Halliday
+│  ├─ email: mail@substack.net
+│  ├─ url: http://substack.net
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/fast-json-stable-stringify
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/fast-json-stable-stringify/LICENSE
+├─ fast-printf@1.6.10
+│  ├─ licenses: BSD-3-Clause
+│  ├─ repository: https://github.com/gajus/fast-printf
+│  ├─ publisher: Gajus Kuizinas
+│  ├─ email: gajus@gajus.com
+│  ├─ url: http://gajus.com
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/fast-printf
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/fast-printf/LICENSE
+├─ fdir@6.5.0
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/thecodrr/fdir
+│  ├─ publisher: thecodrr
+│  ├─ email: thecodrr@protonmail.com
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/fdir
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/fdir/LICENSE
+├─ fecha@4.2.3
+│  ├─ licenses: MIT
+│  ├─ repository: git+https://taylorhakes@github.com/taylorhakes/fecha
+│  ├─ publisher: Taylor Hakes
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/fecha
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/fecha/LICENSE
+├─ finalhandler@1.3.2
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/pillarjs/finalhandler
+│  ├─ publisher: Douglas Christopher Wilson
+│  ├─ email: doug@somethingdoug.com
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/finalhandler
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/finalhandler/LICENSE
+├─ form-data@4.0.5
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/form-data/form-data
+│  ├─ publisher: Felix Geisendörfer
+│  ├─ email: felix@debuggable.com
+│  ├─ url: http://debuggable.com/
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/form-data
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/form-data/License
+├─ forwarded-parse@2.1.2
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/lpinca/forwarded-parse
+│  ├─ publisher: Luigi Pinca
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/forwarded-parse
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/forwarded-parse/LICENSE
+├─ forwarded@0.2.0
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/jshttp/forwarded
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/forwarded
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/forwarded/LICENSE
+├─ fresh@0.5.2
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/jshttp/fresh
+│  ├─ publisher: TJ Holowaychuk
+│  ├─ email: tj@vision-media.ca
+│  ├─ url: http://tjholowaychuk.com
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/fresh
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/fresh/LICENSE
+├─ fsevents@2.3.3
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/fsevents/fsevents
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/fsevents
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/fsevents/LICENSE
+├─ function-bind@1.1.2
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/Raynos/function-bind
+│  ├─ publisher: Raynos
+│  ├─ email: raynos2@gmail.com
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/function-bind
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/function-bind/LICENSE
+├─ get-caller-file@2.0.5
+│  ├─ licenses: ISC
+│  ├─ repository: https://github.com/stefanpenner/get-caller-file
+│  ├─ publisher: Stefan Penner
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/get-caller-file
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/get-caller-file/LICENSE.md
+├─ get-intrinsic@1.3.0
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/ljharb/get-intrinsic
+│  ├─ publisher: Jordan Harband
+│  ├─ email: ljharb@gmail.com
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/get-intrinsic
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/get-intrinsic/LICENSE
+├─ get-proto@1.0.1
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/ljharb/get-proto
+│  ├─ publisher: Jordan Harband
+│  ├─ email: ljharb@gmail.com
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/get-proto
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/get-proto/LICENSE
+├─ google-protobuf@3.21.4
+│  ├─ licenses: (BSD-3-Clause AND Apache-2.0)
+│  ├─ repository: https://github.com/protocolbuffers/protobuf-javascript
+│  ├─ publisher: Google Protocol Buffers Team
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/google-protobuf
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/google-protobuf/LICENSE.md
+├─ gopd@1.2.0
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/ljharb/gopd
+│  ├─ publisher: Jordan Harband
+│  ├─ email: ljharb@gmail.com
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/gopd
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/gopd/LICENSE
+├─ has-flag@4.0.0
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/sindresorhus/has-flag
+│  ├─ publisher: Sindre Sorhus
+│  ├─ email: sindresorhus@gmail.com
+│  ├─ url: sindresorhus.com
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/has-flag
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/has-flag/license
+├─ has-symbols@1.1.0
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/inspect-js/has-symbols
+│  ├─ publisher: Jordan Harband
+│  ├─ email: ljharb@gmail.com
+│  ├─ url: http://ljharb.codes
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/has-symbols
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/has-symbols/LICENSE
+├─ has-tostringtag@1.0.2
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/inspect-js/has-tostringtag
+│  ├─ publisher: Jordan Harband
+│  ├─ email: ljharb@gmail.com
+│  ├─ url: http://ljharb.codes
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/has-tostringtag
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/has-tostringtag/LICENSE
+├─ hasown@2.0.3
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/inspect-js/hasOwn
+│  ├─ publisher: Jordan Harband
+│  ├─ email: ljharb@gmail.com
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/hasown
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/hasown/LICENSE
+├─ hono@4.13.1
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/honojs/hono
+│  ├─ publisher: Yusuke Wada
+│  ├─ email: yusuke@kamawada.com
+│  ├─ url: https://github.com/yusukebe
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/hono
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/hono/LICENSE
+├─ html-escaper@2.0.2
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/WebReflection/html-escaper
+│  ├─ publisher: Andrea Giammarchi
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/html-escaper
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/html-escaper/LICENSE.txt
+├─ http-errors@2.0.1
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/jshttp/http-errors
+│  ├─ publisher: Jonathan Ong
+│  ├─ email: me@jongleberry.com
+│  ├─ url: http://jongleberry.com
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/http-errors
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/http-errors/LICENSE
+├─ http-proxy-agent@7.0.2
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/TooTallNate/proxy-agents
+│  ├─ publisher: Nathan Rajlich
+│  ├─ email: nathan@tootallnate.net
+│  ├─ url: http://n8.io/
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/http-proxy-agent
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/http-proxy-agent/LICENSE
+├─ http-terminator@3.2.0
+│  ├─ licenses: BSD-3-Clause
+│  ├─ repository: https://github.com/gajus/http-terminator
+│  ├─ publisher: Gajus Kuizinas
+│  ├─ email: gajus@gajus.com
+│  ├─ url: http://gajus.com
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/http-terminator
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/http-terminator/LICENSE
+├─ https-proxy-agent@7.0.6
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/TooTallNate/proxy-agents
+│  ├─ publisher: Nathan Rajlich
+│  ├─ email: nathan@tootallnate.net
+│  ├─ url: http://n8.io/
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/https-proxy-agent
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/https-proxy-agent/LICENSE
+├─ iconv-lite@0.4.24
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/ashtuchkin/iconv-lite
+│  ├─ publisher: Alexander Shtuchkin
+│  ├─ email: ashtuchkin@gmail.com
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/iconv-lite
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/iconv-lite/LICENSE
+├─ import-in-the-middle@2.0.6
+│  ├─ licenses: Apache-2.0
+│  ├─ repository: https://github.com/nodejs/import-in-the-middle
+│  ├─ publisher: Bryan English
+│  ├─ email: bryan.english@datadoghq.com
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/@azure/opentelemetry-instrumentation-azure-sdk/node_modules/import-in-the-middle
+│  ├─ licenseFile: /Users/hayo/work/az-walcron/node_modules/@azure/opentelemetry-instrumentation-azure-sdk/node_modules/import-in-the-middle/LICENSE
+│  └─ noticeFile: /Users/hayo/work/az-walcron/node_modules/@azure/opentelemetry-instrumentation-azure-sdk/node_modules/import-in-the-middle/NOTICE
+├─ import-in-the-middle@3.0.1
+│  ├─ licenses: Apache-2.0
+│  ├─ repository: https://github.com/nodejs/import-in-the-middle
+│  ├─ publisher: Bryan English
+│  ├─ email: bryan.english@datadoghq.com
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/import-in-the-middle
+│  ├─ licenseFile: /Users/hayo/work/az-walcron/node_modules/import-in-the-middle/LICENSE
+│  └─ noticeFile: /Users/hayo/work/az-walcron/node_modules/import-in-the-middle/NOTICE
+├─ inherits@2.0.4
+│  ├─ licenses: ISC
+│  ├─ repository: https://github.com/isaacs/inherits
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/inherits
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/inherits/LICENSE
+├─ ipaddr.js@1.9.1
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/whitequark/ipaddr.js
+│  ├─ publisher: whitequark
+│  ├─ email: whitequark@whitequark.org
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/ipaddr.js
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/ipaddr.js/LICENSE
+├─ is-docker@3.0.0
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/sindresorhus/is-docker
+│  ├─ publisher: Sindre Sorhus
+│  ├─ email: sindresorhus@gmail.com
+│  ├─ url: https://sindresorhus.com
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/is-docker
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/is-docker/license
+├─ is-fullwidth-code-point@3.0.0
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/sindresorhus/is-fullwidth-code-point
+│  ├─ publisher: Sindre Sorhus
+│  ├─ email: sindresorhus@gmail.com
+│  ├─ url: sindresorhus.com
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/is-fullwidth-code-point
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/is-fullwidth-code-point/license
+├─ is-inside-container@1.0.0
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/sindresorhus/is-inside-container
+│  ├─ publisher: Sindre Sorhus
+│  ├─ email: sindresorhus@gmail.com
+│  ├─ url: https://sindresorhus.com
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/is-inside-container
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/is-inside-container/license
+├─ is-wsl@3.1.1
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/sindresorhus/is-wsl
+│  ├─ publisher: Sindre Sorhus
+│  ├─ email: sindresorhus@gmail.com
+│  ├─ url: https://sindresorhus.com
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/is-wsl
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/is-wsl/license
+├─ istanbul-lib-coverage@3.2.2
+│  ├─ licenses: BSD-3-Clause
+│  ├─ repository: https://github.com/istanbuljs/istanbuljs
+│  ├─ publisher: Krishnan Anantheswaran
+│  ├─ email: kananthmail-github@yahoo.com
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/istanbul-lib-coverage
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/istanbul-lib-coverage/LICENSE
+├─ istanbul-lib-report@3.0.1
+│  ├─ licenses: BSD-3-Clause
+│  ├─ repository: https://github.com/istanbuljs/istanbuljs
+│  ├─ publisher: Krishnan Anantheswaran
+│  ├─ email: kananthmail-github@yahoo.com
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/istanbul-lib-report
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/istanbul-lib-report/LICENSE
+├─ istanbul-reports@3.2.0
+│  ├─ licenses: BSD-3-Clause
+│  ├─ repository: https://github.com/istanbuljs/istanbuljs
+│  ├─ publisher: Krishnan Anantheswaran
+│  ├─ email: kananthmail-github@yahoo.com
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/istanbul-reports
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/istanbul-reports/LICENSE
+├─ js-tokens@10.0.0
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/lydell/js-tokens
+│  ├─ publisher: Simon Lydell
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/js-tokens
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/js-tokens/LICENSE
+├─ jsonc-parser@3.3.1
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/microsoft/node-jsonc-parser
+│  ├─ publisher: Microsoft Corporation
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/jsonc-parser
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/jsonc-parser/LICENSE.md
+├─ jsonwebtoken@9.0.3
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/auth0/node-jsonwebtoken
+│  ├─ publisher: auth0
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/jsonwebtoken
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/jsonwebtoken/LICENSE
+├─ jwa@2.0.1
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/brianloveswords/node-jwa
+│  ├─ publisher: Brian J. Brennan
+│  ├─ email: brianloveswords@gmail.com
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/jwa
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/jwa/LICENSE
+├─ jws@4.0.1
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/brianloveswords/node-jws
+│  ├─ publisher: Brian J Brennan
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/jws
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/jws/LICENSE
+├─ lightningcss-darwin-arm64@1.33.0
+│  ├─ licenses: MPL-2.0
+│  ├─ repository: https://github.com/parcel-bundler/lightningcss
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/lightningcss-darwin-arm64
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/lightningcss-darwin-arm64/LICENSE
+├─ lightningcss@1.33.0
+│  ├─ licenses: MPL-2.0
+│  ├─ repository: https://github.com/parcel-bundler/lightningcss
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/lightningcss
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/lightningcss/LICENSE
+├─ lodash.camelcase@4.3.0
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/lodash/lodash
+│  ├─ publisher: John-David Dalton
+│  ├─ email: john.david.dalton@gmail.com
+│  ├─ url: http://allyoucanleet.com/
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/lodash.camelcase
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/lodash.camelcase/LICENSE
+├─ lodash.includes@4.3.0
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/lodash/lodash
+│  ├─ publisher: John-David Dalton
+│  ├─ email: john.david.dalton@gmail.com
+│  ├─ url: http://allyoucanleet.com/
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/lodash.includes
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/lodash.includes/LICENSE
+├─ lodash.isboolean@3.0.3
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/lodash/lodash
+│  ├─ publisher: John-David Dalton
+│  ├─ email: john.david.dalton@gmail.com
+│  ├─ url: http://allyoucanleet.com/
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/lodash.isboolean
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/lodash.isboolean/LICENSE
+├─ lodash.isinteger@4.0.4
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/lodash/lodash
+│  ├─ publisher: John-David Dalton
+│  ├─ email: john.david.dalton@gmail.com
+│  ├─ url: http://allyoucanleet.com/
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/lodash.isinteger
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/lodash.isinteger/LICENSE
+├─ lodash.isnumber@3.0.3
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/lodash/lodash
+│  ├─ publisher: John-David Dalton
+│  ├─ email: john.david.dalton@gmail.com
+│  ├─ url: http://allyoucanleet.com/
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/lodash.isnumber
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/lodash.isnumber/LICENSE
+├─ lodash.isplainobject@4.0.6
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/lodash/lodash
+│  ├─ publisher: John-David Dalton
+│  ├─ email: john.david.dalton@gmail.com
+│  ├─ url: http://allyoucanleet.com/
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/lodash.isplainobject
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/lodash.isplainobject/LICENSE
+├─ lodash.isstring@4.0.1
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/lodash/lodash
+│  ├─ publisher: John-David Dalton
+│  ├─ email: john.david.dalton@gmail.com
+│  ├─ url: http://allyoucanleet.com/
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/lodash.isstring
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/lodash.isstring/LICENSE
+├─ lodash.once@4.1.1
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/lodash/lodash
+│  ├─ publisher: John-David Dalton
+│  ├─ email: john.david.dalton@gmail.com
+│  ├─ url: http://allyoucanleet.com/
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/lodash.once
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/lodash.once/LICENSE
+├─ logform@2.7.0
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/winstonjs/logform
+│  ├─ publisher: Charlie Robbins
+│  ├─ email: charlie.robbins@gmail.com
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/logform
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/logform/LICENSE
+├─ long@5.3.2
+│  ├─ licenses: Apache-2.0
+│  ├─ repository: https://github.com/dcodeIO/long.js
+│  ├─ publisher: Daniel Wirtz
+│  ├─ email: dcode@dcode.io
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/long
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/long/LICENSE
+├─ magic-string@0.30.21
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/Rich-Harris/magic-string
+│  ├─ publisher: Rich Harris
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/magic-string
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/magic-string/LICENSE
+├─ magicast@0.5.2
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/unjs/magicast
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/magicast
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/magicast/LICENSE
+├─ make-dir@4.0.0
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/sindresorhus/make-dir
+│  ├─ publisher: Sindre Sorhus
+│  ├─ email: sindresorhus@gmail.com
+│  ├─ url: https://sindresorhus.com
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/make-dir
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/make-dir/license
+├─ math-intrinsics@1.1.0
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/es-shims/math-intrinsics
+│  ├─ publisher: Jordan Harband
+│  ├─ email: ljharb@gmail.com
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/math-intrinsics
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/math-intrinsics/LICENSE
+├─ media-typer@0.3.0
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/jshttp/media-typer
+│  ├─ publisher: Douglas Christopher Wilson
+│  ├─ email: doug@somethingdoug.com
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/media-typer
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/media-typer/LICENSE
+├─ merge-descriptors@1.0.3
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/sindresorhus/merge-descriptors
+│  ├─ publisher: Jonathan Ong
+│  ├─ email: me@jongleberry.com
+│  ├─ url: http://jongleberry.com
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/merge-descriptors
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/merge-descriptors/LICENSE
+├─ methods@1.1.2
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/jshttp/methods
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/methods
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/methods/LICENSE
+├─ mime-db@1.52.0
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/jshttp/mime-db
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/mime-db
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/mime-db/LICENSE
+├─ mime-types@2.1.35
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/jshttp/mime-types
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/mime-types
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/mime-types/LICENSE
+├─ mime@1.6.0
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/broofa/node-mime
+│  ├─ publisher: Robert Kieffer
+│  ├─ email: robert@broofa.com
+│  ├─ url: http://github.com/broofa
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/mime
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/mime/LICENSE
+├─ module-details-from-path@1.0.4
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/watson/module-details-from-path
+│  ├─ publisher: Thomas Watson
+│  ├─ email: w@tson.dk
+│  ├─ url: https://wa.tson.dk/
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/module-details-from-path
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/module-details-from-path/LICENSE
+├─ ms@2.0.0
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/zeit/ms
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/body-parser/node_modules/ms
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/body-parser/node_modules/ms/license.md
+├─ ms@2.1.3
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/vercel/ms
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/ms
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/ms/license.md
+├─ nanoid@3.3.16
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/ai/nanoid
+│  ├─ publisher: Andrey Sitnik
+│  ├─ email: andrey@sitnik.ru
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/nanoid
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/nanoid/LICENSE
+├─ negotiator@0.6.3
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/jshttp/negotiator
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/negotiator
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/negotiator/LICENSE
+├─ node-fetch@2.7.0
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/bitinn/node-fetch
+│  ├─ publisher: David Frank
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/node-fetch
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/node-fetch/LICENSE.md
+├─ object-inspect@1.13.4
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/inspect-js/object-inspect
+│  ├─ publisher: James Halliday
+│  ├─ email: mail@substack.net
+│  ├─ url: http://substack.net
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/object-inspect
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/object-inspect/LICENSE
+├─ obug@2.1.1
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/sxzz/obug
+│  ├─ publisher: Kevin Deng
+│  ├─ email: sxzz@sxzz.moe
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/obug
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/obug/LICENSE
+├─ on-exit-leak-free@2.1.2
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/mcollina/on-exit-or-gc
+│  ├─ publisher: Matteo Collina
+│  ├─ email: hello@matteocollina.com
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/on-exit-leak-free
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/on-exit-leak-free/LICENSE
+├─ on-finished@2.4.1
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/jshttp/on-finished
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/on-finished
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/on-finished/LICENSE
+├─ open@10.2.0
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/sindresorhus/open
+│  ├─ publisher: Sindre Sorhus
+│  ├─ email: sindresorhus@gmail.com
+│  ├─ url: https://sindresorhus.com
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/open
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/open/license
+├─ openai@7.4.0
+│  ├─ licenses: Apache-2.0
+│  ├─ repository: https://github.com/openai/openai-node
+│  ├─ publisher: OpenAI
+│  ├─ email: support@openai.com
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/openai
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/openai/LICENSE
+├─ p-finally@1.0.0
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/sindresorhus/p-finally
+│  ├─ publisher: Sindre Sorhus
+│  ├─ email: sindresorhus@gmail.com
+│  ├─ url: sindresorhus.com
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/p-finally
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/p-finally/license
+├─ p-timeout@3.2.0
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/sindresorhus/p-timeout
+│  ├─ publisher: Sindre Sorhus
+│  ├─ email: sindresorhus@gmail.com
+│  ├─ url: sindresorhus.com
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/p-timeout
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/p-timeout/license
+├─ p-wait-for@3.2.0
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/sindresorhus/p-wait-for
+│  ├─ publisher: Sindre Sorhus
+│  ├─ email: sindresorhus@gmail.com
+│  ├─ url: https://sindresorhus.com
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/p-wait-for
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/p-wait-for/license
+├─ parseurl@1.3.3
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/pillarjs/parseurl
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/parseurl
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/parseurl/LICENSE
+├─ path-to-regexp@0.1.13
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/pillarjs/path-to-regexp
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/path-to-regexp
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/path-to-regexp/LICENSE
+├─ pathe@2.0.3
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/unjs/pathe
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/pathe
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/pathe/LICENSE
+├─ pdf-parse@2.4.5
+│  ├─ licenses: Apache-2.0
+│  ├─ repository: https://github.com/mehmet-kozan/pdf-parse
+│  ├─ publisher: Mehmet Kozan
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/pdf-parse
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/pdf-parse/LICENSE
+├─ pdfjs-dist@5.4.296
+│  ├─ licenses: Apache-2.0
+│  ├─ repository: https://github.com/mozilla/pdf.js
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/pdfjs-dist
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/pdfjs-dist/LICENSE
+├─ pg-int8@1.0.1
+│  ├─ licenses: ISC
+│  ├─ repository: https://github.com/charmander/pg-int8
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/pg-int8
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/pg-int8/LICENSE
+├─ pg-protocol@1.15.0
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/brianc/node-postgres
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/pg-protocol
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/pg-protocol/LICENSE
+├─ pg-types@2.2.0
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/brianc/node-pg-types
+│  ├─ publisher: Brian M. Carlson
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/pg-types
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/pg-types/README.md
+├─ picocolors@1.1.1
+│  ├─ licenses: ISC
+│  ├─ repository: https://github.com/alexeyraspopov/picocolors
+│  ├─ publisher: Alexey Raspopov
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/picocolors
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/picocolors/LICENSE
+├─ picomatch@4.0.5
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/micromatch/picomatch
+│  ├─ publisher: Jon Schlinkert
+│  ├─ url: https://github.com/jonschlinkert
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/picomatch
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/picomatch/LICENSE
+├─ pino-abstract-transport@3.0.0
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/pinojs/pino-abstract-transport
+│  ├─ publisher: Matteo Collina
+│  ├─ email: hello@matteocollina.com
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/pino-abstract-transport
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/pino-abstract-transport/LICENSE
+├─ pino-std-serializers@7.1.0
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/pinojs/pino-std-serializers
+│  ├─ publisher: James Sumners
+│  ├─ email: james.sumners@gmail.com
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/pino-std-serializers
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/pino-std-serializers/LICENSE
+├─ pino@10.3.1
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/pinojs/pino
+│  ├─ publisher: Matteo Collina
+│  ├─ email: hello@matteocollina.com
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/pino
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/pino/LICENSE
+├─ postcss@8.5.22
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/postcss/postcss
+│  ├─ publisher: Andrey Sitnik
+│  ├─ email: andrey@sitnik.es
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/postcss
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/postcss/LICENSE
+├─ postgres-array@2.0.0
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/bendrucker/postgres-array
+│  ├─ publisher: Ben Drucker
+│  ├─ email: bvdrucker@gmail.com
+│  ├─ url: bendrucker.me
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/postgres-array
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/postgres-array/license
+├─ postgres-bytea@1.0.1
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/bendrucker/postgres-bytea
+│  ├─ publisher: Ben Drucker
+│  ├─ email: bvdrucker@gmail.com
+│  ├─ url: bendrucker.me
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/postgres-bytea
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/postgres-bytea/license
+├─ postgres-date@1.0.7
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/bendrucker/postgres-date
+│  ├─ publisher: Ben Drucker
+│  ├─ email: bvdrucker@gmail.com
+│  ├─ url: bendrucker.me
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/postgres-date
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/postgres-date/license
+├─ postgres-interval@1.2.0
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/bendrucker/postgres-interval
+│  ├─ publisher: Ben Drucker
+│  ├─ email: bvdrucker@gmail.com
+│  ├─ url: bendrucker.me
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/postgres-interval
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/postgres-interval/license
+├─ priorityqueuejs@2.0.0
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/janogonzalez/priorityqueuejs
+│  ├─ publisher: Jano González
+│  ├─ email: info@janogonzalez.com
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/priorityqueuejs
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/priorityqueuejs/README.md
+├─ process-warning@5.0.0
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/fastify/process-warning
+│  ├─ publisher: Tomas Della Vedova
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/process-warning
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/process-warning/LICENSE
+├─ protobufjs@7.5.5
+│  ├─ licenses: BSD-3-Clause
+│  ├─ repository: https://github.com/protobufjs/protobuf.js
+│  ├─ publisher: Daniel Wirtz
+│  ├─ email: dcode+protobufjs@dcode.io
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/@grpc/proto-loader/node_modules/protobufjs
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/@grpc/proto-loader/node_modules/protobufjs/LICENSE
+├─ proxy-addr@2.0.7
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/jshttp/proxy-addr
+│  ├─ publisher: Douglas Christopher Wilson
+│  ├─ email: doug@somethingdoug.com
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/proxy-addr
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/proxy-addr/LICENSE
+├─ qs@6.14.2
+│  ├─ licenses: BSD-3-Clause
+│  ├─ repository: https://github.com/ljharb/qs
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/express/node_modules/qs
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/express/node_modules/qs/LICENSE.md
+├─ qs@6.15.1
+│  ├─ licenses: BSD-3-Clause
+│  ├─ repository: https://github.com/ljharb/qs
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/qs
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/qs/LICENSE.md
+├─ quick-format-unescaped@4.0.4
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/davidmarkclements/quick-format
+│  ├─ publisher: David Mark Clements
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/quick-format-unescaped
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/quick-format-unescaped/LICENSE
+├─ range-parser@1.2.1
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/jshttp/range-parser
+│  ├─ publisher: TJ Holowaychuk
+│  ├─ email: tj@vision-media.ca
+│  ├─ url: http://tjholowaychuk.com
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/range-parser
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/range-parser/LICENSE
+├─ raw-body@2.5.3
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/stream-utils/raw-body
+│  ├─ publisher: Jonathan Ong
+│  ├─ email: me@jongleberry.com
+│  ├─ url: http://jongleberry.com
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/raw-body
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/raw-body/LICENSE
+├─ readable-stream@3.6.2
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/nodejs/readable-stream
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/readable-stream
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/readable-stream/LICENSE
+├─ real-require@0.2.0
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/pinojs/real-require
+│  ├─ publisher: Paolo Insogna
+│  ├─ email: shogun@cowtech.it
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/real-require
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/real-require/LICENSE.md
+├─ require-directory@2.1.1
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/troygoode/node-require-directory
+│  ├─ publisher: Troy Goode
+│  ├─ email: troygoode@gmail.com
+│  ├─ url: http://github.com/troygoode/
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/require-directory
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/require-directory/LICENSE
+├─ require-in-the-middle@8.0.1
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/nodejs/require-in-the-middle
+│  ├─ publisher: Thomas Watson Steen
+│  ├─ email: w@tson.dk
+│  ├─ url: https://twitter.com/wa7son
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/require-in-the-middle
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/require-in-the-middle/LICENSE
+├─ roarr@7.21.4
+│  ├─ licenses: BSD-3-Clause
+│  ├─ repository: https://github.com/gajus/roarr
+│  ├─ publisher: Gajus Kuizinas
+│  ├─ email: gajus@gajus.com
+│  ├─ url: http://gajus.com
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/roarr
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/roarr/LICENSE
+├─ rolldown@1.1.5
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/rolldown/rolldown
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/rolldown
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/rolldown/LICENSE
+├─ run-applescript@7.1.0
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/sindresorhus/run-applescript
+│  ├─ publisher: Sindre Sorhus
+│  ├─ email: sindresorhus@gmail.com
+│  ├─ url: https://sindresorhus.com
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/run-applescript
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/run-applescript/license
+├─ safe-buffer@5.2.1
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/feross/safe-buffer
+│  ├─ publisher: Feross Aboukhadijeh
+│  ├─ email: feross@feross.org
+│  ├─ url: https://feross.org
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/safe-buffer
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/safe-buffer/LICENSE
+├─ safe-stable-stringify@2.5.0
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/BridgeAR/safe-stable-stringify
+│  ├─ publisher: Ruben Bridgewater
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/safe-stable-stringify
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/safe-stable-stringify/LICENSE
+├─ safer-buffer@2.1.2
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/ChALkeR/safer-buffer
+│  ├─ publisher: Nikita Skovoroda
+│  ├─ email: chalkerx@gmail.com
+│  ├─ url: https://github.com/ChALkeR
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/safer-buffer
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/safer-buffer/LICENSE
+├─ semaphore@1.1.0
+│  ├─ licenses: MIT*
+│  ├─ repository: https://github.com/abrkn/semaphore.js
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/semaphore
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/semaphore/README.md
+├─ semver-compare@1.0.0
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/substack/semver-compare
+│  ├─ publisher: James Halliday
+│  ├─ email: mail@substack.net
+│  ├─ url: http://substack.net
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/semver-compare
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/semver-compare/LICENSE
+├─ semver@7.7.4
+│  ├─ licenses: ISC
+│  ├─ repository: https://github.com/npm/node-semver
+│  ├─ publisher: GitHub Inc.
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/semver
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/semver/LICENSE
+├─ send@0.19.2
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/pillarjs/send
+│  ├─ publisher: TJ Holowaychuk
+│  ├─ email: tj@vision-media.ca
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/send
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/send/LICENSE
+├─ serve-static@1.16.3
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/expressjs/serve-static
+│  ├─ publisher: Douglas Christopher Wilson
+│  ├─ email: doug@somethingdoug.com
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/serve-static
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/serve-static/LICENSE
+├─ setprototypeof@1.2.0
+│  ├─ licenses: ISC
+│  ├─ repository: https://github.com/wesleytodd/setprototypeof
+│  ├─ publisher: Wes Todd
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/setprototypeof
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/setprototypeof/LICENSE
+├─ side-channel-list@1.0.1
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/ljharb/side-channel-list
+│  ├─ publisher: Jordan Harband
+│  ├─ email: ljharb@gmail.com
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/side-channel-list
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/side-channel-list/LICENSE
+├─ side-channel-map@1.0.1
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/ljharb/side-channel-map
+│  ├─ publisher: Jordan Harband
+│  ├─ email: ljharb@gmail.com
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/side-channel-map
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/side-channel-map/LICENSE
+├─ side-channel-weakmap@1.0.2
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/ljharb/side-channel-weakmap
+│  ├─ publisher: Jordan Harband
+│  ├─ email: ljharb@gmail.com
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/side-channel-weakmap
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/side-channel-weakmap/LICENSE
+├─ side-channel@1.1.0
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/ljharb/side-channel
+│  ├─ publisher: Jordan Harband
+│  ├─ email: ljharb@gmail.com
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/side-channel
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/side-channel/LICENSE
+├─ siginfo@2.0.0
+│  ├─ licenses: ISC
+│  ├─ repository: https://github.com/emilbayes/siginfo
+│  ├─ publisher: Emil Bay
+│  ├─ email: github@tixz.dk
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/siginfo
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/siginfo/LICENSE
+├─ sonic-boom@4.2.1
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/pinojs/sonic-boom
+│  ├─ publisher: Matteo Collina
+│  ├─ email: hello@matteocollina.com
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/sonic-boom
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/sonic-boom/LICENSE
+├─ source-map-js@1.2.1
+│  ├─ licenses: BSD-3-Clause
+│  ├─ repository: https://github.com/7rulnik/source-map-js
+│  ├─ publisher: Valentin 7rulnik Semirulnik
+│  ├─ email: v7rulnik@gmail.com
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/source-map-js
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/source-map-js/LICENSE
+├─ split2@4.2.0
+│  ├─ licenses: ISC
+│  ├─ repository: https://github.com/mcollina/split2
+│  ├─ publisher: Matteo Collina
+│  ├─ email: hello@matteocollina.com
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/split2
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/split2/LICENSE
+├─ stackback@0.0.2
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/shtylman/node-stackback
+│  ├─ publisher: Roman Shtylman
+│  ├─ email: shtylman@gmail.com
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/stackback
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/stackback/README.md
+├─ statuses@2.0.2
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/jshttp/statuses
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/statuses
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/statuses/LICENSE
+├─ std-env@4.1.0
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/unjs/std-env
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/std-env
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/std-env/LICENCE
+├─ string-width@4.2.3
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/sindresorhus/string-width
+│  ├─ publisher: Sindre Sorhus
+│  ├─ email: sindresorhus@gmail.com
+│  ├─ url: sindresorhus.com
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/string-width
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/string-width/license
+├─ string_decoder@1.3.0
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/nodejs/string_decoder
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/string_decoder
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/string_decoder/LICENSE
+├─ strip-ansi@6.0.1
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/chalk/strip-ansi
+│  ├─ publisher: Sindre Sorhus
+│  ├─ email: sindresorhus@gmail.com
+│  ├─ url: sindresorhus.com
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/strip-ansi
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/strip-ansi/license
+├─ supports-color@7.2.0
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/chalk/supports-color
+│  ├─ publisher: Sindre Sorhus
+│  ├─ email: sindresorhus@gmail.com
+│  ├─ url: sindresorhus.com
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/supports-color
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/supports-color/license
+├─ thread-stream@4.0.0
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/mcollina/thread-stream
+│  ├─ publisher: Matteo Collina
+│  ├─ email: hello@matteocollina.com
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/thread-stream
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/thread-stream/LICENSE
+├─ tinybench@2.9.0
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/tinylibs/tinybench
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/tinybench
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/tinybench/LICENSE
+├─ tinyexec@1.1.1
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/tinylibs/tinyexec
+│  ├─ publisher: James Garbutt
+│  ├─ url: https://github.com/43081j
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/tinyexec
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/tinyexec/LICENSE
+├─ tinyglobby@0.2.17
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/SuperchupuDev/tinyglobby
+│  ├─ publisher: Superchupu
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/tinyglobby
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/tinyglobby/LICENSE
+├─ tinyrainbow@3.1.0
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/tinylibs/tinyrainbow
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/tinyrainbow
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/tinyrainbow/LICENCE
+├─ toidentifier@1.0.1
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/component/toidentifier
+│  ├─ publisher: Douglas Christopher Wilson
+│  ├─ email: doug@somethingdoug.com
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/toidentifier
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/toidentifier/LICENSE
+├─ tr46@0.0.3
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/Sebmaster/tr46.js
+│  ├─ publisher: Sebastian Mayr
+│  ├─ email: npm@smayr.name
+│  └─ path: /Users/hayo/work/az-walcron/node_modules/tr46
+├─ triple-beam@1.4.1
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/winstonjs/triple-beam
+│  ├─ publisher: Charlie Robbins
+│  ├─ email: charlie.robbins@gmail.com
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/triple-beam
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/triple-beam/LICENSE
+├─ tslib@2.8.1
+│  ├─ licenses: 0BSD
+│  ├─ repository: https://github.com/Microsoft/tslib
+│  ├─ publisher: Microsoft Corp.
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/tslib
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/tslib/LICENSE.txt
+├─ tsx@4.23.5
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/privatenumber/tsx
+│  ├─ publisher: Hiroki Osame
+│  ├─ email: hiroki.osame@gmail.com
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/tsx
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/tsx/LICENSE
+├─ type-fest@2.19.0
+│  ├─ licenses: (MIT OR CC0-1.0)
+│  ├─ repository: https://github.com/sindresorhus/type-fest
+│  ├─ publisher: Sindre Sorhus
+│  ├─ email: sindresorhus@gmail.com
+│  ├─ url: https://sindresorhus.com
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/type-fest
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/type-fest/readme.md
+├─ type-is@1.6.18
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/jshttp/type-is
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/type-is
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/type-is/LICENSE
+├─ typescript@7.0.2
+│  ├─ licenses: Apache-2.0
+│  ├─ repository: https://github.com/microsoft/TypeScript
+│  ├─ publisher: Microsoft Corp.
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/typescript
+│  ├─ licenseFile: /Users/hayo/work/az-walcron/node_modules/typescript/LICENSE
+│  └─ noticeFile: /Users/hayo/work/az-walcron/node_modules/typescript/NOTICE.txt
+├─ undici-types@8.3.0
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/nodejs/undici
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/undici-types
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/undici-types/LICENSE
+├─ unpipe@1.0.0
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/stream-utils/unpipe
+│  ├─ publisher: Douglas Christopher Wilson
+│  ├─ email: doug@somethingdoug.com
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/unpipe
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/unpipe/LICENSE
+├─ util-deprecate@1.0.2
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/TooTallNate/util-deprecate
+│  ├─ publisher: Nathan Rajlich
+│  ├─ email: nathan@tootallnate.net
+│  ├─ url: http://n8.io/
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/util-deprecate
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/util-deprecate/LICENSE
+├─ utils-merge@1.0.1
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/jaredhanson/utils-merge
+│  ├─ publisher: Jared Hanson
+│  ├─ email: jaredhanson@gmail.com
+│  ├─ url: http://www.jaredhanson.net/
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/utils-merge
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/utils-merge/LICENSE
+├─ uuid@14.0.1
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/uuidjs/uuid
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/uuid
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/uuid/LICENSE.md
+├─ vary@1.1.2
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/jshttp/vary
+│  ├─ publisher: Douglas Christopher Wilson
+│  ├─ email: doug@somethingdoug.com
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/vary
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/vary/LICENSE
+├─ vite@8.1.5
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/vitejs/vite
+│  ├─ publisher: Evan You
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/vite
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/vite/LICENSE.md
+├─ vitest@4.1.10
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/vitest-dev/vitest
+│  ├─ publisher: Anthony Fu
+│  ├─ email: anthonyfu117@hotmail.com
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/vitest
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/vitest/LICENSE.md
+├─ webidl-conversions@3.0.1
+│  ├─ licenses: BSD-2-Clause
+│  ├─ repository: https://github.com/jsdom/webidl-conversions
+│  ├─ publisher: Domenic Denicola
+│  ├─ email: d@domenic.me
+│  ├─ url: https://domenic.me/
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/webidl-conversions
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/webidl-conversions/LICENSE.md
+├─ whatwg-url@5.0.0
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/jsdom/whatwg-url
+│  ├─ publisher: Sebastian Mayr
+│  ├─ email: github@smayr.name
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/whatwg-url
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/whatwg-url/LICENSE.txt
+├─ why-is-node-running@2.3.0
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/mafintosh/why-is-node-running
+│  ├─ publisher: Mathias Buus
+│  ├─ url: @mafintosh
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/why-is-node-running
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/why-is-node-running/LICENSE
+├─ winston-transport@4.9.0
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/winstonjs/winston-transport
+│  ├─ publisher: Charlie Robbins
+│  ├─ email: charlie.robbins@gmail.com
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/winston-transport
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/winston-transport/LICENSE
+├─ wrap-ansi@7.0.0
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/chalk/wrap-ansi
+│  ├─ publisher: Sindre Sorhus
+│  ├─ email: sindresorhus@gmail.com
+│  ├─ url: https://sindresorhus.com
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/wrap-ansi
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/wrap-ansi/license
+├─ wsl-utils@0.1.0
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/sindresorhus/wsl-utils
+│  ├─ publisher: Sindre Sorhus
+│  ├─ email: sindresorhus@gmail.com
+│  ├─ url: https://sindresorhus.com
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/wsl-utils
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/wsl-utils/license
+├─ xtend@4.0.2
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/Raynos/xtend
+│  ├─ publisher: Raynos
+│  ├─ email: raynos2@gmail.com
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/xtend
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/xtend/LICENSE
+├─ y18n@5.0.8
+│  ├─ licenses: ISC
+│  ├─ repository: https://github.com/yargs/y18n
+│  ├─ publisher: Ben Coe
+│  ├─ email: bencoe@gmail.com
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/y18n
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/y18n/LICENSE
+├─ yaml@2.8.4
+│  ├─ licenses: ISC
+│  ├─ repository: https://github.com/eemeli/yaml
+│  ├─ publisher: Eemeli Aro
+│  ├─ email: eemeli@gmail.com
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/yaml
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/yaml/LICENSE
+├─ yargs-parser@21.1.1
+│  ├─ licenses: ISC
+│  ├─ repository: https://github.com/yargs/yargs-parser
+│  ├─ publisher: Ben Coe
+│  ├─ email: ben@npmjs.com
+│  ├─ path: /Users/hayo/work/az-walcron/node_modules/yargs-parser
+│  └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/yargs-parser/LICENSE.txt
+└─ yargs@17.7.2
+   ├─ licenses: MIT
+   ├─ repository: https://github.com/yargs/yargs
+   ├─ path: /Users/hayo/work/az-walcron/node_modules/yargs
+   └─ licenseFile: /Users/hayo/work/az-walcron/node_modules/yargs/LICENSE
+
