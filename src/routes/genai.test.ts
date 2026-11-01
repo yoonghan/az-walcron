@@ -517,6 +517,71 @@ describe("GET /genai/question - route handler", () => {
 	});
 
 	// -------------------------------------------------------------------------
+	// 8b. Tool-call loop: error resilience on malformed arguments
+	// -------------------------------------------------------------------------
+	describe("Tool-call loop - argument error resilience", () => {
+		it("recovers gracefully and feeds error message to LLM when tool arguments are invalid JSON", async () => {
+			mockNewSession();
+
+			// Round 1: Model outputs malformed JSON for arguments
+			mockCreateCompletions.mockResolvedValueOnce({
+				choices: [
+					{
+						message: {
+							role: "assistant",
+							content: null,
+							refusal: null,
+							tool_calls: [
+								{
+									id: "call_bad_json",
+									type: "function",
+									function: { name: "search_syllabus", arguments: "{invalid-json" }
+								}
+							]
+						}
+					}
+				]
+			});
+
+			// Round 2: LLM receives diagnostic error and responds with explanation
+			mockCreateCompletions.mockResolvedValueOnce(
+				buildTextCompletion("I encountered an issue parsing the search topic. Let me answer directly.")
+			);
+
+			const res = await app.request("/genai/question?q=Tell me about Cosmos DB", { method: "GET" });
+			expect(res.status).toBe(200);
+
+			// Second completion call received tool result with parse error message
+			const secondCallMessages: Array<{ role: string; content?: string }> =
+				mockCreateCompletions.mock.calls[1][0].messages;
+			const toolMsg = secondCallMessages.find((m) => m.role === "tool");
+			expect(toolMsg?.content).toContain("Failed to parse tool arguments as valid JSON");
+		});
+
+		it("returns a validation error message when required parameters are missing", async () => {
+			mockNewSession();
+
+			mockCreateCompletions.mockResolvedValueOnce(
+				buildToolCallCompletion([
+					{ id: "call_missing_arg", name: "search_syllabus", arguments: JSON.stringify({}) }
+				])
+			);
+
+			mockCreateCompletions.mockResolvedValueOnce(
+				buildTextCompletion("Please provide a specific topic.")
+			);
+
+			const res = await app.request("/genai/question?q=Need a quiz", { method: "GET" });
+			expect(res.status).toBe(200);
+
+			const secondCallMessages: Array<{ role: string; content?: string }> =
+				mockCreateCompletions.mock.calls[1][0].messages;
+			const toolMsg = secondCallMessages.find((m) => m.role === "tool");
+			expect(toolMsg?.content).toContain("'topic' string parameter is required");
+		});
+	});
+
+	// -------------------------------------------------------------------------
 	// 8b. Tool-call loop: max 10 iterations limit
 	// -------------------------------------------------------------------------
 	describe("Tool-call loop - max 10 iterations limit", () => {
