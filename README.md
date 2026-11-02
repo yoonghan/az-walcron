@@ -5,7 +5,7 @@ A high-performance NodeJS web server built with the Hono framework, optimized fo
 ## Features
 - **Unified Architecture:**
   - Fast routing and asynchronous execution via **Hono**.
-  - **Dapr Sidecar Integration:** Data access to Cosmos DB is abstracted via Dapr State Store and Output Bindings, eliminating direct SDK dependencies.
+  - --Dapr Sidecar Integration:-- Data access to Cosmos DB is abstracted via Dapr State Store and Output Bindings, eliminating direct SDK dependencies. Removed
   - **Partitioning Strategy:** Optimized Cosmos DB partitioning using the `/partitionKey` path, mapped explicitly to business objectives.
 - **Observability:**
   - **OpenTelemetry (OTEL):** Full distributed tracing and metrics integration.
