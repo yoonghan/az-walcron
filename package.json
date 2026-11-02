@@ -44,7 +44,7 @@
     "openai": "^7.4.0",
     "pdf-parse": "^2.4.5",
     "pino": "^10.3.1",
-    "uuid": "^14.0.1"
+    "uuid": "^14.0.2"
   },
   "devDependencies": {
     "@biomejs/biome": "2.5.6",
