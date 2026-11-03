@@ -22,6 +22,20 @@ app.use("*", cors());
 /* Extract headers, context and send to global opentelemetry tracer provided in tracing.ts */
 app.use('*', httpInstrumentationMiddleware());
 
+app.use('*', async (c, next) => {
+	const method = c.req.method;
+	const path = c.req.path;
+	const userAgent = c.req.header('user-agent') || 'unknown';
+	const clientIp = c.req.header('x-forwarded-for') || c.req.header('x-real-ip') || 'unknown';
+
+	await next();
+
+	logger.info({
+		event: "Incoming Request",
+		message: `[INCOMING REQUEST] ${new Date().toISOString()} | ${method} ${path} | IP: ${clientIp} | UA: ${userAgent}`,
+	});
+
+});
 /*
 
 // Observability Middleware: Injection of request_id, OTEL Context, and logging
